@@ -1,0 +1,22 @@
+.cover {
+	width: 200px;
+	height: 200px;
+	float: left;
+	padding-right: 10px;
+}
+
+.link-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.link-list li {
+    float: left;
+    padding-right: 10px;
+}
+
+.project {
+	height: 200px;
+}
