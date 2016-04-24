@@ -32,3 +32,7 @@
 .navbar .pull-right {
 	float: right;
 }
+
+.after-navbar {
+    margin-top: 60px;
+}
