@@ -1,0 +1,20 @@
+@media print {    
+    .print-hidden {
+        display: none !important;
+    }
+}
+
+.cv-image {
+	width: 220px;
+}
+
+.left-column {
+	float: left;
+	width: 220px;
+	margin-right: 20px;
+}
+
+
+.right-column {
+	margin-left: 240px;
+}
