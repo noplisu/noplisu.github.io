@@ -2,19 +2,40 @@
     .print-hidden {
         display: none !important;
     }
+
+    .after-navbar {
+       margin-top: 0 !important;
+    }
+
+    .footer-rules {
+        position: absolute !important;
+    }
+}
+
+body {
+    min-height: 100%;
 }
 
 .cv-image {
-	width: 220px;
+    width: 220px;
 }
 
 .left-column {
-	float: left;
-	width: 220px;
-	margin-right: 20px;
+    float: left;
+    width: 220px;
+    margin-right: 20px;
 }
 
 
 .right-column {
-	margin-left: 240px;
+    margin-left: 240px;
+}
+
+.footer-rules {
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: 3em;
+    bottom: 0;
 }
