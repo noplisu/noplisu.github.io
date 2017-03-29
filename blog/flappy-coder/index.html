@@ -21,19 +21,19 @@
       <p>W tej części przejdziemy do implementacji projektu.</p>
       <h3>Tworzenie Projektu</h3>
       <p>Pierwszym krokiem w tworzeniu gry jest utworzenie projektu.</p>
-      <img src='blog/flappy-coder/images/A1K1_tworzenie_projektu.png' />
+      <img src='images/A1K1_tworzenie_projektu.png' />
       <p>Najważnieszym elementem na tym etapie jest nadanie nazwy projektu. W tym przypadku projekt będzie projektem 3D.</p>
       <h3>Ustawienie kamery</h3>
       <p>Po zaznaczeniu kamery w hierarchii w inspektorze pojawią się komponenty przypięte do danego obiektu.</p>
-      <img src='blog/flappy-coder/images/A1K2_hierarchia_kamera.png' />
+      <img src='images/A1K2_hierarchia_kamera.png' />
       <p>W komponencie transform zmieniamy pozycje kamery na: 0, 0, -10. Następnie zmieniamy ustawienia komponentu camera z projection: perspective na projection: ortographic.</p>
-      <img src='blog/flappy-coder/images/A1K2_kamera_inspektor.png' />
+      <img src='images/A1K2_kamera_inspektor.png' />
       <p>Dzięki tym zmianom nasza kamera będzie na wprost linii 0 co ułatwi ustawianie obiektów, zmiana projekcji nada odpowiedni ton graficzny naszej grze.</p>
-      <img src='blog/flappy-coder/images/projection_types.png' />
+      <img src='images/projection_types.png' />
       <h3>Dodanie gracza</h3>
       <p>Graczem w naszej grze będzie sfera. Aby ją dodać klikamy zakładkę GameObject->3D Object->Sphere. Następnie naszą kulę ustawimy po lewej stronie ekranu w tym celu zaznaczamy ją w hierarchii po czym w inspektorze zmieniamy pozycje w komponencie transform na: -6, 3, 0.</p>
       <p>Gracz będzie się poruszał a więc aby poinformować o tym silnik należy dodać do naszej sfery komponent rigidbody. W tym celu zaznaczamy nasz obiekt w hierarchii następnie u dołu inspektora klikamy Add Component->Physics->Rigidbody. Wiemy, że gracz poruszać się będzie ze stałą prędkością w osi x oraz opadać i wznosić się w osi y, nie jest jednak wymagane aby poruszał się on w osi z ani nie jest wymagana żadna rotacja tego obiektu w związku z tym ograniczymy ruch gracza przy pomocy constraints componentu rigidbody.</p>
-      <img src='blog/flappy-coder/images/sphere_inspektor.png' />
+      <img src='images/sphere_inspektor.png' />
       <p>W celu łatwiejszego odnalezienia gracza w hierarchii zmienimy jego nazwe na Player aby to zrobić zaznaczamy obiekt gracza następnie zmieniamy jego nazwę u góry inspektora z Sphere na Player. W celu łatwiejszej identyfikacji gracza w kodzie nadamy mu też tag Player, nadawanie tagu znajduje się poniżej zmiany nazwy.</p>
       <h3>Poruszanie gracza</h3>
       <p>Gracz w naszej grze będzie poruszany wyłącznie przy pomocy przycisku spacja który spowoduje wzniesienie się sfery w tym celu przygotujemy skrypt Move.cs. Aby utworzyć nowy skrypt klikamy prawym przyciskiem myszy w częsci Assets okna Project następnie klikamy Create->C# Script i nadajemy mu nazwę PlayerMovement</p>
@@ -66,7 +66,7 @@
       }
       </div>
       <p>W skrypcie tym tworzymy publiczną zmienną jumpForce typu float o wstępnej wartości 350. Ustawienie tej zmiennej jako publicznej pozwoli nam na zmiane tej wartości w inspektorze obiektu do którego podepnięty zostanie ten skrypt. Do skryptu dopisujemy też zmienną rigid typu Rigidbody. Metody Start oraz Update są to zmienne wykorzystywane przez klase MonoBehaviour i są wywoływane w odpowiednich momentach cyklu życia aplikacji. Metoda Start wywoływana jest wyłącznie jeden raz przy tworzeniu obiektu. Metoda Update wywoływana jest co klatke działania aplikacji. Są to tylko dwie z wielu metod w cyklu życia aplikacji silnika unity.</p>
-      <img src="blog/flappy-coder/images/monobehaviour_flowchart.svg" />
+      <img src="images/monobehaviour_flowchart.svg" />
       <p>Wewnątrz metody Start pobieramy Komponent Rigidbody przypięty do obiektu. Wewnątrz metody Update wywołujemy metodę fly. Metoda fly sprawdza czy w danej klatce naciśnięty został przycisk spacja, jeżeli został to ustawia aktualną prędkość z jaką porusza się obiekt na 0 a następnie dokłada siłę która porusza obiekt do góry.</p>
       <h3>Poruszanie gracza (część 2)</h3>
       <p>Nasz gracz musi poruszać się też do przodu w tym celu do klasy PlayerMovement dopisujemy publiczną zmienną speed oraz metode move, będzie ona dodawać ruch w prawą stronę z ustaloną prędkością. Następnie wywołujemy tą metodę w metodzie update.</p>
@@ -132,7 +132,7 @@
       }
       </div>
       <p>Skrypt ten należy podpiąć pod obiekt Main Camera, a następnie z hierarchii do inspektora należy przeciągnąć obiekt gracza do componentu Camera Move.</p>
-      <img src="blog/flappy-coder/images/camera_move.png" />
+      <img src="images/camera_move.png" />
       <h3>Restart gry gdy gracz trafi za mapę</h3>
       <p>Następną funkcjonalnością jest przegrana w momencie w którym gracz opuści planszę z dołu lub góry. W tym celu do skryptu PlayerMovement dopisujemy metodę dead która restartuje gre przy wywołaniu oraz metodę outOfCamera która sprawdza czy obiekt do ktorego podpięty jest skrypt nie opuścił widoku z dołu lub góry kamery oznaczonej tagiem MainCamera i jeżli to zrobił to wywołuje on metodę dead. Metodę outOfCamera wywołujemy jako pierwszą instrukcję metody Update.</p>
       <div class="code">
@@ -216,7 +216,7 @@
       }
       </div>
       <p>Mając podpięty skrypt należy jeszcze przekazać mu upper i lower przeciągając je z hierarchii w odpowiednie pola inspektora.</p>
-      <img src="blog/flappy-coder/images/randomize_gap.png" />
+      <img src="images/randomize_gap.png" />
       <h3>Restart gry przy kolizji z przeszkodą</h3>
       <p>Aby dodać restart rozgrywki przy kolizji z przeszkodą zmieniamy skrypt PlayerMovement dodając do niego metodę OnCollisionEnter wywołującą metodę dead.</p>
       <div class="code">
