@@ -4,7 +4,10 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/cv.css">
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
-    <link rel="stylesheet" type="text/css" href="../css/codestyles.css"
+    <link rel="stylesheet" type="text/css" href="../css/codestyles.css">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <script src="TemplateData/UnityProgress.js"></script>
   </head>
   <body>
     <article>
@@ -14,7 +17,17 @@
       <p>W tej części zapoznamy się z podstawowymi założeniami naszego projektu.</p>
       <h3>Poziom: Nowicjusz</h3>
       <h3>Tworzone funkcjonalności</h3>
-      <ul><li>TODO: UZUPEŁNIĆ</li></ul>
+      <ul>
+        <li>Poruszanie gracza przy pomocy spacji</li>
+        <li>Poruszanie gracza w przód</li>
+        <li>Kamera śledząca gracza</li>
+        <li>Przegrana przy wyjściu poza ekran</li>
+        <li>Przegrana przy kolizji z przeszkodą</li>
+        <li>Tworznie przeszkód</li>
+        <li>Niszczenie przeszkód</li>
+        <li>Dodawanie punktów</li>
+        <li>Zapisywanie punktów</li>
+      </ul>
       <h3>Wymagane oprogramowanie</h3>
       <ul><li>Unity3D</li></ul>
       <h2>Projekt</h2>
@@ -273,7 +286,7 @@
       }
       </div>
       <h3>Proceduralne generowanie przeszkód</h3>
-      <p>Aby móc proceduralnie dodawać przeszkody pierwszym krokiem będzie zapisanie naszego gap w postaci pliku (Prefabrykantu) aby to zrobić przeciągamy Gap z hierarchii do okna project. Nasępnie przechodzimy do tworzenia skryptu AddGaps który podpinamy pod MainCamera. Skrypt ten będzie w regularnych odstępach czasu tworzył podany mu prefabrykant. W tym celu tworzymy publiczną zmienną typu GameObject o nazwie gap, będzie ona przechowywać nasz prefabrykant. Dodajemy też publiczną zmienną typu float o nazwie cooldown oznaczającą co ile sekund ma pojawiać się kolejna przeszkoda. Wykorzystamy też 3 zmienne prywatne. Pierwsza będzie typu Camera o nazwie cam, będzie ona przechowywać nasz komponent kamery. Druga będzie typu Plane oraz nazwie plane i przechowywać będzie płaszczyznę na której będą pojawiać się przeszkody. Trzecia będzie przechowywać Vector3 o nazwie viewportVector służący do stworzenia promienia (ray) wyznaczającego miejsce utworzenia przeszkody. W metodzie Start pobieramy komponent kamery oraz inicjujemy zmienne. Następnie Wywołujemy uruchamiamy podprogram CreateGap. CreateGap jest metodą która tworzy kolejną przeszkodę, wysyła ona promień w prawą krawędź kamery miejsce przecięcia tego promienia z wcześniej utworzoną płaszczyzną plane jest punktem w którym umieszczany jest nowy obiekt.</p>
+      <p>Aby móc proceduralnie dodawać przeszkody pierwszym krokiem będzie zapisanie naszego gap w postaci pliku (Prefabrykantu) aby to zrobić przeciągamy Gap z hierarchii do okna project. Nasępnie przechodzimy do tworzenia skryptu AddGaps który podpinamy pod MainCamera. Skrypt ten będzie w regularnych odstępach czasu tworzył podany mu prefabrykant. W tym celu tworzymy publiczną zmienną typu GameObject o nazwie gap, będzie ona przechowywać nasz prefabrykant. Dodajemy też publiczną zmienną typu float o nazwie cooldown oznaczającą co ile sekund ma pojawiać się kolejna przeszkoda. Wykorzystamy też 3 zmienne prywatne. Pierwsza będzie typu Camera o nazwie cam, będzie ona przechowywać nasz komponent kamery. Druga będzie typu Plane oraz nazwie plane i przechowywać będzie płaszczyznę na której będą pojawiać się przeszkody. Trzecia będzie przechowywać Vector3 o nazwie viewportVector służący do stworzenia promienia (ray) wyznaczającego miejsce utworzenia przeszkody. W metodzie Start pobieramy komponent kamery oraz inicjujemy zmienne. Następnie Wywołujemy podprogram CreateGap. CreateGap jest metodą która tworzy kolejną przeszkodę, wysyła ona promień w prawą krawędź kamery miejsce przecięcia tego promienia z wcześniej utworzoną płaszczyzną plane jest punktem w którym umieszczany jest nowy obiekt.</p>
       <div class="code">
       <span class="Namespace">using</span>&nbsp;System.Collections;<br />
       <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -328,6 +341,93 @@
       &nbsp;&nbsp;&nbsp;&nbsp;}<br />
       }
       </div>
+      <h3>Dodanie punktacji</h3>
+      <p>Punktacja wyświetlana będzie na elemencie UI w tym celu dodajemy nowy GameObject->UI->Text zmieniamy jego nazwę na Score oraz dodajemy drugi text który nazywamy MaxScore. Obiekty te należy rozmieścić jak na załączonym obrazku</p>
+      <img src='images/flappy_coder_text.png' />
+      <p>Do obiektu Canvas należy podpiąć skrypt ScoreManager jest to singleton co oznacza, że na scenie w danym momencie może znajdować się wyłącznie jedna instancja tej klasy i jest ona dostępna w każdym miejscu aplikacji. Skrypt ten będzie przechowywać aktualny wynik oraz aktualizować wyświetlany wynik i zapisywać maksymalny wynik.</p>
+      <div class="code">
+      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+      <span class="Namespace">using</span>&nbsp;UnityEngine.UI;<br />
+      <br />
+      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;ScoreManager&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="Modifier">static</span>&nbsp;ScoreManager&nbsp;instance&nbsp;=&nbsp;<span class="Keyword">null</span>;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Text&nbsp;scoreText;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Text&nbsp;maxScoreText;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">private</span>&nbsp;<span class="ValueType">int</span>&nbsp;maxScore&nbsp;=&nbsp;0;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">private</span>&nbsp;<span class="ValueType">int</span>&nbsp;score&nbsp;=&nbsp;0;<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(instance&nbsp;==&nbsp;<span class="Keyword">null</span>)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance&nbsp;=&nbsp;<span class="Keyword">this</span>;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="Statement">else</span>&nbsp;<span class="Statement">if</span>&nbsp;(instance&nbsp;!=&nbsp;<span class="Keyword">this</span>)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destroy(gameObject);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateMaxPoints();<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">void</span>&nbsp;addScore(<span class="ValueType">int</span>&nbsp;points)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;score&nbsp;+=&nbsp;points;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scoreText.text&nbsp;=&nbsp;<span class="String">"Score:&nbsp;"</span>&nbsp;+&nbsp;score;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateMaxPoints();<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">void</span>&nbsp;updateMaxPoints()<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxScore&nbsp;=&nbsp;PlayerPrefs.GetInt(<span class="String">"maxScore"</span>);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(maxScore&nbsp;&lt;&nbsp;score)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxScore&nbsp;=&nbsp;score;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PlayerPrefs.SetInt(<span class="String">"maxScore"</span>,&nbsp;maxScore);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PlayerPrefs.Save();<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxScoreText.text&nbsp;=&nbsp;<span class="String">"Max&nbsp;Score:&nbsp;"</span>&nbsp;+&nbsp;maxScore;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      }
+      </div>
+      <p>Do obiektu Gap dodajemy trzeci cube, któremu dajemy nazwę Score. W inspektorze obiektu Score wyłączamy komponent Mesh Renderer. W komponencie Box Colliden należy zaznaczyć opcję Is Trigger. Do obiektu score należy dołączyć skrypt Score który będzie naliczać punkt za każdym razem gdy gracz wejdzie w trigger. Ostatnią rzeczą będzie zapisanie prefabrykantu, w tym celu należy zaznaczyć obiek Gap oraz w inspektorze nacisnąć przycisk Apply.</p>
+      <div class="code">
+      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+      <br />
+      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;Score&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">int</span>&nbsp;points&nbsp;=&nbsp;1;<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;OnTriggerEnter(Collider&nbsp;other)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(other.tag&nbsp;==&nbsp;<span class="String">"Player"</span>)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScoreManager.instance.addScore(points);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      }
+      </div>
+      <h3>Gotowa gra</h3>
+      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
+      <br>
+      <div class="logo"></div>
+      <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+      <div class="title">FlappyCoder</div>
+      <script type='text/javascript'>
+        var Module = {
+          TOTAL_MEMORY: 268435456,
+          errorhandler: null,     // arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+          compatibilitycheck: null,
+          backgroundColor: "#222C36",
+          splashStyle: "Light",
+          dataUrl: "Release/WebGL.data",
+          codeUrl: "Release/WebGL.js",
+          asmUrl: "Release/WebGL.asm.js",
+          memUrl: "Release/WebGL.mem",
+        };
+      </script>
+      <script src="Release/UnityLoader.js"></script>
     </article>
   </body>
 </html>
