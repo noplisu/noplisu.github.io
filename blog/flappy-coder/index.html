@@ -5,7 +5,6 @@
     <link rel="stylesheet" type="text/css" href="css/cv.css">
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
     <link rel="stylesheet" type="text/css" href="../css/codestyles.css">
-    <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -48,12 +47,12 @@
         <p>Dzięki tym zmianom nasza kamera będzie na wprost linii 0 co ułatwi ustawianie obiektów, zmiana projekcji nada odpowiedni ton graficzny naszej grze.</p>
         <img src='images/projection_types.png' />
         <h3>Dodanie gracza</h3>
-        <p>Graczem w naszej grze będzie sfera. Aby ją dodać klikamy zakładkę GameObject->3D Object->Sphere. Następnie naszą kulę ustawimy po lewej stronie ekranu w tym celu zaznaczamy ją w hierarchii po czym w inspektorze zmieniamy pozycje w komponencie transform na: -6, 3, 0.</p>
-        <p>Gracz będzie się poruszał a więc aby poinformować o tym silnik należy dodać do naszej sfery komponent rigidbody. W tym celu zaznaczamy nasz obiekt w hierarchii następnie u dołu inspektora klikamy Add Component->Physics->Rigidbody. Wiemy, że gracz poruszać się będzie ze stałą prędkością w osi x oraz opadać i wznosić się w osi y, nie jest jednak wymagane aby poruszał się on w osi z ani nie jest wymagana żadna rotacja tego obiektu w związku z tym ograniczymy ruch gracza przy pomocy constraints componentu rigidbody.</p>
+        <p>Graczem w naszej grze będzie sfera. Aby ją dodać klikamy zakładkę <i>GameObject->3D Object->Sphere</i>. Następnie naszą kulę ustawimy po lewej stronie ekranu w tym celu zaznaczamy ją w hierarchii po czym w inspektorze zmieniamy pozycje w komponencie transform na: -6, 3, 0.</p>
+        <p>Gracz będzie się poruszał a więc aby poinformować o tym silnik należy dodać do naszej sfery komponent <i>rigidbody</i>. W tym celu zaznaczamy nasz obiekt w hierarchii następnie u dołu inspektora klikamy <i>Add Component->Physics->Rigidbody</i>. Wiemy, że gracz poruszać się będzie ze stałą prędkością w osi x oraz opadać i wznosić się w osi y, nie jest jednak wymagane aby poruszał się on w osi z ani nie jest wymagana żadna rotacja tego obiektu w związku z tym ograniczymy ruch gracza przy pomocy constraints componentu rigidbody.</p>
         <img src='images/sphere_inspektor.png' />
-        <p>W celu łatwiejszego odnalezienia gracza w hierarchii zmienimy jego nazwe na Player aby to zrobić zaznaczamy obiekt gracza następnie zmieniamy jego nazwę u góry inspektora z Sphere na Player. W celu łatwiejszej identyfikacji gracza w kodzie nadamy mu też tag Player, nadawanie tagu znajduje się poniżej zmiany nazwy.</p>
+        <p>W celu łatwiejszego odnalezienia gracza w hierarchii zmienimy jego nazwe na <i>Player</i> aby to zrobić zaznaczamy obiekt gracza następnie zmieniamy jego nazwę u góry inspektora z Sphere na Player. W celu łatwiejszej identyfikacji gracza w kodzie nadamy mu też tag Player, nadawanie tagu znajduje się poniżej zmiany nazwy.</p>
         <h3>Poruszanie gracza</h3>
-        <p>Gracz w naszej grze będzie poruszany wyłącznie przy pomocy przycisku spacja który spowoduje wzniesienie się sfery w tym celu przygotujemy skrypt Move.cs. Aby utworzyć nowy skrypt klikamy prawym przyciskiem myszy w częsci Assets okna Project następnie klikamy Create->C# Script i nadajemy mu nazwę PlayerMovement</p>
+        <p>Gracz w naszej grze będzie poruszany wyłącznie przy pomocy przycisku spacja który spowoduje wzniesienie się sfery w tym celu przygotujemy skrypt Move.cs. Aby utworzyć nowy skrypt klikamy prawym przyciskiem myszy w częsci Assets okna Project następnie klikamy <i>Create->C#</i> Script i nadajemy mu nazwę <code>PlayerMovement</code></p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -82,11 +81,11 @@
         &nbsp;&nbsp;&nbsp;&nbsp;}<br />
         }
         </div>
-        <p>W skrypcie tym tworzymy publiczną zmienną jumpForce typu float o wstępnej wartości 350. Ustawienie tej zmiennej jako publicznej pozwoli nam na zmiane tej wartości w inspektorze obiektu do którego podepnięty zostanie ten skrypt. Do skryptu dopisujemy też zmienną rigid typu Rigidbody. Metody Start oraz Update są to zmienne wykorzystywane przez klase MonoBehaviour i są wywoływane w odpowiednich momentach cyklu życia aplikacji. Metoda Start wywoływana jest wyłącznie jeden raz przy tworzeniu obiektu. Metoda Update wywoływana jest co klatke działania aplikacji. Są to tylko dwie z wielu metod w cyklu życia aplikacji silnika unity.</p>
+        <p>W skrypcie tym tworzymy publiczną zmienną <code>jumpForce</code> typu <code>float</code> o wstępnej wartości 350. Ustawienie tej zmiennej jako publicznej pozwoli nam na zmiane tej wartości w inspektorze obiektu do którego podepnięty zostanie ten skrypt. Do skryptu dopisujemy też zmienną rigid typu <i>Rigidbody</i>. Metody <code>Start</code> oraz <code>Update</code> są to zmienne wykorzystywane przez klase <code>MonoBehaviour</code> i są wywoływane w odpowiednich momentach cyklu życia aplikacji. Metoda <code>Start</code> wywoływana jest wyłącznie jeden raz przy tworzeniu obiektu. Metoda <code>Update</code> wywoływana jest co klatke działania aplikacji. Są to tylko dwie z wielu metod w cyklu życia aplikacji silnika unity.</p>
         <img src="images/monobehaviour_flowchart.svg" />
-        <p>Wewnątrz metody Start pobieramy Komponent Rigidbody przypięty do obiektu. Wewnątrz metody Update wywołujemy metodę fly. Metoda fly sprawdza czy w danej klatce naciśnięty został przycisk spacja, jeżeli został to ustawia aktualną prędkość z jaką porusza się obiekt na 0 a następnie dokłada siłę która porusza obiekt do góry.</p>
+        <p>Wewnątrz metody <code>Start</code> pobieramy komponent <i>Rigidbody</i> przypięty do obiektu. Wewnątrz metody <code>Update</code> wywołujemy metodę <code>fly</code>. Metoda <code>fly</code> sprawdza czy w danej klatce naciśnięty został przycisk spacja, jeżeli został to ustawia aktualną prędkość z jaką porusza się obiekt na 0 a następnie dokłada siłę która porusza obiekt do góry.</p>
         <h3>Poruszanie gracza (część 2)</h3>
-        <p>Nasz gracz musi poruszać się też do przodu w tym celu do klasy PlayerMovement dopisujemy publiczną zmienną speed oraz metode move, będzie ona dodawać ruch w prawą stronę z ustaloną prędkością. Następnie wywołujemy tą metodę w metodzie update.</p>
+        <p>Nasz gracz musi poruszać się też do przodu w tym celu do klasy <code>PlayerMovement</code> dopisujemy publiczną zmienną <code>speed</code> oraz metode <code>move</code>, będzie ona dodawać ruch w prawą stronę z ustaloną prędkością. Następnie wywołujemy tą metodę w metodzie <code>Update</code>.</p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -123,9 +122,9 @@
         &nbsp;&nbsp;&nbsp;&nbsp;}<br />
         }
         </div>
-        <p>Skrypt ten podpinamy pod obiekt Player przeciągając skrypt z zakładki assets na obiekt Player w hierarchii.</p>
+        <p>Skrypt ten podpinamy pod obiekt <i>Player</i> przeciągając skrypt z zakładki assets na obiekt <i>Player</i> w hierarchii.</p>
         <h3>Kamera śledząca gracza</h3>
-        <p>Kolejną funkcjonalnością jest skrypt który sprawi, że kamera będzie podążała za graczem. w tym celu tworzymy nowy skrypt klikając w project->assets prawym przyciskiem myszy i klikajac create->C# script. Skrypt ten nazywamy CameraMovement. W skrypcie tym deklarujemy publiczną zmienną typu Transform o nazwie followObject oraz prywatną zmienną typu Vector3 o nazwie distance. W metodzie Start obliczamy dystans jako różnice aktualnej pozycji kamery i pozycji followObject. W metodzie update zmieniamy składową x pozycji kamery aby utrzymywała stałą odległość od obiektu.</p>
+        <p>Kolejną funkcjonalnością jest skrypt który sprawi, że kamera będzie podążała za graczem. w tym celu tworzymy nowy skrypt klikając w <i>project->assets</i> prawym przyciskiem myszy i klikajac <i>create->C#</i> script. Skrypt ten nazywamy <code>CameraMovement</code>. W skrypcie tym deklarujemy publiczną zmienną typu <code>Transform</code> o nazwie <code>followObject</code> oraz prywatną zmienną typu <code>Vector3</code> o nazwie distance. W metodzie <code>Start</code> obliczamy dystans jako różnice aktualnej pozycji kamery i pozycji <code>followObject</code>. W metodzie <code>Update</code> zmieniamy składową x pozycji kamery aby utrzymywała stałą odległość od obiektu.</p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -148,10 +147,10 @@
         &nbsp;&nbsp;&nbsp;&nbsp;}<br />
         }
         </div>
-        <p>Skrypt ten należy podpiąć pod obiekt Main Camera, a następnie z hierarchii do inspektora należy przeciągnąć obiekt gracza do componentu Camera Move.</p>
+        <p>Skrypt ten należy podpiąć pod obiekt <i>Main Camera</i>, a następnie z hierarchii do inspektora należy przeciągnąć obiekt gracza do componentu <i>Camera Move</i>.</p>
         <img src="images/camera_move.png" />
         <h3>Restart gry gdy gracz trafi za mapę</h3>
-        <p>Następną funkcjonalnością jest przegrana w momencie w którym gracz opuści planszę z dołu lub góry. W tym celu do skryptu PlayerMovement dopisujemy metodę dead która restartuje gre przy wywołaniu oraz metodę outOfCamera która sprawdza czy obiekt do ktorego podpięty jest skrypt nie opuścił widoku z dołu lub góry kamery oznaczonej tagiem MainCamera i jeżli to zrobił to wywołuje on metodę dead. Metodę outOfCamera wywołujemy jako pierwszą instrukcję metody Update.</p>
+        <p>Następną funkcjonalnością jest przegrana w momencie w którym gracz opuści planszę z dołu lub góry. W tym celu do skryptu <code>PlayerMovement</code> dopisujemy metodę dead która restartuje gre przy wywołaniu oraz metodę <code>outOfCamera</code> która sprawdza czy obiekt do ktorego podpięty jest skrypt nie opuścił widoku z dołu lub góry kamery oznaczonej tagiem <i>MainCamera</i> i jeżli to zrobił to wywołuje on metodę <code>dead</code>. Metodę <code>outOfCamera</code> wywołujemy jako pierwszą instrukcję metody <code>Update</code>.</p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -202,7 +201,7 @@
         }
         </div>
         <h3>Utworzenie przeszkody</h3>
-        <p>Bazą naszej przeszkody będzie pusty Game Object któremy nadajemy nazwę Gap. Temu Game Object należy zmienić pozycję na: 3, 0, 0. Następnie klikamy ten obiekt prawym przyciskiem myszy i klikamy 3D Object->Cube, w ten sposób tworzymy 2 cube będące dziećmi Game Object Gap. Pierwszy z tych cube należy nazwać Upper i nadać mu pozycję: 0, 5, 0 oraz skalę: 1, 10, 1. Natomiast drugi cube należy nazwać Lower i nadać mu pozycję: 0, -5, 0 oraz skalę: 1, 10, 1. Tak przygotowanej przeszkodzie chcemy losowo nadawać wysokość oraz rozmiar szczeliny w tym celu podpinamy pod Gap skrypt który nazwiemy RandomizeGap. Skrypt ten będzie posiadał dwie publiczne zmienne typu Transform o nazwach upper i lower, 4 publiczne zmienne typu float o nazwach minOffset, max Offset, które będą odpowiadać za wysokość szczeliny oraz zmienne minGap oraz maxGap które będą odpowiadać za wielkość szczeliny. Skrypt ten posiada wyłącznie metodę Awake która losuje ostateczną wysokość oraz wielkość szczeliny a następnie przesuwa obiekty upper i lower tak aby utworzyły szczelinę.</p>
+        <p>Bazą naszej przeszkody będzie pusty <i>Game Object</i> któremy nadajemy nazwę <i>Gap</i>. Temu <i>Game Object</i> należy zmienić pozycję na: 3, 0, 0. Następnie klikamy ten obiekt prawym przyciskiem myszy i klikamy <i>3D Object->Cube</i>, w ten sposób tworzymy 2 cube będące dziećmi <i>Game Object Gap</i>. Pierwszy z tych cube należy nazwać <i>Upper</i> i nadać mu pozycję: 0, 5, 0 oraz skalę: 1, 10, 1. Natomiast drugi cube należy nazwać <i>Lower</i> i nadać mu pozycję: 0, -5, 0 oraz skalę: 1, 10, 1. Tak przygotowanej przeszkodzie chcemy losowo nadawać wysokość oraz rozmiar szczeliny w tym celu podpinamy pod <i>Gap</i> skrypt który nazwiemy <code>RandomizeGap</code>. Skrypt ten będzie posiadał dwie publiczne zmienne typu <code>Transform</code> o nazwach <code>upper</code> i <code>lower</code>, 4 publiczne zmienne typu <code>float</code> o nazwach <code>minOffset</code>, <code>maxOffset</code>, które będą odpowiadać za wysokość szczeliny oraz zmienne <code>minGap</code> oraz <code>maxGap</code> które będą odpowiadać za wielkość szczeliny. Skrypt ten posiada wyłącznie metodę <code>Awake</code> która losuje ostateczną wysokość oraz wielkość szczeliny a następnie przesuwa obiekty <i>upper</i> i <i>lower</i> tak aby utworzyły szczelinę.</p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -232,10 +231,10 @@
         &nbsp;&nbsp;&nbsp;&nbsp;}<br />
         }
         </div>
-        <p>Mając podpięty skrypt należy jeszcze przekazać mu upper i lower przeciągając je z hierarchii w odpowiednie pola inspektora.</p>
+        <p>Mając podpięty skrypt należy jeszcze przekazać mu <i>upper</i> i <i>lower</i> przeciągając je z hierarchii w odpowiednie pola inspektora.</p>
         <img src="images/randomize_gap.png" />
         <h3>Restart gry przy kolizji z przeszkodą</h3>
-        <p>Aby dodać restart rozgrywki przy kolizji z przeszkodą zmieniamy skrypt PlayerMovement dodając do niego metodę OnCollisionEnter wywołującą metodę dead.</p>
+        <p>Aby dodać restart rozgrywki przy kolizji z przeszkodą zmieniamy skrypt <code>PlayerMovement</code> dodając do niego metodę <code>OnCollisionEnter</code> wywołującą metodę <code>dead</code>.</p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -290,7 +289,7 @@
         }
         </div>
         <h3>Proceduralne generowanie przeszkód</h3>
-        <p>Aby móc proceduralnie dodawać przeszkody pierwszym krokiem będzie zapisanie naszego gap w postaci pliku (Prefabrykantu) aby to zrobić przeciągamy Gap z hierarchii do okna project. Nasępnie przechodzimy do tworzenia skryptu AddGaps który podpinamy pod MainCamera. Skrypt ten będzie w regularnych odstępach czasu tworzył podany mu prefabrykant. W tym celu tworzymy publiczną zmienną typu GameObject o nazwie gap, będzie ona przechowywać nasz prefabrykant. Dodajemy też publiczną zmienną typu float o nazwie cooldown oznaczającą co ile sekund ma pojawiać się kolejna przeszkoda. Wykorzystamy też 3 zmienne prywatne. Pierwsza będzie typu Camera o nazwie cam, będzie ona przechowywać nasz komponent kamery. Druga będzie typu Plane oraz nazwie plane i przechowywać będzie płaszczyznę na której będą pojawiać się przeszkody. Trzecia będzie przechowywać Vector3 o nazwie viewportVector służący do stworzenia promienia (ray) wyznaczającego miejsce utworzenia przeszkody. W metodzie Start pobieramy komponent kamery oraz inicjujemy zmienne. Następnie Wywołujemy podprogram CreateGap. CreateGap jest metodą która tworzy kolejną przeszkodę, wysyła ona promień w prawą krawędź kamery miejsce przecięcia tego promienia z wcześniej utworzoną płaszczyzną plane jest punktem w którym umieszczany jest nowy obiekt.</p>
+        <p>Aby móc proceduralnie dodawać przeszkody pierwszym krokiem będzie zapisanie naszego <i>Gap</i> w postaci pliku <i>(Prefabrykantu)</i> aby to zrobić przeciągamy <i>Gap</i> z hierarchii do okna project. Nasępnie przechodzimy do tworzenia skryptu <code>AddGaps</code> który podpinamy pod <i>MainCamera</i>. Skrypt ten będzie w regularnych odstępach czasu tworzył podany mu prefabrykant. W tym celu tworzymy publiczną zmienną typu <code>GameObject</code> o nazwie <code>gap</code>, będzie ona przechowywać nasz prefabrykant. Dodajemy też publiczną zmienną typu <code>float</code> o nazwie <code>cooldown</code> oznaczającą co ile sekund ma pojawiać się kolejna przeszkoda. Wykorzystamy też 3 zmienne prywatne. Pierwsza będzie typu <code>Camera</code> o nazwie <code>cam</code>, będzie ona przechowywać nasz komponent kamery. Druga będzie typu <code>Plane</code> oraz nazwie <code>plane</code> i przechowywać będzie płaszczyznę na której będą pojawiać się przeszkody. Trzecia będzie przechowywać <code>Vector3</code> o nazwie <code>viewportVector</code> służący do stworzenia promienia (<code>ray</code>) wyznaczającego miejsce utworzenia przeszkody. W metodzie <code>Start</code> pobieramy komponent kamery oraz inicjujemy zmienne. Następnie Wywołujemy podprogram <code>CreateGap</code>. <code>CreateGap</code> jest metodą która tworzy kolejną przeszkodę, wysyła ona promień w prawą krawędź kamery miejsce przecięcia tego promienia z wcześniej utworzoną płaszczyzną plane jest punktem w którym umieszczany jest nowy obiekt.</p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -325,9 +324,9 @@
         &nbsp;&nbsp;&nbsp;&nbsp;}<br />
         }
         </div>
-        <p>Na koniec należy po komponentu przenieść z zakładki projekt prefabrykant do odpowiedniego pola inspektora w komponencie Add Gaps.</p>
+        <p>Na koniec należy po komponentu przenieść z zakładki projekt prefabrykant do odpowiedniego pola inspektora w komponencie <i>Add Gaps</i>.</p>
         <h3>Czyszczenie niepotrzebnych obiektów</h3>
-        <p>Niepotrzebne obiekty które opuszczą obraz kamery powinny być usuwane. W tym celu tworzymy skrypt DestroyOutOfBounds. Skrypt ten podpięty będzie do Gap i będzie on sprawdzał w metodzie Update czy obiekt nadal znajduje się w polu widzenia kamery jeżeli nie to jest on usuwany.</p>
+        <p>Niepotrzebne obiekty które opuszczą obraz kamery powinny być usuwane. W tym celu tworzymy skrypt <code>DestroyOutOfBounds</code>. Skrypt ten podpięty będzie do <i>Gap</i> i będzie on sprawdzał w metodzie <code>Update</code> czy obiekt nadal znajduje się w polu widzenia kamery jeżeli nie to jest on usuwany.</p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -346,9 +345,9 @@
         }
         </div>
         <h3>Dodanie punktacji</h3>
-        <p>Punktacja wyświetlana będzie na elemencie UI w tym celu dodajemy nowy GameObject->UI->Text zmieniamy jego nazwę na Score oraz dodajemy drugi text który nazywamy MaxScore. Obiekty te należy rozmieścić jak na załączonym obrazku</p>
+        <p>Punktacja wyświetlana będzie na elemencie <i>UI</i> w tym celu dodajemy nowy <i>GameObject->UI->Text</i> zmieniamy jego nazwę na <i>Score</i> oraz dodajemy drugi text który nazywamy <i>MaxScore</i>. Obiekty te należy rozmieścić jak na załączonym obrazku.</p>
         <img src='images/flappy_coder_text.png' />
-        <p>Do obiektu Canvas należy podpiąć skrypt ScoreManager jest to singleton co oznacza, że na scenie w danym momencie może znajdować się wyłącznie jedna instancja tej klasy i jest ona dostępna w każdym miejscu aplikacji. Skrypt ten będzie przechowywać aktualny wynik oraz aktualizować wyświetlany wynik i zapisywać maksymalny wynik.</p>
+        <p>Do obiektu <i>Canvas</i> należy podpiąć skrypt <code>ScoreManager</code> jest to <i>singleton</i> co oznacza, że na scenie w danym momencie może znajdować się wyłącznie jedna instancja tej klasy i jest ona dostępna w każdym miejscu aplikacji. Skrypt ten będzie przechowywać aktualny wynik, aktualizować wyświetlany wynik i zapisywać maksymalny wynik.</p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -394,7 +393,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;}<br />
         }
         </div>
-        <p>Do obiektu Gap dodajemy trzeci cube, któremu dajemy nazwę Score. W inspektorze obiektu Score wyłączamy komponent Mesh Renderer. W komponencie Box Colliden należy zaznaczyć opcję Is Trigger. Do obiektu score należy dołączyć skrypt Score który będzie naliczać punkt za każdym razem gdy gracz wejdzie w trigger. Ostatnią rzeczą będzie zapisanie prefabrykantu, w tym celu należy zaznaczyć obiek Gap oraz w inspektorze nacisnąć przycisk Apply.</p>
+        <p>Do obiektu <i>Gap</i> dodajemy trzeci cube, któremu dajemy nazwę <i>Score</i>. <i>Cube</i> ten powinien znajdować się w punkcie: 0, 0, 0 oraz mieć skalę: 1, 20, 1. W inspektorze obiektu <i>Score</i> wyłączamy komponent <i>Mesh Renderer</i>. W komponencie <i>Box Collider</i> należy zaznaczyć opcję <i>Is Trigger</i>. Do obiektu <i>Score</i> należy dołączyć skrypt <code>Score</code> który będzie naliczać punkt za każdym razem gdy gracz wejdzie w trigger. Ostatnią rzeczą będzie zapisanie prefabrykantu, w tym celu należy zaznaczyć obiekt <i>Gap</i> oraz w inspektorze nacisnąć przycisk <i>Apply</i>.</p>
         <div class="code">
         <span class="Namespace">using</span>&nbsp;System.Collections;<br />
         <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
@@ -413,26 +412,29 @@
         }
         </div>
         <h3>Gotowa gra</h3>
-        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
-        <br>
-        <div class="logo"></div>
-        <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
-        <div class="title">FlappyCoder</div>
-        <script type='text/javascript'>
-          var Module = {
-            TOTAL_MEMORY: 268435456,
-            errorhandler: null,     // arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
-            compatibilitycheck: null,
-            backgroundColor: "#222C36",
-            splashStyle: "Light",
-            dataUrl: "Release/WebGL.data",
-            codeUrl: "Release/WebGL.js",
-            asmUrl: "Release/WebGL.asm.js",
-            memUrl: "Release/WebGL.mem",
-          };
-        </script>
-        <script src="Release/UnityLoader.js"></script>
-        <p><a href='https://github.com/noplisu/FlappyCoder'>Repozytorium</a></p>
+        <div>
+          <canvas class="emscripten center-block" id="canvas" oncontextmenu="event.preventDefault()" height="800px" width="960px"></canvas>
+          <br>
+          <div class="fullscreen pull-right"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+          <div class="title pull-left">
+            <div>FlappyCoder</div>
+            <div><a href='https://github.com/noplisu/FlappyCoder'>Repozytorium</a></div>
+          </div>
+          <script type='text/javascript'>
+            var Module = {
+              TOTAL_MEMORY: 268435456,
+              errorhandler: null,     // arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+              compatibilitycheck: null,
+              backgroundColor: "#222C36",
+              splashStyle: "Light",
+              dataUrl: "Release/WebGL.data",
+              codeUrl: "Release/WebGL.js",
+              asmUrl: "Release/WebGL.asm.js",
+              memUrl: "Release/WebGL.mem",
+            };
+          </script>
+          <script src="Release/UnityLoader.js"></script>
+        </div>
       </article>
     </div>
   </body>
