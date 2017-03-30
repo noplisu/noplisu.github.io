@@ -7,427 +7,432 @@
     <link rel="stylesheet" type="text/css" href="../css/codestyles.css">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="TemplateData/UnityProgress.js"></script>
   </head>
   <body>
-    <article>
-      <h1>Flappy coder tutorial</h1>
-      <p>Flappy coder czyli jak stworzyć klon gry flappy bird w silniku Unity3D.</p>
-      <h2>Założenia</h2>
-      <p>W tej części zapoznamy się z podstawowymi założeniami naszego projektu.</p>
-      <h3>Poziom: Nowicjusz</h3>
-      <h3>Tworzone funkcjonalności</h3>
-      <ul>
-        <li>Poruszanie gracza przy pomocy spacji</li>
-        <li>Poruszanie gracza w przód</li>
-        <li>Kamera śledząca gracza</li>
-        <li>Przegrana przy wyjściu poza ekran</li>
-        <li>Przegrana przy kolizji z przeszkodą</li>
-        <li>Tworznie przeszkód</li>
-        <li>Niszczenie przeszkód</li>
-        <li>Dodawanie punktów</li>
-        <li>Zapisywanie punktów</li>
-      </ul>
-      <h3>Wymagane oprogramowanie</h3>
-      <ul><li>Unity3D</li></ul>
-      <h2>Projekt</h2>
-      <p>W tej części przejdziemy do implementacji projektu.</p>
-      <h3>Tworzenie Projektu</h3>
-      <p>Pierwszym krokiem w tworzeniu gry jest utworzenie projektu.</p>
-      <img src='images/A1K1_tworzenie_projektu.png' />
-      <p>Najważnieszym elementem na tym etapie jest nadanie nazwy projektu. W tym przypadku projekt będzie projektem 3D.</p>
-      <h3>Ustawienie kamery</h3>
-      <p>Po zaznaczeniu kamery w hierarchii w inspektorze pojawią się komponenty przypięte do danego obiektu.</p>
-      <img src='images/A1K2_hierarchia_kamera.png' />
-      <p>W komponencie transform zmieniamy pozycje kamery na: 0, 0, -10. Następnie zmieniamy ustawienia komponentu camera z projection: perspective na projection: ortographic.</p>
-      <img src='images/A1K2_kamera_inspektor.png' />
-      <p>Dzięki tym zmianom nasza kamera będzie na wprost linii 0 co ułatwi ustawianie obiektów, zmiana projekcji nada odpowiedni ton graficzny naszej grze.</p>
-      <img src='images/projection_types.png' />
-      <h3>Dodanie gracza</h3>
-      <p>Graczem w naszej grze będzie sfera. Aby ją dodać klikamy zakładkę GameObject->3D Object->Sphere. Następnie naszą kulę ustawimy po lewej stronie ekranu w tym celu zaznaczamy ją w hierarchii po czym w inspektorze zmieniamy pozycje w komponencie transform na: -6, 3, 0.</p>
-      <p>Gracz będzie się poruszał a więc aby poinformować o tym silnik należy dodać do naszej sfery komponent rigidbody. W tym celu zaznaczamy nasz obiekt w hierarchii następnie u dołu inspektora klikamy Add Component->Physics->Rigidbody. Wiemy, że gracz poruszać się będzie ze stałą prędkością w osi x oraz opadać i wznosić się w osi y, nie jest jednak wymagane aby poruszał się on w osi z ani nie jest wymagana żadna rotacja tego obiektu w związku z tym ograniczymy ruch gracza przy pomocy constraints componentu rigidbody.</p>
-      <img src='images/sphere_inspektor.png' />
-      <p>W celu łatwiejszego odnalezienia gracza w hierarchii zmienimy jego nazwe na Player aby to zrobić zaznaczamy obiekt gracza następnie zmieniamy jego nazwę u góry inspektora z Sphere na Player. W celu łatwiejszej identyfikacji gracza w kodzie nadamy mu też tag Player, nadawanie tagu znajduje się poniżej zmiany nazwy.</p>
-      <h3>Poruszanie gracza</h3>
-      <p>Gracz w naszej grze będzie poruszany wyłącznie przy pomocy przycisku spacja który spowoduje wzniesienie się sfery w tym celu przygotujemy skrypt Move.cs. Aby utworzyć nowy skrypt klikamy prawym przyciskiem myszy w częsci Assets okna Project następnie klikamy Create->C# Script i nadajemy mu nazwę PlayerMovement</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;PlayerMovement&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;jumpForce&nbsp;=&nbsp;350;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;Rigidbody&nbsp;rigid;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid&nbsp;=&nbsp;GetComponent&lt;Rigidbody&gt;();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Update&nbsp;is&nbsp;called&nbsp;once&nbsp;per&nbsp;frame</span><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fly();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;fly()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(Input.GetKeyDown(KeyCode.Space))&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;Vector3.zero;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.AddForce(Vector3.up&nbsp;*&nbsp;jumpForce);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <p>W skrypcie tym tworzymy publiczną zmienną jumpForce typu float o wstępnej wartości 350. Ustawienie tej zmiennej jako publicznej pozwoli nam na zmiane tej wartości w inspektorze obiektu do którego podepnięty zostanie ten skrypt. Do skryptu dopisujemy też zmienną rigid typu Rigidbody. Metody Start oraz Update są to zmienne wykorzystywane przez klase MonoBehaviour i są wywoływane w odpowiednich momentach cyklu życia aplikacji. Metoda Start wywoływana jest wyłącznie jeden raz przy tworzeniu obiektu. Metoda Update wywoływana jest co klatke działania aplikacji. Są to tylko dwie z wielu metod w cyklu życia aplikacji silnika unity.</p>
-      <img src="images/monobehaviour_flowchart.svg" />
-      <p>Wewnątrz metody Start pobieramy Komponent Rigidbody przypięty do obiektu. Wewnątrz metody Update wywołujemy metodę fly. Metoda fly sprawdza czy w danej klatce naciśnięty został przycisk spacja, jeżeli został to ustawia aktualną prędkość z jaką porusza się obiekt na 0 a następnie dokłada siłę która porusza obiekt do góry.</p>
-      <h3>Poruszanie gracza (część 2)</h3>
-      <p>Nasz gracz musi poruszać się też do przodu w tym celu do klasy PlayerMovement dopisujemy publiczną zmienną speed oraz metode move, będzie ona dodawać ruch w prawą stronę z ustaloną prędkością. Następnie wywołujemy tą metodę w metodzie update.</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;PlayerMovement&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;jumpForce&nbsp;=&nbsp;350;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;speed&nbsp;=&nbsp;3;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;Rigidbody&nbsp;rigid;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid&nbsp;=&nbsp;GetComponent&lt;Rigidbody&gt;();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Update&nbsp;is&nbsp;called&nbsp;once&nbsp;per&nbsp;frame</span><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fly();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;fly()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(Input.GetKeyDown(KeyCode.Space))&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;Vector3.zero;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.AddForce(Vector3.up&nbsp;*&nbsp;jumpForce);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;move()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;velocity&nbsp;=&nbsp;rigid.velocity;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;velocity.x&nbsp;=&nbsp;speed;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;velocity;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <p>Skrypt ten podpinamy pod obiekt Player przeciągając skrypt z zakładki assets na obiekt Player w hierarchii.</p>
-      <h3>Kamera śledząca gracza</h3>
-      <p>Kolejną funkcjonalnością jest skrypt który sprawi, że kamera będzie podążała za graczem. w tym celu tworzymy nowy skrypt klikając w project->assets prawym przyciskiem myszy i klikajac create->C# script. Skrypt ten nazywamy CameraMovement. W skrypcie tym deklarujemy publiczną zmienną typu Transform o nazwie followObject oraz prywatną zmienną typu Vector3 o nazwie distance. W metodzie Start obliczamy dystans jako różnice aktualnej pozycji kamery i pozycji followObject. W metodzie update zmieniamy składową x pozycji kamery aby utrzymywała stałą odległość od obiektu.</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;CameraMove&nbsp;:&nbsp;MonoBehaviour<br />
-      {<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Transform&nbsp;followObject;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;distance;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;distance&nbsp;=&nbsp;transform.position&nbsp;-&nbsp;followObject.position;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;position&nbsp;=&nbsp;transform.position;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position.x&nbsp;=&nbsp;followObject.position.x&nbsp;+&nbsp;distance.x;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform.position&nbsp;=&nbsp;position;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <p>Skrypt ten należy podpiąć pod obiekt Main Camera, a następnie z hierarchii do inspektora należy przeciągnąć obiekt gracza do componentu Camera Move.</p>
-      <img src="images/camera_move.png" />
-      <h3>Restart gry gdy gracz trafi za mapę</h3>
-      <p>Następną funkcjonalnością jest przegrana w momencie w którym gracz opuści planszę z dołu lub góry. W tym celu do skryptu PlayerMovement dopisujemy metodę dead która restartuje gre przy wywołaniu oraz metodę outOfCamera która sprawdza czy obiekt do ktorego podpięty jest skrypt nie opuścił widoku z dołu lub góry kamery oznaczonej tagiem MainCamera i jeżli to zrobił to wywołuje on metodę dead. Metodę outOfCamera wywołujemy jako pierwszą instrukcję metody Update.</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine.SceneManagement;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;PlayerMovement&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;jumpForce&nbsp;=&nbsp;350;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;speed&nbsp;=&nbsp;3;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;Rigidbody&nbsp;rigid;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid&nbsp;=&nbsp;GetComponent&lt;Rigidbody&gt;();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Update&nbsp;is&nbsp;called&nbsp;once&nbsp;per&nbsp;frame</span><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outOfCamera();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fly();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;fly()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(Input.GetKeyDown(KeyCode.Space))&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;Vector3.zero;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.AddForce(Vector3.up&nbsp;*&nbsp;jumpForce);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;move()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;velocity&nbsp;=&nbsp;rigid.velocity;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;velocity.x&nbsp;=&nbsp;speed;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;velocity;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;dead()<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;outOfCamera()<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;viewPos&nbsp;=&nbsp;Camera.main.WorldToViewportPoint(transform.position);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(viewPos.y&nbsp;&lt;&nbsp;0&nbsp;||&nbsp;viewPos.y&nbsp;&gt;&nbsp;1)&nbsp;{&nbsp;dead();&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <h3>Utworzenie przeszkody</h3>
-      <p>Bazą naszej przeszkody będzie pusty Game Object któremy nadajemy nazwę Gap. Temu Game Object należy zmienić pozycję na: 3, 0, 0. Następnie klikamy ten obiekt prawym przyciskiem myszy i klikamy 3D Object->Cube, w ten sposób tworzymy 2 cube będące dziećmi Game Object Gap. Pierwszy z tych cube należy nazwać Upper i nadać mu pozycję: 0, 5, 0 oraz skalę: 1, 10, 1. Natomiast drugi cube należy nazwać Lower i nadać mu pozycję: 0, -5, 0 oraz skalę: 1, 10, 1. Tak przygotowanej przeszkodzie chcemy losowo nadawać wysokość oraz rozmiar szczeliny w tym celu podpinamy pod Gap skrypt który nazwiemy RandomizeGap. Skrypt ten będzie posiadał dwie publiczne zmienne typu Transform o nazwach upper i lower, 4 publiczne zmienne typu float o nazwach minOffset, max Offset, które będą odpowiadać za wysokość szczeliny oraz zmienne minGap oraz maxGap które będą odpowiadać za wielkość szczeliny. Skrypt ten posiada wyłącznie metodę Awake która losuje ostateczną wysokość oraz wielkość szczeliny a następnie przesuwa obiekty upper i lower tak aby utworzyły szczelinę.</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;RandomizeGap&nbsp;:&nbsp;MonoBehaviour<br />
-      {<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Transform&nbsp;upper;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Transform&nbsp;lower;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;minOffset&nbsp;=&nbsp;-3;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;maxOffset&nbsp;=&nbsp;3;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;minGap&nbsp;=&nbsp;2;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;maxGap&nbsp;=&nbsp;4;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Awake()<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">float</span>&nbsp;offset&nbsp;=&nbsp;Random.Range(minOffset,&nbsp;maxOffset);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">float</span>&nbsp;gap&nbsp;=&nbsp;Random.Range(minGap,&nbsp;maxGap);<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;upperPosition&nbsp;=&nbsp;upper.position;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upperPosition.y&nbsp;=&nbsp;upper.position.y&nbsp;+&nbsp;offset&nbsp;+&nbsp;gap;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upper.position&nbsp;=&nbsp;upperPosition;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;lowerPosition&nbsp;=&nbsp;lower.position;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lowerPosition.y&nbsp;=&nbsp;lower.position.y&nbsp;+&nbsp;offset&nbsp;-&nbsp;gap;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lower.position&nbsp;=&nbsp;lowerPosition;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <p>Mając podpięty skrypt należy jeszcze przekazać mu upper i lower przeciągając je z hierarchii w odpowiednie pola inspektora.</p>
-      <img src="images/randomize_gap.png" />
-      <h3>Restart gry przy kolizji z przeszkodą</h3>
-      <p>Aby dodać restart rozgrywki przy kolizji z przeszkodą zmieniamy skrypt PlayerMovement dodając do niego metodę OnCollisionEnter wywołującą metodę dead.</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine.SceneManagement;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;PlayerMovement&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;jumpForce&nbsp;=&nbsp;350;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;speed&nbsp;=&nbsp;3;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;Rigidbody&nbsp;rigid;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid&nbsp;=&nbsp;GetComponent&lt;Rigidbody&gt;();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Update&nbsp;is&nbsp;called&nbsp;once&nbsp;per&nbsp;frame</span><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outOfCamera();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fly();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;OnCollisionEnter(Collision&nbsp;collision)&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dead();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;fly()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(Input.GetKeyDown(KeyCode.Space))&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;Vector3.zero;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.AddForce(Vector3.up&nbsp;*&nbsp;jumpForce);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;move()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;velocity&nbsp;=&nbsp;rigid.velocity;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;velocity.x&nbsp;=&nbsp;speed;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;velocity;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;dead()<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;outOfCamera()<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;viewPos&nbsp;=&nbsp;Camera.main.WorldToViewportPoint(transform.position);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(viewPos.y&nbsp;&lt;&nbsp;0&nbsp;||&nbsp;viewPos.y&nbsp;&gt;&nbsp;1)&nbsp;{&nbsp;dead();&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <h3>Proceduralne generowanie przeszkód</h3>
-      <p>Aby móc proceduralnie dodawać przeszkody pierwszym krokiem będzie zapisanie naszego gap w postaci pliku (Prefabrykantu) aby to zrobić przeciągamy Gap z hierarchii do okna project. Nasępnie przechodzimy do tworzenia skryptu AddGaps który podpinamy pod MainCamera. Skrypt ten będzie w regularnych odstępach czasu tworzył podany mu prefabrykant. W tym celu tworzymy publiczną zmienną typu GameObject o nazwie gap, będzie ona przechowywać nasz prefabrykant. Dodajemy też publiczną zmienną typu float o nazwie cooldown oznaczającą co ile sekund ma pojawiać się kolejna przeszkoda. Wykorzystamy też 3 zmienne prywatne. Pierwsza będzie typu Camera o nazwie cam, będzie ona przechowywać nasz komponent kamery. Druga będzie typu Plane oraz nazwie plane i przechowywać będzie płaszczyznę na której będą pojawiać się przeszkody. Trzecia będzie przechowywać Vector3 o nazwie viewportVector służący do stworzenia promienia (ray) wyznaczającego miejsce utworzenia przeszkody. W metodzie Start pobieramy komponent kamery oraz inicjujemy zmienne. Następnie Wywołujemy podprogram CreateGap. CreateGap jest metodą która tworzy kolejną przeszkodę, wysyła ona promień w prawą krawędź kamery miejsce przecięcia tego promienia z wcześniej utworzoną płaszczyzną plane jest punktem w którym umieszczany jest nowy obiekt.</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;AddGaps&nbsp;:&nbsp;MonoBehaviour<br />
-      {<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;GameObject&nbsp;gap;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;cooldown&nbsp;=&nbsp;2;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;Camera&nbsp;cam;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;Plane&nbsp;plane;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;viewportVector;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start()<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cam&nbsp;=&nbsp;GetComponent&lt;Camera&gt;();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plane&nbsp;=&nbsp;<span class="Keyword">new</span>&nbsp;Plane(Vector3.back,&nbsp;Vector3.zero);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewportVector&nbsp;=&nbsp;<span class="Keyword">new</span>&nbsp;Vector3(1,&nbsp;0.5f,&nbsp;0);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartCoroutine(CreateGap());<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;IEnumerator&nbsp;CreateGap()<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ray&nbsp;ray&nbsp;=&nbsp;cam.ViewportPointToRay(viewportVector);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">float</span>&nbsp;distance;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plane.Raycast(ray,&nbsp;<span class="MethodParameter">out</span>&nbsp;distance);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;spawnPoint&nbsp;=&nbsp;ray.GetPoint(distance);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instantiate(gap,&nbsp;spawnPoint,&nbsp;gap.transform.rotation);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">yield</span>&nbsp;<span class="Statement">return</span>&nbsp;<span class="Keyword">new</span>&nbsp;WaitForSeconds(cooldown);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartCoroutine(CreateGap());<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <p>Na koniec należy po komponentu przenieść z zakładki projekt prefabrykant do odpowiedniego pola inspektora w komponencie Add Gaps.</p>
-      <h3>Czyszczenie niepotrzebnych obiektów</h3>
-      <p>Niepotrzebne obiekty które opuszczą obraz kamery powinny być usuwane. W tym celu tworzymy skrypt DestroyOutOfBounds. Skrypt ten podpięty będzie do Gap i będzie on sprawdzał w metodzie Update czy obiekt nadal znajduje się w polu widzenia kamery jeżeli nie to jest on usuwany.</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;DestroyOutOfBounds&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outOfCamera();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;outOfCamera()<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;viewPos&nbsp;=&nbsp;Camera.main.WorldToViewportPoint(transform.position);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(viewPos.x&nbsp;&lt;&nbsp;0)&nbsp;{&nbsp;Destroy(gameObject);&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <h3>Dodanie punktacji</h3>
-      <p>Punktacja wyświetlana będzie na elemencie UI w tym celu dodajemy nowy GameObject->UI->Text zmieniamy jego nazwę na Score oraz dodajemy drugi text który nazywamy MaxScore. Obiekty te należy rozmieścić jak na załączonym obrazku</p>
-      <img src='images/flappy_coder_text.png' />
-      <p>Do obiektu Canvas należy podpiąć skrypt ScoreManager jest to singleton co oznacza, że na scenie w danym momencie może znajdować się wyłącznie jedna instancja tej klasy i jest ona dostępna w każdym miejscu aplikacji. Skrypt ten będzie przechowywać aktualny wynik oraz aktualizować wyświetlany wynik i zapisywać maksymalny wynik.</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine.UI;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;ScoreManager&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="Modifier">static</span>&nbsp;ScoreManager&nbsp;instance&nbsp;=&nbsp;<span class="Keyword">null</span>;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Text&nbsp;scoreText;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Text&nbsp;maxScoreText;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">private</span>&nbsp;<span class="ValueType">int</span>&nbsp;maxScore&nbsp;=&nbsp;0;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">private</span>&nbsp;<span class="ValueType">int</span>&nbsp;score&nbsp;=&nbsp;0;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(instance&nbsp;==&nbsp;<span class="Keyword">null</span>)<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance&nbsp;=&nbsp;<span class="Keyword">this</span>;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="Statement">else</span>&nbsp;<span class="Statement">if</span>&nbsp;(instance&nbsp;!=&nbsp;<span class="Keyword">this</span>)<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destroy(gameObject);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateMaxPoints();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">void</span>&nbsp;addScore(<span class="ValueType">int</span>&nbsp;points)<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;score&nbsp;+=&nbsp;points;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scoreText.text&nbsp;=&nbsp;<span class="String">"Score:&nbsp;"</span>&nbsp;+&nbsp;score;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateMaxPoints();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">void</span>&nbsp;updateMaxPoints()<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxScore&nbsp;=&nbsp;PlayerPrefs.GetInt(<span class="String">"maxScore"</span>);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(maxScore&nbsp;&lt;&nbsp;score)<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxScore&nbsp;=&nbsp;score;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PlayerPrefs.SetInt(<span class="String">"maxScore"</span>,&nbsp;maxScore);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PlayerPrefs.Save();<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxScoreText.text&nbsp;=&nbsp;<span class="String">"Max&nbsp;Score:&nbsp;"</span>&nbsp;+&nbsp;maxScore;<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <p>Do obiektu Gap dodajemy trzeci cube, któremu dajemy nazwę Score. W inspektorze obiektu Score wyłączamy komponent Mesh Renderer. W komponencie Box Colliden należy zaznaczyć opcję Is Trigger. Do obiektu score należy dołączyć skrypt Score który będzie naliczać punkt za każdym razem gdy gracz wejdzie w trigger. Ostatnią rzeczą będzie zapisanie prefabrykantu, w tym celu należy zaznaczyć obiek Gap oraz w inspektorze nacisnąć przycisk Apply.</p>
-      <div class="code">
-      <span class="Namespace">using</span>&nbsp;System.Collections;<br />
-      <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
-      <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
-      <br />
-      <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;Score&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">int</span>&nbsp;points&nbsp;=&nbsp;1;<br />
-      <br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;OnTriggerEnter(Collider&nbsp;other)<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(other.tag&nbsp;==&nbsp;<span class="String">"Player"</span>)<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScoreManager.instance.addScore(points);<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-      }
-      </div>
-      <h3>Gotowa gra</h3>
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
-      <br>
-      <div class="logo"></div>
-      <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
-      <div class="title">FlappyCoder</div>
-      <script type='text/javascript'>
-        var Module = {
-          TOTAL_MEMORY: 268435456,
-          errorhandler: null,     // arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
-          compatibilitycheck: null,
-          backgroundColor: "#222C36",
-          splashStyle: "Light",
-          dataUrl: "Release/WebGL.data",
-          codeUrl: "Release/WebGL.js",
-          asmUrl: "Release/WebGL.asm.js",
-          memUrl: "Release/WebGL.mem",
-        };
-      </script>
-      <script src="Release/UnityLoader.js"></script>
-    </article>
+    <div class='container'>
+      <article>
+        <h1>Flappy coder tutorial</h1>
+        <p>Flappy coder czyli jak stworzyć klon gry flappy bird w silniku Unity3D.</p>
+        <h2>Założenia</h2>
+        <p>W tej części zapoznamy się z podstawowymi założeniami naszego projektu.</p>
+        <h3>Poziom: Nowicjusz</h3>
+        <h3>Tworzone funkcjonalności</h3>
+        <ul>
+          <li>Poruszanie gracza przy pomocy spacji</li>
+          <li>Poruszanie gracza w przód</li>
+          <li>Kamera śledząca gracza</li>
+          <li>Przegrana przy wyjściu poza ekran</li>
+          <li>Przegrana przy kolizji z przeszkodą</li>
+          <li>Tworznie przeszkód</li>
+          <li>Niszczenie przeszkód</li>
+          <li>Dodawanie punktów</li>
+          <li>Zapisywanie punktów</li>
+        </ul>
+        <h3>Wymagane oprogramowanie</h3>
+        <ul><li>Unity3D</li></ul>
+        <h2>Projekt</h2>
+        <p>W tej części przejdziemy do implementacji projektu.</p>
+        <h3>Tworzenie Projektu</h3>
+        <p>Pierwszym krokiem w tworzeniu gry jest utworzenie projektu.</p>
+        <img src='images/A1K1_tworzenie_projektu.png' />
+        <p>Najważnieszym elementem na tym etapie jest nadanie nazwy projektu. W tym przypadku projekt będzie projektem 3D.</p>
+        <h3>Ustawienie kamery</h3>
+        <p>Po zaznaczeniu kamery w hierarchii w inspektorze pojawią się komponenty przypięte do danego obiektu.</p>
+        <img src='images/A1K2_hierarchia_kamera.png' />
+        <p>W komponencie transform zmieniamy pozycje kamery na: 0, 0, -10. Następnie zmieniamy ustawienia komponentu camera z projection: perspective na projection: ortographic.</p>
+        <img src='images/A1K2_kamera_inspektor.png' />
+        <p>Dzięki tym zmianom nasza kamera będzie na wprost linii 0 co ułatwi ustawianie obiektów, zmiana projekcji nada odpowiedni ton graficzny naszej grze.</p>
+        <img src='images/projection_types.png' />
+        <h3>Dodanie gracza</h3>
+        <p>Graczem w naszej grze będzie sfera. Aby ją dodać klikamy zakładkę GameObject->3D Object->Sphere. Następnie naszą kulę ustawimy po lewej stronie ekranu w tym celu zaznaczamy ją w hierarchii po czym w inspektorze zmieniamy pozycje w komponencie transform na: -6, 3, 0.</p>
+        <p>Gracz będzie się poruszał a więc aby poinformować o tym silnik należy dodać do naszej sfery komponent rigidbody. W tym celu zaznaczamy nasz obiekt w hierarchii następnie u dołu inspektora klikamy Add Component->Physics->Rigidbody. Wiemy, że gracz poruszać się będzie ze stałą prędkością w osi x oraz opadać i wznosić się w osi y, nie jest jednak wymagane aby poruszał się on w osi z ani nie jest wymagana żadna rotacja tego obiektu w związku z tym ograniczymy ruch gracza przy pomocy constraints componentu rigidbody.</p>
+        <img src='images/sphere_inspektor.png' />
+        <p>W celu łatwiejszego odnalezienia gracza w hierarchii zmienimy jego nazwe na Player aby to zrobić zaznaczamy obiekt gracza następnie zmieniamy jego nazwę u góry inspektora z Sphere na Player. W celu łatwiejszej identyfikacji gracza w kodzie nadamy mu też tag Player, nadawanie tagu znajduje się poniżej zmiany nazwy.</p>
+        <h3>Poruszanie gracza</h3>
+        <p>Gracz w naszej grze będzie poruszany wyłącznie przy pomocy przycisku spacja który spowoduje wzniesienie się sfery w tym celu przygotujemy skrypt Move.cs. Aby utworzyć nowy skrypt klikamy prawym przyciskiem myszy w częsci Assets okna Project następnie klikamy Create->C# Script i nadajemy mu nazwę PlayerMovement</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;PlayerMovement&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;jumpForce&nbsp;=&nbsp;350;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Rigidbody&nbsp;rigid;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid&nbsp;=&nbsp;GetComponent&lt;Rigidbody&gt;();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Update&nbsp;is&nbsp;called&nbsp;once&nbsp;per&nbsp;frame</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fly();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;fly()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(Input.GetKeyDown(KeyCode.Space))&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;Vector3.zero;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.AddForce(Vector3.up&nbsp;*&nbsp;jumpForce);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <p>W skrypcie tym tworzymy publiczną zmienną jumpForce typu float o wstępnej wartości 350. Ustawienie tej zmiennej jako publicznej pozwoli nam na zmiane tej wartości w inspektorze obiektu do którego podepnięty zostanie ten skrypt. Do skryptu dopisujemy też zmienną rigid typu Rigidbody. Metody Start oraz Update są to zmienne wykorzystywane przez klase MonoBehaviour i są wywoływane w odpowiednich momentach cyklu życia aplikacji. Metoda Start wywoływana jest wyłącznie jeden raz przy tworzeniu obiektu. Metoda Update wywoływana jest co klatke działania aplikacji. Są to tylko dwie z wielu metod w cyklu życia aplikacji silnika unity.</p>
+        <img src="images/monobehaviour_flowchart.svg" />
+        <p>Wewnątrz metody Start pobieramy Komponent Rigidbody przypięty do obiektu. Wewnątrz metody Update wywołujemy metodę fly. Metoda fly sprawdza czy w danej klatce naciśnięty został przycisk spacja, jeżeli został to ustawia aktualną prędkość z jaką porusza się obiekt na 0 a następnie dokłada siłę która porusza obiekt do góry.</p>
+        <h3>Poruszanie gracza (część 2)</h3>
+        <p>Nasz gracz musi poruszać się też do przodu w tym celu do klasy PlayerMovement dopisujemy publiczną zmienną speed oraz metode move, będzie ona dodawać ruch w prawą stronę z ustaloną prędkością. Następnie wywołujemy tą metodę w metodzie update.</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;PlayerMovement&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;jumpForce&nbsp;=&nbsp;350;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;speed&nbsp;=&nbsp;3;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Rigidbody&nbsp;rigid;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid&nbsp;=&nbsp;GetComponent&lt;Rigidbody&gt;();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Update&nbsp;is&nbsp;called&nbsp;once&nbsp;per&nbsp;frame</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fly();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;fly()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(Input.GetKeyDown(KeyCode.Space))&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;Vector3.zero;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.AddForce(Vector3.up&nbsp;*&nbsp;jumpForce);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;move()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;velocity&nbsp;=&nbsp;rigid.velocity;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;velocity.x&nbsp;=&nbsp;speed;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;velocity;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <p>Skrypt ten podpinamy pod obiekt Player przeciągając skrypt z zakładki assets na obiekt Player w hierarchii.</p>
+        <h3>Kamera śledząca gracza</h3>
+        <p>Kolejną funkcjonalnością jest skrypt który sprawi, że kamera będzie podążała za graczem. w tym celu tworzymy nowy skrypt klikając w project->assets prawym przyciskiem myszy i klikajac create->C# script. Skrypt ten nazywamy CameraMovement. W skrypcie tym deklarujemy publiczną zmienną typu Transform o nazwie followObject oraz prywatną zmienną typu Vector3 o nazwie distance. W metodzie Start obliczamy dystans jako różnice aktualnej pozycji kamery i pozycji followObject. W metodzie update zmieniamy składową x pozycji kamery aby utrzymywała stałą odległość od obiektu.</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;CameraMove&nbsp;:&nbsp;MonoBehaviour<br />
+        {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Transform&nbsp;followObject;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;distance;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;distance&nbsp;=&nbsp;transform.position&nbsp;-&nbsp;followObject.position;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;position&nbsp;=&nbsp;transform.position;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position.x&nbsp;=&nbsp;followObject.position.x&nbsp;+&nbsp;distance.x;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform.position&nbsp;=&nbsp;position;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <p>Skrypt ten należy podpiąć pod obiekt Main Camera, a następnie z hierarchii do inspektora należy przeciągnąć obiekt gracza do componentu Camera Move.</p>
+        <img src="images/camera_move.png" />
+        <h3>Restart gry gdy gracz trafi za mapę</h3>
+        <p>Następną funkcjonalnością jest przegrana w momencie w którym gracz opuści planszę z dołu lub góry. W tym celu do skryptu PlayerMovement dopisujemy metodę dead która restartuje gre przy wywołaniu oraz metodę outOfCamera która sprawdza czy obiekt do ktorego podpięty jest skrypt nie opuścił widoku z dołu lub góry kamery oznaczonej tagiem MainCamera i jeżli to zrobił to wywołuje on metodę dead. Metodę outOfCamera wywołujemy jako pierwszą instrukcję metody Update.</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine.SceneManagement;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;PlayerMovement&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;jumpForce&nbsp;=&nbsp;350;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;speed&nbsp;=&nbsp;3;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Rigidbody&nbsp;rigid;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid&nbsp;=&nbsp;GetComponent&lt;Rigidbody&gt;();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Update&nbsp;is&nbsp;called&nbsp;once&nbsp;per&nbsp;frame</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outOfCamera();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fly();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;fly()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(Input.GetKeyDown(KeyCode.Space))&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;Vector3.zero;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.AddForce(Vector3.up&nbsp;*&nbsp;jumpForce);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;move()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;velocity&nbsp;=&nbsp;rigid.velocity;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;velocity.x&nbsp;=&nbsp;speed;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;velocity;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;dead()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;outOfCamera()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;viewPos&nbsp;=&nbsp;Camera.main.WorldToViewportPoint(transform.position);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(viewPos.y&nbsp;&lt;&nbsp;0&nbsp;||&nbsp;viewPos.y&nbsp;&gt;&nbsp;1)&nbsp;{&nbsp;dead();&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <h3>Utworzenie przeszkody</h3>
+        <p>Bazą naszej przeszkody będzie pusty Game Object któremy nadajemy nazwę Gap. Temu Game Object należy zmienić pozycję na: 3, 0, 0. Następnie klikamy ten obiekt prawym przyciskiem myszy i klikamy 3D Object->Cube, w ten sposób tworzymy 2 cube będące dziećmi Game Object Gap. Pierwszy z tych cube należy nazwać Upper i nadać mu pozycję: 0, 5, 0 oraz skalę: 1, 10, 1. Natomiast drugi cube należy nazwać Lower i nadać mu pozycję: 0, -5, 0 oraz skalę: 1, 10, 1. Tak przygotowanej przeszkodzie chcemy losowo nadawać wysokość oraz rozmiar szczeliny w tym celu podpinamy pod Gap skrypt który nazwiemy RandomizeGap. Skrypt ten będzie posiadał dwie publiczne zmienne typu Transform o nazwach upper i lower, 4 publiczne zmienne typu float o nazwach minOffset, max Offset, które będą odpowiadać za wysokość szczeliny oraz zmienne minGap oraz maxGap które będą odpowiadać za wielkość szczeliny. Skrypt ten posiada wyłącznie metodę Awake która losuje ostateczną wysokość oraz wielkość szczeliny a następnie przesuwa obiekty upper i lower tak aby utworzyły szczelinę.</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;RandomizeGap&nbsp;:&nbsp;MonoBehaviour<br />
+        {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Transform&nbsp;upper;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Transform&nbsp;lower;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;minOffset&nbsp;=&nbsp;-3;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;maxOffset&nbsp;=&nbsp;3;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;minGap&nbsp;=&nbsp;2;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;maxGap&nbsp;=&nbsp;4;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Awake()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">float</span>&nbsp;offset&nbsp;=&nbsp;Random.Range(minOffset,&nbsp;maxOffset);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">float</span>&nbsp;gap&nbsp;=&nbsp;Random.Range(minGap,&nbsp;maxGap);<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;upperPosition&nbsp;=&nbsp;upper.position;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upperPosition.y&nbsp;=&nbsp;upper.position.y&nbsp;+&nbsp;offset&nbsp;+&nbsp;gap;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upper.position&nbsp;=&nbsp;upperPosition;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;lowerPosition&nbsp;=&nbsp;lower.position;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lowerPosition.y&nbsp;=&nbsp;lower.position.y&nbsp;+&nbsp;offset&nbsp;-&nbsp;gap;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lower.position&nbsp;=&nbsp;lowerPosition;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <p>Mając podpięty skrypt należy jeszcze przekazać mu upper i lower przeciągając je z hierarchii w odpowiednie pola inspektora.</p>
+        <img src="images/randomize_gap.png" />
+        <h3>Restart gry przy kolizji z przeszkodą</h3>
+        <p>Aby dodać restart rozgrywki przy kolizji z przeszkodą zmieniamy skrypt PlayerMovement dodając do niego metodę OnCollisionEnter wywołującą metodę dead.</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine.SceneManagement;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;PlayerMovement&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;jumpForce&nbsp;=&nbsp;350;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;speed&nbsp;=&nbsp;3;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Rigidbody&nbsp;rigid;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid&nbsp;=&nbsp;GetComponent&lt;Rigidbody&gt;();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Update&nbsp;is&nbsp;called&nbsp;once&nbsp;per&nbsp;frame</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outOfCamera();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fly();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;OnCollisionEnter(Collision&nbsp;collision)&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dead();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;fly()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(Input.GetKeyDown(KeyCode.Space))&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;Vector3.zero;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.AddForce(Vector3.up&nbsp;*&nbsp;jumpForce);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;move()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;velocity&nbsp;=&nbsp;rigid.velocity;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;velocity.x&nbsp;=&nbsp;speed;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rigid.velocity&nbsp;=&nbsp;velocity;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;dead()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;outOfCamera()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;viewPos&nbsp;=&nbsp;Camera.main.WorldToViewportPoint(transform.position);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(viewPos.y&nbsp;&lt;&nbsp;0&nbsp;||&nbsp;viewPos.y&nbsp;&gt;&nbsp;1)&nbsp;{&nbsp;dead();&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <h3>Proceduralne generowanie przeszkód</h3>
+        <p>Aby móc proceduralnie dodawać przeszkody pierwszym krokiem będzie zapisanie naszego gap w postaci pliku (Prefabrykantu) aby to zrobić przeciągamy Gap z hierarchii do okna project. Nasępnie przechodzimy do tworzenia skryptu AddGaps który podpinamy pod MainCamera. Skrypt ten będzie w regularnych odstępach czasu tworzył podany mu prefabrykant. W tym celu tworzymy publiczną zmienną typu GameObject o nazwie gap, będzie ona przechowywać nasz prefabrykant. Dodajemy też publiczną zmienną typu float o nazwie cooldown oznaczającą co ile sekund ma pojawiać się kolejna przeszkoda. Wykorzystamy też 3 zmienne prywatne. Pierwsza będzie typu Camera o nazwie cam, będzie ona przechowywać nasz komponent kamery. Druga będzie typu Plane oraz nazwie plane i przechowywać będzie płaszczyznę na której będą pojawiać się przeszkody. Trzecia będzie przechowywać Vector3 o nazwie viewportVector służący do stworzenia promienia (ray) wyznaczającego miejsce utworzenia przeszkody. W metodzie Start pobieramy komponent kamery oraz inicjujemy zmienne. Następnie Wywołujemy podprogram CreateGap. CreateGap jest metodą która tworzy kolejną przeszkodę, wysyła ona promień w prawą krawędź kamery miejsce przecięcia tego promienia z wcześniej utworzoną płaszczyzną plane jest punktem w którym umieszczany jest nowy obiekt.</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;AddGaps&nbsp;:&nbsp;MonoBehaviour<br />
+        {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;GameObject&nbsp;gap;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">float</span>&nbsp;cooldown&nbsp;=&nbsp;2;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Camera&nbsp;cam;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Plane&nbsp;plane;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;viewportVector;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cam&nbsp;=&nbsp;GetComponent&lt;Camera&gt;();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plane&nbsp;=&nbsp;<span class="Keyword">new</span>&nbsp;Plane(Vector3.back,&nbsp;Vector3.zero);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewportVector&nbsp;=&nbsp;<span class="Keyword">new</span>&nbsp;Vector3(1,&nbsp;0.5f,&nbsp;0);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartCoroutine(CreateGap());<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;IEnumerator&nbsp;CreateGap()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ray&nbsp;ray&nbsp;=&nbsp;cam.ViewportPointToRay(viewportVector);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">float</span>&nbsp;distance;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plane.Raycast(ray,&nbsp;<span class="MethodParameter">out</span>&nbsp;distance);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;spawnPoint&nbsp;=&nbsp;ray.GetPoint(distance);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instantiate(gap,&nbsp;spawnPoint,&nbsp;gap.transform.rotation);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">yield</span>&nbsp;<span class="Statement">return</span>&nbsp;<span class="Keyword">new</span>&nbsp;WaitForSeconds(cooldown);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartCoroutine(CreateGap());<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <p>Na koniec należy po komponentu przenieść z zakładki projekt prefabrykant do odpowiedniego pola inspektora w komponencie Add Gaps.</p>
+        <h3>Czyszczenie niepotrzebnych obiektów</h3>
+        <p>Niepotrzebne obiekty które opuszczą obraz kamery powinny być usuwane. W tym celu tworzymy skrypt DestroyOutOfBounds. Skrypt ten podpięty będzie do Gap i będzie on sprawdzał w metodzie Update czy obiekt nadal znajduje się w polu widzenia kamery jeżeli nie to jest on usuwany.</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;DestroyOutOfBounds&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Update&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outOfCamera();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;outOfCamera()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vector3&nbsp;viewPos&nbsp;=&nbsp;Camera.main.WorldToViewportPoint(transform.position);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(viewPos.x&nbsp;&lt;&nbsp;0)&nbsp;{&nbsp;Destroy(gameObject);&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <h3>Dodanie punktacji</h3>
+        <p>Punktacja wyświetlana będzie na elemencie UI w tym celu dodajemy nowy GameObject->UI->Text zmieniamy jego nazwę na Score oraz dodajemy drugi text który nazywamy MaxScore. Obiekty te należy rozmieścić jak na załączonym obrazku</p>
+        <img src='images/flappy_coder_text.png' />
+        <p>Do obiektu Canvas należy podpiąć skrypt ScoreManager jest to singleton co oznacza, że na scenie w danym momencie może znajdować się wyłącznie jedna instancja tej klasy i jest ona dostępna w każdym miejscu aplikacji. Skrypt ten będzie przechowywać aktualny wynik oraz aktualizować wyświetlany wynik i zapisywać maksymalny wynik.</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine.UI;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;ScoreManager&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="Modifier">static</span>&nbsp;ScoreManager&nbsp;instance&nbsp;=&nbsp;<span class="Keyword">null</span>;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Text&nbsp;scoreText;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;Text&nbsp;maxScoreText;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">private</span>&nbsp;<span class="ValueType">int</span>&nbsp;maxScore&nbsp;=&nbsp;0;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">private</span>&nbsp;<span class="ValueType">int</span>&nbsp;score&nbsp;=&nbsp;0;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="InlineComment">//&nbsp;Use&nbsp;this&nbsp;for&nbsp;initialization</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;Start&nbsp;()&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(instance&nbsp;==&nbsp;<span class="Keyword">null</span>)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance&nbsp;=&nbsp;<span class="Keyword">this</span>;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="Statement">else</span>&nbsp;<span class="Statement">if</span>&nbsp;(instance&nbsp;!=&nbsp;<span class="Keyword">this</span>)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destroy(gameObject);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateMaxPoints();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">void</span>&nbsp;addScore(<span class="ValueType">int</span>&nbsp;points)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;score&nbsp;+=&nbsp;points;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scoreText.text&nbsp;=&nbsp;<span class="String">"Score:&nbsp;"</span>&nbsp;+&nbsp;score;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateMaxPoints();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">void</span>&nbsp;updateMaxPoints()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxScore&nbsp;=&nbsp;PlayerPrefs.GetInt(<span class="String">"maxScore"</span>);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(maxScore&nbsp;&lt;&nbsp;score)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxScore&nbsp;=&nbsp;score;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PlayerPrefs.SetInt(<span class="String">"maxScore"</span>,&nbsp;maxScore);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PlayerPrefs.Save();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxScoreText.text&nbsp;=&nbsp;<span class="String">"Max&nbsp;Score:&nbsp;"</span>&nbsp;+&nbsp;maxScore;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <p>Do obiektu Gap dodajemy trzeci cube, któremu dajemy nazwę Score. W inspektorze obiektu Score wyłączamy komponent Mesh Renderer. W komponencie Box Colliden należy zaznaczyć opcję Is Trigger. Do obiektu score należy dołączyć skrypt Score który będzie naliczać punkt za każdym razem gdy gracz wejdzie w trigger. Ostatnią rzeczą będzie zapisanie prefabrykantu, w tym celu należy zaznaczyć obiek Gap oraz w inspektorze nacisnąć przycisk Apply.</p>
+        <div class="code">
+        <span class="Namespace">using</span>&nbsp;System.Collections;<br />
+        <span class="Namespace">using</span>&nbsp;System.Collections.Generic;<br />
+        <span class="Namespace">using</span>&nbsp;UnityEngine;<br />
+        <br />
+        <span class="Modifier">public</span>&nbsp;<span class="ReferenceType">class</span>&nbsp;Score&nbsp;:&nbsp;MonoBehaviour&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="Modifier">public</span>&nbsp;<span class="ValueType">int</span>&nbsp;points&nbsp;=&nbsp;1;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ValueType">void</span>&nbsp;OnTriggerEnter(Collider&nbsp;other)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Statement">if</span>&nbsp;(other.tag&nbsp;==&nbsp;<span class="String">"Player"</span>)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScoreManager.instance.addScore(points);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        }
+        </div>
+        <h3>Gotowa gra</h3>
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
+        <br>
+        <div class="logo"></div>
+        <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+        <div class="title">FlappyCoder</div>
+        <script type='text/javascript'>
+          var Module = {
+            TOTAL_MEMORY: 268435456,
+            errorhandler: null,     // arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+            compatibilitycheck: null,
+            backgroundColor: "#222C36",
+            splashStyle: "Light",
+            dataUrl: "Release/WebGL.data",
+            codeUrl: "Release/WebGL.js",
+            asmUrl: "Release/WebGL.asm.js",
+            memUrl: "Release/WebGL.mem",
+          };
+        </script>
+        <script src="Release/UnityLoader.js"></script>
+      </article>
+    </div>
   </body>
 </html>
