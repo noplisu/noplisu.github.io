@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function Hero(props : {url: string, img: string}) {
-  const { url, img } = props;
+export default function Hero(props : {url: string, img: string, target?: string}) {
+  const { url, img, target } = props;
   return (
-    <Link href={url} target="_blank">
+    <Link href={url} target={target ? target : "_blank"}>
       <Image
       src={img}
       alt="fractalsoft"

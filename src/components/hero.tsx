@@ -26,10 +26,11 @@ export default function Hero() {
 
         <div className="flex flex-col flex-wrap py-6">
           <div className="pb-3">You can find me here 👇</div>
-          <div className="flex gap-10 place-content-center">
+          <div className="flex gap-5 place-content-center">
             <Link url="https://fractalsoft.org/" img="fractalsoft.svg" />
             <Link url="https://www.linkedin.com/in/glisowski91/" img="linked-in.svg" />
             <Link url="https://github.com/noplisu" img="github-mark.svg" />
+            <Link url="/#contact-form" img="email.svg" target="_self" />
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@formspree/react": "^2.5.1",
     "daisyui": "^3.9.4",
     "next": "14.0.1",
     "react": "^18",
