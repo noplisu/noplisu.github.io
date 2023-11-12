@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function Skills() {
   return (
-    <div className="w-screen flex flex-wrap content-center justify-center bg-gray-200 py-20" id="skills">
+    <div className="flex flex-wrap content-center justify-center bg-gray-200 py-20" id="skills">
       <div className="join join-vertical container flex flex-wrap flex-col content-center justify-center">
         {SkillCategories.map((category) => (
           <Accordion name={category.title} key="category.title">

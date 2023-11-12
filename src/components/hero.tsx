@@ -3,7 +3,7 @@ import Link from '@/components/hero/link'
 
 export default function Hero() {
   return (
-    <div className="min-h-[calc(502px)] h-[calc(100vh-68px)] w-screen flex flex-wrap content-center justify-center bg-desk">
+    <div className="min-h-[calc(502px)] h-[calc(100vh-68px)] flex flex-wrap content-center justify-center bg-desk">
       <div className="flex flex-wrap flex-col content-center justify-center bg-slate-50 p-5 rounded-lg">
         <div className='flex flex-wrap items-center justify-center'>
           <Image
