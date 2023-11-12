@@ -6,8 +6,8 @@ import { useForm, ValidationError } from '@formspree/react';
 export default function ContactForm() {
   const [state, handleSubmit] = useForm("xqkvozrr");
   return (
-    <section id="contact-form" className="bg-gray-100 h-[calc(100vh-68px)] min-h-[calc(600px)]">
-      <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+    <section id="contact-form" className="bg-gray-100 h-[calc(100vh-68px)] min-h-[calc(600px)] py-8">
+      <div className="lg:py-16 px-4 mx-auto max-w-screen-md">
         { state.succeeded && (
           <>
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">
