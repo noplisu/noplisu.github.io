@@ -17,17 +17,18 @@ export default function Skills() {
                 <ul>
                   {subcategory.technologies.map((technology) => (
                     <>
-                      <li className="flex h-[calc(128px)] my-5">
+                      <li className="flex min-h-[calc(128px)] py-5">
                         {technology.image && (
                           <Image
                             width={128}
                             height={128}
                             src={`skill-images/${technology.image}`}
                             alt={technology.name}
-                            className="mx-3"
+                            className="w-[calc(128px)] px-3 flex-none"
+                            style={{objectFit: "contain"}}
                           />
                         )}
-                        <div>
+                        <div className="flex-1">
                           <h3 className="font-bold">{technology.name}</h3>
                           {technology.description && (
                             <p>{technology.description}</p>
