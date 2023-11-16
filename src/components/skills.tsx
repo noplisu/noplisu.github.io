@@ -29,7 +29,7 @@ export default function Skills() {
                           />
                         )}
                         <div className="flex-1">
-                          <h3 className="font-bold">{technology.name}</h3>
+                          <div className="font-bold">{technology.name}</div>
                           {technology.description && (
                             <p>{technology.description}</p>
                           )}

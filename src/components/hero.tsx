@@ -19,7 +19,7 @@ export default function Hero() {
           <div className="text-2xl">Grzegorz Lisowski</div>
         </div>
         <div className="flex flex-col flex-wrap content-center justify-center">
-          <div>🌟 Full-stack developer</div>
+          <h1>🌟 Full-stack web developer</h1>
           <div>🕹️ AR/VR developer</div>
           <div>🛠️ creating dynamic web apps since 2013</div>
         </div>
@@ -27,10 +27,10 @@ export default function Hero() {
         <div className="flex flex-col flex-wrap py-6">
           <div className="pb-3">You can find me here 👇</div>
           <div className="flex gap-5 place-content-center">
-            <Link url="https://fractalsoft.org/" img="fractalsoft.svg" />
-            <Link url="https://www.linkedin.com/in/glisowski91/" img="linked-in.svg" />
-            <Link url="https://github.com/noplisu" img="github-mark.svg" />
-            <Link url="/#contact-form" img="email.svg" target="_self" />
+            <Link url="https://fractalsoft.org/" img="fractalsoft.svg" alt="fractalsoft" />
+            <Link url="https://www.linkedin.com/in/glisowski91/" img="linked-in.svg" alt="linkedin" />
+            <Link url="https://github.com/noplisu" img="github-mark.svg" alt="github" />
+            <Link url="/#contact-form" img="email.svg" target="_self" alt="message me" />
           </div>
         </div>
       </div>
