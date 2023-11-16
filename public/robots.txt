@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: noplisu.github.io
+
+# Sitemaps
+Sitemap: noplisu.github.io/sitemap.xml
