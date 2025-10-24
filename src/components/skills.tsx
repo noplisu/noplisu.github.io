@@ -1,9 +1,12 @@
-import React from 'react';
-import Accordion from '@/components/skills/accordion';
+'use client';
+
+import React, { useState } from 'react';
 import SkillCategories from '@/data/skill-categories';
 import Image from 'next/image';
 
 export default function Skills() {
+  const [activeCategory, setActiveCategory] = useState(0);
+
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 to-white" id="skills">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,30 +20,52 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* Skills Grid */}
-        <div className="space-y-6">
+        {/* Category Navigation */}
+        <div className="mb-12">
+          <div className="flex flex-wrap justify-center gap-3">
+            {SkillCategories.map((category, index) => (
+              <button
+                key={category.title}
+                onClick={() => setActiveCategory(index)}
+                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 ${
+                  activeCategory === index
+                    ? 'bg-primary-600 text-white shadow-lg'
+                    : 'bg-white text-gray-700 hover:bg-primary-50 hover:text-primary-600 shadow-soft'
+                }`}
+              >
+                {category.title}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Skills Content */}
+        <div className="animate-fade-in-up">
           {SkillCategories.map((category, categoryIndex) => (
             <div 
               key={category.title}
-              className="animate-fade-in-up"
-              style={{animationDelay: `${categoryIndex * 0.1}s`}}
+              className={`transition-all duration-500 ${
+                activeCategory === categoryIndex 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8 absolute pointer-events-none'
+              }`}
             >
-              <Accordion name={category.title}>
-                <div className="space-y-8">
-                  {category.subcategories.map((subcategory, subIndex) => (
-                    <div key={subcategory.title} className="space-y-6">
-                      <h3 className="text-2xl font-bold text-gray-800 border-b-2 border-primary-200 pb-2">
-                        {subcategory.title}
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {subcategory.technologies.map((technology, techIndex) => {
-                          const isExternalImage = technology.image?.startsWith('http');
-                          const imageSrc = isExternalImage ? technology.image : `skill-images/${technology.image}`;
-                          
-                          const content = (
-                            <div className="flex items-start space-x-4">
+              <div className="space-y-8">
+                {category.subcategories.map((subcategory, subIndex) => (
+                  <div key={subcategory.title} className="space-y-6">
+                    <h3 className="text-2xl font-bold text-gray-800 border-b-2 border-primary-200 pb-2">
+                      {subcategory.title}
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                      {subcategory.technologies.map((technology, techIndex) => {
+                        const isExternalImage = technology.image?.startsWith('http');
+                        const imageSrc = isExternalImage ? technology.image : `skill-images/${technology.image}`;
+                        
+                        const content = (
+                          <div className="flex flex-col h-full">
+                            <div className="flex items-center space-x-4 mb-4">
                               {technology.image && (
-                                <div className="flex-shrink-0 w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-primary-50 transition-colors duration-300">
+                                <div className="flex-shrink-0 w-16 h-16 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-primary-50 transition-colors duration-300">
                                   <Image
                                     width={48}
                                     height={48}
@@ -55,44 +80,44 @@ export default function Skills() {
                                 <h4 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
                                   {technology.name}
                                 </h4>
-                                {technology.description && (
-                                  <p className="text-sm text-gray-600 mt-2 line-clamp-3">
-                                    {technology.description}
-                                  </p>
-                                )}
                                 {technology.externalLink && (
-                                  <div className="mt-2">
+                                  <div className="mt-1">
                                     <span className="text-xs text-primary-500 font-medium">View Certificate →</span>
                                   </div>
                                 )}
                               </div>
                             </div>
-                          );
+                            {technology.description && (
+                              <p className="text-sm text-gray-600 leading-relaxed">
+                                {technology.description}
+                              </p>
+                            )}
+                          </div>
+                        );
 
-                          return technology.externalLink ? (
-                            <a
-                              key={technology.name}
-                              href={technology.externalLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="group bg-white rounded-xl p-6 shadow-soft hover:shadow-medium card-hover transition-all duration-300 block"
-                            >
-                              {content}
-                            </a>
-                          ) : (
-                            <div 
-                              key={technology.name}
-                              className="group bg-white rounded-xl p-6 shadow-soft hover:shadow-medium card-hover transition-all duration-300"
-                            >
-                              {content}
-                            </div>
-                          );
-                        })}
-                      </div>
+                        return technology.externalLink ? (
+                          <a
+                            key={technology.name}
+                            href={technology.externalLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group bg-white rounded-xl p-6 shadow-soft hover:shadow-medium card-hover transition-all duration-300 block"
+                          >
+                            {content}
+                          </a>
+                        ) : (
+                          <div 
+                            key={technology.name}
+                            className="group bg-white rounded-xl p-6 shadow-soft hover:shadow-medium card-hover transition-all duration-300"
+                          >
+                            {content}
+                          </div>
+                        );
+                      })}
                     </div>
-                  ))}
-                </div>
-              </Accordion>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>

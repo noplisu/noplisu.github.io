@@ -431,22 +431,27 @@ const skillCategories: SkillCategory[] = [
     title: "DevOps",
     subcategories: [
       {
-        title: "Operating systems",
+        title: "Hosting services",
         technologies: [
           {
-            name: "MacOS",
-            image: "macos.svg",
-            description: "macOS is Apple's operating system for Macintosh computers. It is known for its user-friendly interface, Unix-based architecture, and provides a seamless integration with Apple's ecosystem of devices and services."
+            name: "AWS",
+            image: "aws.svg",
+            description: "AWS is a comprehensive suite of cloud computing services and products offered by Amazon. It provides infrastructure, platform, and software services to support businesses in building, deploying, and scaling applications."
           },
           {
-            name: "Linux",
-            image: "ubuntu.svg",
-            description: "Linux is an open-source, Unix-like operating system kernel. It serves as the foundation for various Linux distributions, providing a versatile and customizable platform for computer systems."
+            name: "Google cloud",
+            image: "google-cloud.svg",
+            description: "Google Cloud is a comprehensive suite of cloud computing services and products offered by Google. It provides infrastructure, platform, and software services to support businesses in building, deploying, and scaling applications."
           },
           {
-            name: "Windows",
-            image: "windows.svg",
-            description: "Windows is a widely used operating system developed by Microsoft. It is known for its user-friendly interface, broad software compatibility, and extensive use in personal computers worldwide."
+            name: "Heroku",
+            image: "heroku.svg",
+            description: "Heroku is a cloud platform as a service (PaaS) that simplifies application deployment, management, and scaling. It provides developers with an easy-to-use platform to build and deploy applications without worrying about underlying infrastructure."
+          },
+          {
+            name: "Github pages",
+            image: "github.svg",
+            description: "GitHub Pages is a web hosting service provided by GitHub. It allows users to host static websites directly from their GitHub repositories with automatic deployment and free custom domain support."
           },
         ]
       },
@@ -476,27 +481,22 @@ const skillCategories: SkillCategory[] = [
         ]
       },
       {
-        title: "Hosting services",
+        title: "Operating systems",
         technologies: [
           {
-            name: "AWS",
-            image: "aws.svg",
-            description: "AWS is a comprehensive suite of cloud computing services and products offered by Amazon. It provides infrastructure, platform, and software services to support businesses in building, deploying, and scaling applications."
+            name: "MacOS",
+            image: "macos.svg",
+            description: "macOS is Apple's operating system for Macintosh computers. It is known for its user-friendly interface, Unix-based architecture, and provides a seamless integration with Apple's ecosystem of devices and services."
           },
           {
-            name: "Google cloud",
-            image: "google-cloud.svg",
-            description: "Google Cloud is a comprehensive suite of cloud computing services and products offered by Google. It provides infrastructure, platform, and software services to support businesses in building, deploying, and scaling applications."
+            name: "Linux",
+            image: "ubuntu.svg",
+            description: "Linux is an open-source, Unix-like operating system kernel. It serves as the foundation for various Linux distributions, providing a versatile and customizable platform for computer systems."
           },
           {
-            name: "Heroku",
-            image: "heroku.svg",
-            description: "Heroku is a cloud platform as a service (PaaS) that simplifies application deployment, management, and scaling. It provides developers with an easy-to-use platform to build and deploy applications without worrying about underlying infrastructure."
-          },
-          {
-            name: "Github pages",
-            image: "github.svg",
-            description: "GitHub Pages is a web hosting service provided by GitHub. It allows users to host static websites directly from their GitHub repositories with automatic deployment and free custom domain support."
+            name: "Windows",
+            image: "windows.svg",
+            description: "Windows is a widely used operating system developed by Microsoft. It is known for its user-friendly interface, broad software compatibility, and extensive use in personal computers worldwide."
           },
         ]
       }
