@@ -52,7 +52,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="/#contact-form"
+              href="#contact-form"
               className="bg-gradient-primary text-white px-6 py-2 rounded-full font-medium shadow-soft hover:shadow-glow transform hover:-translate-y-0.5 transition-all duration-300"
             >
               Get In Touch
@@ -95,7 +95,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="/#contact-form"
+              href="#contact-form"
               onClick={() => setIsMobileMenuOpen(false)}
               className="block mx-4 mt-4 bg-gradient-primary text-white px-6 py-3 rounded-full font-medium text-center shadow-soft"
             >
