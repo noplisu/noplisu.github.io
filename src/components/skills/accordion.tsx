@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 export default function Skills({ name, children } : { name: string, children: ReactNode }) {
   return (
     <div className="collapse collapse-arrow bg-white rounded-xl shadow-soft hover:shadow-medium transition-all duration-300 border border-gray-100">
-      <input type="radio" name="skills-accordion" className="peer" /> 
+      <input type="checkbox" className="peer" /> 
       <div className="collapse-title text-2xl font-bold text-gray-800 flex items-center">
         <span className="mr-3 text-3xl">⚡</span>
         {name}
