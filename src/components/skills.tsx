@@ -78,7 +78,7 @@ export default function Skills() {
           <div className="bg-gradient-primary rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">Ready to Build Something Amazing?</h3>
             <p className="text-lg mb-6 opacity-90">
-              Let's discuss how my technical expertise can bring your vision to life
+              Let&apos;s discuss how my technical expertise can bring your vision to life
             </p>
             <a 
               href="#contact-form"

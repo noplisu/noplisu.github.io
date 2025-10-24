@@ -37,7 +37,7 @@ export default function Hero() {
 
           {/* Greeting and name */}
           <div className="mb-8 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-            <p className="text-lg text-gray-600 mb-2 font-medium">Hello, I'm</p>
+            <p className="text-lg text-gray-600 mb-2 font-medium">Hello, I&apos;m</p>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold gradient-text mb-4 leading-tight">
               Grzegorz Lisowski
             </h1>
@@ -66,7 +66,7 @@ export default function Hero() {
 
           {/* Social links with enhanced design */}
           <div className="animate-fade-in-up" style={{animationDelay: '0.6s'}}>
-            <p className="text-gray-600 mb-6 text-lg font-medium">Let's connect</p>
+            <p className="text-gray-600 mb-6 text-lg font-medium">Let&apos;s connect</p>
             <div className="flex justify-center gap-6 flex-wrap">
               <Link 
                 url="https://fractalsoft.org/" 
@@ -96,7 +96,7 @@ export default function Hero() {
               className="inline-flex items-center px-8 py-4 bg-gradient-primary text-white font-semibold rounded-full shadow-glow hover:shadow-hard transform hover:-translate-y-1 transition-all duration-300"
             >
               <span className="mr-2">💬</span>
-              Let's Work Together
+              Let&apos;s Work Together
             </a>
           </div>
         </div>

@@ -19,7 +19,7 @@ export default function ContactForm() {
                 Thank You for Reaching Out!
               </h2>
               <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-                Thank you for taking the time to share your project details with me! 🌟 I'm excited about the opportunity to collaborate with you and turn your ideas into reality. I'm already reviewing the information you provided and I'll get back to you shortly.
+                Thank you for taking the time to share your project details with me! 🌟 I&apos;m excited about the opportunity to collaborate with you and turn your ideas into reality. I&apos;m already reviewing the information you provided and I&apos;ll get back to you shortly.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a 
@@ -46,10 +46,10 @@ export default function ContactForm() {
             {/* Header */}
             <div className="text-center mb-12">
               <h2 className="text-4xl sm:text-5xl font-bold gradient-text mb-4">
-                Let's Build Something Amazing
+                Let&apos;s Build Something Amazing
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Ready to bring your vision to life? I'm excited to discuss your project and explore how we can create something extraordinary together.
+                Ready to bring your vision to life? I&apos;m excited to discuss your project and explore how we can create something extraordinary together.
               </p>
             </div>
 

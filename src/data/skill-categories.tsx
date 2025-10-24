@@ -1,4 +1,4 @@
-export default [
+const skillCategories = [
   {
     title: "Backend development",
     subcategories: [
@@ -420,3 +420,5 @@ export default [
     ]
   }
 ]
+
+export default skillCategories
