@@ -2,13 +2,16 @@ import { ReactNode } from 'react'
 
 export default function Skills({ name, children } : { name: string, children: ReactNode }) {
   return (
-    <div className="collapse collapse-arrow join-item border border-base-300 bg-slate-50">
-      <input type="radio" name="skills-accordion" /> 
-      <h2 className="collapse-title text-xl font-medium">
+    <div className="collapse collapse-arrow bg-white rounded-xl shadow-soft hover:shadow-medium transition-all duration-300 border border-gray-100">
+      <input type="radio" name="skills-accordion" className="peer" /> 
+      <div className="collapse-title text-2xl font-bold text-gray-800 flex items-center">
+        <span className="mr-3 text-3xl">⚡</span>
         {name}
-      </h2>
-      <div className="collapse-content"> 
-        {children}
+      </div>
+      <div className="collapse-content peer-checked:bg-gray-50/50 transition-all duration-300"> 
+        <div className="pt-4">
+          {children}
+        </div>
       </div>
     </div>
   );
