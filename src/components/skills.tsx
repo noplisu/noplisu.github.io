@@ -33,18 +33,18 @@ export default function Skills() {
                         {subcategory.title}
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {subcategory.technologies.map((technology, techIndex) => (
-                          <div 
-                            key={technology.name}
-                            className="group bg-white rounded-xl p-6 shadow-soft hover:shadow-medium card-hover transition-all duration-300"
-                          >
+                        {subcategory.technologies.map((technology, techIndex) => {
+                          const isExternalImage = technology.image?.startsWith('http');
+                          const imageSrc = isExternalImage ? technology.image : `skill-images/${technology.image}`;
+                          
+                          const content = (
                             <div className="flex items-start space-x-4">
                               {technology.image && (
                                 <div className="flex-shrink-0 w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-primary-50 transition-colors duration-300">
                                   <Image
                                     width={48}
                                     height={48}
-                                    src={`skill-images/${technology.image}`}
+                                    src={imageSrc}
                                     alt={technology.name}
                                     className="transition-transform duration-300 group-hover:scale-110"
                                     style={{objectFit: "contain"}}
@@ -60,10 +60,34 @@ export default function Skills() {
                                     {technology.description}
                                   </p>
                                 )}
+                                {technology.externalLink && (
+                                  <div className="mt-2">
+                                    <span className="text-xs text-primary-500 font-medium">View Certificate →</span>
+                                  </div>
+                                )}
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+
+                          return technology.externalLink ? (
+                            <a
+                              key={technology.name}
+                              href={technology.externalLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group bg-white rounded-xl p-6 shadow-soft hover:shadow-medium card-hover transition-all duration-300 block"
+                            >
+                              {content}
+                            </a>
+                          ) : (
+                            <div 
+                              key={technology.name}
+                              className="group bg-white rounded-xl p-6 shadow-soft hover:shadow-medium card-hover transition-all duration-300"
+                            >
+                              {content}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   ))}

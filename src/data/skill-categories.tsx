@@ -1,4 +1,127 @@
-const skillCategories = [
+interface Technology {
+  name: string;
+  image: string;
+  description: string;
+  externalLink?: string;
+}
+
+interface Subcategory {
+  title: string;
+  technologies: Technology[];
+}
+
+interface SkillCategory {
+  title: string;
+  subcategories: Subcategory[];
+}
+
+const skillCategories: SkillCategory[] = [
+  {
+    title: "Certificates",
+    subcategories: [
+      {
+        title: "Professional Certifications",
+        technologies: [
+          {
+            name: "Introduction to HTML, CSS, & JavaScript",
+            image: "https://images.credly.com/size/80x80/images/09490195-093b-4c9f-9f31-bdc434e66a23/Coursera_20Introduction_20to_20HTML_20CSS_20and_20JavaScript.png",
+            description: "Coursera certification covering fundamental web development technologies including HTML structure, CSS styling, and JavaScript programming concepts.",
+            externalLink: "https://www.credly.com/badges/37291c42-c057-440d-b3a9-4596361ffad4"
+          },
+          {
+            name: "Software Engineering Essentials",
+            image: "https://images.credly.com/size/80x80/images/1b67aaf9-670d-4c92-8d51-7ac1190f0a42/image.png",
+            description: "Comprehensive certification covering software engineering principles, development methodologies, and best practices for building scalable applications.",
+            externalLink: "https://www.credly.com/badges/2f9621e4-10e4-409d-ac17-03a9509a1bd0"
+          },
+          {
+            name: "Introduction to Cloud Computing",
+            image: "https://images.credly.com/size/80x80/images/a9d0fe89-a11c-4266-8940-9eca7762b294/image.png",
+            description: "Foundational knowledge of cloud computing concepts, services, and deployment models across major cloud platforms.",
+            externalLink: "https://www.credly.com/badges/0d81488c-b345-4ef8-ba07-9b9068cceb80"
+          },
+          {
+            name: "Git and GitHub Essentials",
+            image: "https://images.credly.com/size/80x80/images/9a0255eb-a47d-4f3a-9611-243bfe3eb9e4/image.png",
+            description: "Version control mastery covering Git fundamentals, GitHub workflows, and collaborative development practices.",
+            externalLink: "https://www.credly.com/badges/39d97468-c15c-41dc-9329-8df9f758d6fb"
+          },
+          {
+            name: "Front-end Development with React V2",
+            image: "https://images.credly.com/size/80x80/images/e747147a-9300-4795-8b38-704a133bed88/Coursera_20Front_20end_20Development_20with_20React_20V2.png",
+            description: "Advanced React development skills including component architecture, state management, and modern React patterns.",
+            externalLink: "https://www.credly.com/badges/064de5f9-0a47-4b64-9bfe-46183dc12e96"
+          },
+          {
+            name: "IBM Full Stack Software Developer Professional Certificate (V5)",
+            image: "https://images.credly.com/size/80x80/images/17add978-0cea-40e8-8832-9492fc7c260b/Coursera_20Full_20Stack_20Software_20Developer_20Prof_20Cert_20V5.png",
+            description: "Comprehensive full-stack development certification covering frontend, backend, databases, and deployment technologies.",
+            externalLink: "https://www.credly.com/badges/877b9833-261e-4e47-aa49-1e044e2a9e28"
+          },
+          {
+            name: "Software Developer Career Guide and Interview Preparation",
+            image: "https://images.credly.com/size/80x80/images/8647d8b6-2e29-4a88-bfb8-d5ba41ab5716/image.png",
+            description: "Professional development certification covering career strategies, interview techniques, and industry best practices.",
+            externalLink: "https://www.credly.com/badges/bfb20ade-d265-4fef-be19-91e23525ec15"
+          },
+          {
+            name: "Generative AI Essentials for Software Developers",
+            image: "https://images.credly.com/size/80x80/images/afaacd18-d4a9-48af-b54c-846615756ec7/image.png",
+            description: "Cutting-edge certification covering AI integration, machine learning concepts, and generative AI tools for software development.",
+            externalLink: "https://www.credly.com/badges/079b1116-d474-42c3-ba74-ee565c120e97"
+          },
+          {
+            name: "Full Stack Application Development Capstone Project V2",
+            image: "https://images.credly.com/size/80x80/images/0bb5db18-6ae0-4993-9701-0c841d4d6e72/image.png",
+            description: "Hands-on project certification demonstrating end-to-end full-stack application development and deployment skills.",
+            externalLink: "https://www.credly.com/badges/04dfc447-a345-4d84-ad33-5085cf4d12e0"
+          },
+          {
+            name: "Full Stack Software Developer Assessment V2",
+            image: "https://images.credly.com/size/80x80/images/aaf2d039-1b58-47f4-9d8c-dc94f686ca2f/image.png",
+            description: "Comprehensive assessment certification validating full-stack development competencies and technical skills.",
+            externalLink: "https://www.credly.com/badges/4c61cd1b-dd85-4c98-8cac-1ba60bb05ea8"
+          },
+          {
+            name: "Application Development using Microservices and Serverless",
+            image: "https://images.credly.com/size/80x80/images/eaaf4a45-b93e-41d1-91d3-d331c6210314/image.png",
+            description: "Advanced architecture certification covering microservices design, serverless computing, and scalable application development.",
+            externalLink: "https://www.credly.com/badges/2a864863-ece6-476b-a419-c09e8b7bf5c3"
+          },
+          {
+            name: "Containers & Kubernetes Essentials",
+            image: "https://images.credly.com/size/80x80/images/fadae326-142d-4855-a42f-f0b07e65eac1/image.png",
+            description: "Containerization and orchestration certification covering Docker, Kubernetes, and modern deployment strategies.",
+            externalLink: "https://www.credly.com/badges/ef5cbddd-273e-431d-b40b-a017225cad81"
+          },
+          {
+            name: "Developing Applications with SQL, Databases, and Django",
+            image: "https://images.credly.com/size/80x80/images/99ac9d76-89ad-42d9-abad-0b3167c4c566/image.png",
+            description: "Backend development certification covering database design, SQL optimization, and Django framework mastery.",
+            externalLink: "https://www.credly.com/badges/fc911ce1-2a1b-4440-8279-85583c139544"
+          },
+          {
+            name: "Python Project for AI and Application Development",
+            image: "https://images.credly.com/size/80x80/images/33ed2910-9750-4613-aa2a-590e845c6edb/image.png",
+            description: "Python development certification covering AI integration, machine learning, and advanced application development techniques.",
+            externalLink: "https://www.credly.com/badges/17d7313d-bb20-44a4-8177-da3af532ade0"
+          },
+          {
+            name: "Python for Data Science and AI",
+            image: "https://images.credly.com/size/80x80/images/40bee502-a5b3-4365-90e7-57eed5067594/image.png",
+            description: "Data science certification covering Python programming, data analysis, machine learning, and AI implementation.",
+            externalLink: "https://www.credly.com/badges/119f0f0f-5665-479e-93c0-82a3672794fc"
+          },
+          {
+            name: "Node and Express Essentials",
+            image: "https://images.credly.com/size/80x80/images/43eabfbc-06d4-4633-9be0-0f56cfbdb607/image.png",
+            description: "Server-side JavaScript certification covering Node.js runtime, Express framework, and backend API development.",
+            externalLink: "https://www.credly.com/badges/28962868-92db-4304-9234-55360cc11e45"
+          }
+        ]
+      }
+    ]
+  },
   {
     title: "Backend development",
     subcategories: [
@@ -355,6 +478,11 @@ const skillCategories = [
       {
         title: "Hosting services",
         technologies: [
+          {
+            name: "AWS",
+            image: "aws.svg",
+            description: "AWS is a comprehensive suite of cloud computing services and products offered by Amazon. It provides infrastructure, platform, and software services to support businesses in building, deploying, and scaling applications."
+          },
           {
             name: "Google cloud",
             image: "google-cloud.svg",
