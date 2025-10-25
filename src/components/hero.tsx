@@ -3,7 +3,7 @@ import Link from '@/components/hero/link'
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
       {/* Background with gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-secondary-50"></div>
       <div className="absolute inset-0 bg-hero-pattern bg-cover bg-center bg-no-repeat opacity-10"></div>
@@ -16,7 +16,7 @@ export default function Hero() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-0">
         <div className="text-center">
           {/* Profile image with enhanced styling */}
           <div className="mb-8 animate-fade-in-up">
