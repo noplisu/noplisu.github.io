@@ -6,7 +6,7 @@ author: "Grzegorz Lisowski"
 publishedAt: "2024-01-15T00:00:00.000Z"
 updatedAt: "2024-01-15T00:00:00.000Z"
 tags: ["Rails", "Modernization", "Frontend", "Backend", "React", "Ember", "CoffeeScript"]
-category: "technical"
+category: "case-study"
 featured: true
 readingTime: 12
 slug: "modernizing-rails-applications"
