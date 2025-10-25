@@ -85,6 +85,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             console.error('Highlighting error:', error);
             let fallbackCode = code.replace(/^\n+/, '').replace(/\n+$/, '');
             fallbackCode = fallbackCode.replace(/^\s*\n/, '').replace(/\n\s*$/, '');
+            fallbackCode = fallbackCode.replace(/\n\s*\n\s*\n+/g, '\n\n');
+            fallbackCode = fallbackCode.split('\n').map((line: string) => line.replace(/\s+$/, '')).join('\n');
             return `<pre class="bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6"><code class="text-sm">${fallbackCode}</code></pre>`;
           }
         })

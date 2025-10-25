@@ -194,27 +194,36 @@ html {
   100% { left: 100%; }
 }
 
-/* Code block styling to remove extra blank lines */
+/* Code block styling for better mobile rendering */
 .markdown-content pre {
   margin: 1.5rem 0;
-  line-height: 1.4;
-  white-space: pre;
+  line-height: 1.5;
+  white-space: pre-wrap;
   overflow-x: auto;
+  word-wrap: break-word;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  background: #1a1a1a;
+  color: #e5e5e5;
 }
 
 .markdown-content pre code {
   display: block;
-  white-space: pre;
+  white-space: pre-wrap;
   overflow-x: auto;
   padding: 0;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.5;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
 }
 
 .markdown-content pre code.hljs {
   padding: 0;
   background: transparent;
   margin: 0;
+  line-height: 1.5;
 }
 
 /* Remove extra spacing and blank lines in code blocks */
@@ -227,8 +236,30 @@ html {
   display: none;
 }
 
-/* Ensure no extra spacing */
-.markdown-content pre {
-  font-size: 0.875rem;
-  line-height: 1.4;
+/* Mobile-specific code block improvements */
+@media (max-width: 768px) {
+  .markdown-content pre {
+    margin: 1rem 0;
+    padding: 1rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .markdown-content pre code {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+}
+
+/* Ensure proper line spacing for all lines */
+.markdown-content pre code * {
+  line-height: inherit;
+}
+
+/* Fix last line rendering */
+.markdown-content pre code:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
