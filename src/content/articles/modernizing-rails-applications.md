@@ -1,4 +1,17 @@
-# Modernizing a Legacy Rails Project
+---
+title: "Modernizing a Legacy Rails Project"
+description: "A comprehensive guide to modernizing legacy Rails applications, covering frontend updates, backend improvements, and the complete transformation process."
+excerpt: "Learn how we transformed a legacy Rails application from outdated Ember 1.4 and CoffeeScript to modern React and ES6, improving performance and maintainability."
+author: "Grzegorz Lisowski"
+publishedAt: "2024-01-15T00:00:00.000Z"
+updatedAt: "2024-01-15T00:00:00.000Z"
+tags: ["Rails", "Modernization", "Frontend", "Backend", "React", "Ember", "CoffeeScript"]
+category: "technical"
+featured: true
+readingTime: 12
+slug: "modernizing-rails-applications"
+image: "/articles/modernizing-rails/developer_400x400.webp"
+---
 
 ## Introduction: The Struggles of Legacy Code
 

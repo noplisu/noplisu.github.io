@@ -1,10 +1,28 @@
 'use client';
 
 import React, { useState } from 'react';
-import articles from '@/data/articles';
 import ArticleCard from '@/components/blog/article-card';
 
-export default function Blog() {
+interface Article {
+  title: string;
+  description: string;
+  excerpt: string;
+  author: string;
+  publishedAt: string;
+  updatedAt?: string;
+  tags: string[];
+  category: 'technical' | 'tutorial' | 'case-study' | 'opinion';
+  featured: boolean;
+  readingTime: number;
+  slug: string;
+  image?: string;
+}
+
+interface BlogClientProps {
+  articles: Article[];
+}
+
+export default function BlogClient({ articles }: BlogClientProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
 
@@ -73,7 +91,7 @@ export default function Blog() {
           {filteredArticles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredArticles.map((article) => (
-                <ArticleCard key={article.id} article={article} />
+                <ArticleCard key={article.slug} article={article} />
               ))}
             </div>
           ) : (
