@@ -89,15 +89,24 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Call to action button */}
+          {/* Call to action buttons */}
           <div className="mt-12 animate-fade-in-up" style={{animationDelay: '0.8s'}}>
-            <a 
-              href="#contact-form" 
-              className="inline-flex items-center px-8 py-4 bg-gradient-primary text-white font-semibold rounded-full shadow-glow hover:shadow-hard transform hover:-translate-y-1 transition-all duration-300"
-            >
-              <span className="mr-2">💬</span>
-              Let&apos;s Work Together
-            </a>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="#projects" 
+                className="inline-flex items-center px-8 py-4 bg-gradient-primary text-white font-semibold rounded-full shadow-glow hover:shadow-hard transform hover:-translate-y-1 transition-all duration-300"
+              >
+                <span className="mr-2">🚀</span>
+                View My Work
+              </a>
+              <a 
+                href="#blog" 
+                className="inline-flex items-center px-8 py-4 border-2 border-primary-600 text-primary-600 font-semibold rounded-full hover:bg-primary-600 hover:text-white transform hover:-translate-y-1 transition-all duration-300"
+              >
+                <span className="mr-2">📝</span>
+                Read Articles
+              </a>
+            </div>
           </div>
         </div>
       </div>

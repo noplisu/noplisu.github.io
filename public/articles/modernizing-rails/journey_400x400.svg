@@ -1,0 +1,9 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#F3F4F6"/>
+  <rect x="50" y="50" width="300" height="300" rx="20" fill="#E5E7EB"/>
+  <path d="M100 200 Q200 100 300 200 Q200 300 100 200" stroke="#9CA3AF" stroke-width="4" fill="none"/>
+  <circle cx="100" cy="200" r="8" fill="#3B82F6"/>
+  <circle cx="200" cy="150" r="8" fill="#10B981"/>
+  <circle cx="300" cy="200" r="8" fill="#F59E0B"/>
+  <text x="200" y="350" text-anchor="middle" fill="#6B7280" font-family="Arial, sans-serif" font-size="16" font-weight="500">Modernization Journey</text>
+</svg>

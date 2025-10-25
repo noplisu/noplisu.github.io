@@ -12,6 +12,8 @@
   "dependencies": {
     "@formspree/react": "^2.5.1",
     "daisyui": "^3.9.4",
+    "highlight.js": "^11.11.1",
+    "marked": "^16.4.1",
     "next": "14.0.1",
     "next-sitemap": "^4.2.3",
     "react": "^18",

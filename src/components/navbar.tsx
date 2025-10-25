@@ -16,7 +16,9 @@ export default function Navbar() {
   }, [])
 
   const navItems = [
+    { href: '/#projects', label: 'Projects' },
     { href: '/#skills', label: 'Skills' },
+    { href: '/#blog', label: 'Blog' },
   ]
 
   return (

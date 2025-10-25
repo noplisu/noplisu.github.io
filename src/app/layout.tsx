@@ -27,6 +27,7 @@ export default function RootLayout({
         <meta name="twitter:description" content="Seasoned developer with a decade of expertise (since 2013) in full stack development. Crafting robust solutions and creating virtual experiences." />
         <meta name="twitter:url" content="https://noplisu.github.io/glisowski.jpg" />
         <meta name="twitter:card" content="summary" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
