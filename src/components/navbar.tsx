@@ -40,8 +40,7 @@ export default function Navbar() {
             <span className={`font-bold text-lg sm:text-xl transition-colors duration-300 ${
               isScrolled ? 'text-gray-800' : 'text-gray-800'
             }`}>
-              <span className="hidden sm:inline">Grzegorz Lisowski</span>
-              <span className="sm:hidden">GL</span>
+              Grzegorz Lisowski
             </span>
           </Link>
 
