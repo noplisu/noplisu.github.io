@@ -90,7 +90,7 @@ export default function Hero() {
           </div>
 
           {/* Call to action buttons */}
-          <div className="mt-12 animate-fade-in-up" style={{animationDelay: '0.8s'}}>
+          <div className="mt-12 animate-fade-in-up pb-4" style={{animationDelay: '0.8s'}}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
                 href="#projects" 
