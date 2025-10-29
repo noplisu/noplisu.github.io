@@ -34,9 +34,7 @@ export default function Navbar() {
             href="/" 
             className="flex items-center space-x-2 group"
           >
-            <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-soft group-hover:shadow-glow transition-all duration-300">
-              <span className="text-white font-bold text-lg">GL</span>
-            </div>
+            <img src="/logo.svg" alt="Grzegorz Lisowski" width={40} height={40} />
             <span className={`font-bold text-lg sm:text-xl transition-colors duration-300 ${
               isScrolled ? 'text-gray-800' : 'text-gray-800'
             }`}>
