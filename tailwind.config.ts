@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -50,9 +51,12 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-primary': 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+        'gradient-primary-dark': 'linear-gradient(135deg, #dc2626, #991b1b)',
         'gradient-secondary': 'linear-gradient(135deg, #8b5cf6, #ec4899)',
+        'gradient-secondary-dark': 'linear-gradient(135deg, #b91c1c, #7f1d1d)',
         'hero-pattern': "url('/hero.jpg')",
         'mesh-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'mesh-gradient-dark': 'linear-gradient(135deg, #991b1b 0%, #1f2937 100%)',
       },
       animation: {
         'fade-in-up': 'fadeInUp 0.6s ease-out',
@@ -77,6 +81,8 @@ const config: Config = {
         'medium': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
         'hard': '0 20px 40px -10px rgba(0, 0, 0, 0.2)',
         'glow': '0 0 20px rgba(99, 102, 241, 0.3)',
+        'glow-red': '0 0 20px rgba(220, 38, 38, 0.4)',
+        'glow-red-dark': '0 0 25px rgba(220, 38, 38, 0.5)',
       }
     },
   },

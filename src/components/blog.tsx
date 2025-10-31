@@ -41,14 +41,14 @@ export default function BlogClient({ articles }: BlogClientProps) {
   });
 
   return (
-    <section className="py-20 bg-gradient-to-br from-white to-gray-50" id="blog">
+    <section className="py-20 bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-900" id="blog">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16 animate-fade-in-up">
           <h2 className="text-4xl sm:text-5xl font-bold gradient-text mb-4">
             Technical Articles
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Insights, tutorials, and case studies from my development experience
           </p>
         </div>
@@ -62,8 +62,8 @@ export default function BlogClient({ articles }: BlogClientProps) {
                 onClick={() => setActiveCategory(category.id)}
                 className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 ${
                   activeCategory === category.id
-                    ? 'bg-primary-600 text-white shadow-lg'
-                    : 'bg-white text-gray-700 hover:bg-primary-50 hover:text-primary-600 shadow-soft'
+                    ? 'bg-primary-600 dark:bg-red-600 text-white shadow-lg'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-600 dark:hover:text-red-500 shadow-soft'
                 }`}
               >
                 {category.label} ({category.count})
@@ -77,8 +77,8 @@ export default function BlogClient({ articles }: BlogClientProps) {
               onClick={() => setShowFeaturedOnly(!showFeaturedOnly)}
               className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                 showFeaturedOnly
-                  ? 'bg-gradient-primary text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-primary-50 hover:text-primary-600 shadow-soft'
+                  ? 'bg-gradient-primary dark:bg-gradient-primary-dark text-white shadow-lg'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-700 hover:text-primary-600 dark:hover:text-red-500 shadow-soft'
               }`}
             >
               {showFeaturedOnly ? 'Show All Articles' : 'Show Featured Only'}
@@ -107,7 +107,7 @@ export default function BlogClient({ articles }: BlogClientProps) {
 
         {/* Call to Action */}
         <div className="text-center mt-16 animate-fade-in-up">
-          <div className="bg-gradient-primary rounded-2xl p-8 text-white">
+          <div className="bg-gradient-primary dark:bg-gradient-primary-dark rounded-2xl p-8 text-white shadow-soft dark:shadow-glow-red">
             <h3 className="text-2xl font-bold mb-4">Stay Updated</h3>
             <p className="text-lg mb-6 opacity-90">
               Follow my technical writing and development insights. New articles published regularly.
@@ -117,14 +117,14 @@ export default function BlogClient({ articles }: BlogClientProps) {
                 href="https://github.com/noplisu"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-3 bg-white text-primary-600 font-semibold rounded-full shadow-soft hover:shadow-glow transform hover:-translate-y-1 transition-all duration-300"
+                className="inline-flex items-center px-8 py-3 bg-white dark:bg-white text-primary-600 dark:text-gray-800 font-semibold rounded-full shadow-soft dark:shadow-hard hover:shadow-glow dark:hover:shadow-glow-red transform hover:-translate-y-1 transition-all duration-300"
               >
                 <span className="mr-2">📁</span>
                 Follow on GitHub
               </a>
               <a 
                 href="#contact-form"
-                className="inline-flex items-center px-8 py-3 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-primary-600 transition-all duration-300"
+                className="inline-flex items-center px-8 py-3 border-2 border-white dark:border-white text-white dark:text-white font-semibold rounded-full hover:bg-white dark:hover:bg-white hover:text-primary-600 dark:hover:text-gray-800 transition-all duration-300"
               >
                 <span className="mr-2">💬</span>
                 Get in Touch

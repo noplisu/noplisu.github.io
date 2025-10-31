@@ -8,30 +8,30 @@ interface ProjectCardProps {
 export default function ProjectCard({ project }: ProjectCardProps) {
   const getCategoryColor = (category: string) => {
     const colors = {
-      'open-source': 'bg-green-100 text-green-800',
-      'ar-vr': 'bg-purple-100 text-purple-800',
-      'full-stack': 'bg-blue-100 text-blue-800',
-      'business': 'bg-orange-100 text-orange-800',
-      'mobile': 'bg-pink-100 text-pink-800',
-      'game': 'bg-yellow-100 text-yellow-800'
+      'open-source': 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
+      'ar-vr': 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
+      'full-stack': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+      'business': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'mobile': 'bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200',
+      'game': 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
     };
-    return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+    return colors[category as keyof typeof colors] || 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200';
   };
 
   const getStatusColor = (status: string) => {
     const colors = {
-      'completed': 'bg-green-100 text-green-800',
-      'in-progress': 'bg-blue-100 text-blue-800',
-      'maintenance': 'bg-yellow-100 text-yellow-800',
-      'archived': 'bg-gray-100 text-gray-600'
+      'completed': 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
+      'in-progress': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+      'maintenance': 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
+      'archived': 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
     };
-    return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+    return colors[status as keyof typeof colors] || 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200';
   };
 
   return (
-    <div className="group bg-white rounded-2xl shadow-soft hover:shadow-medium transition-all duration-300 overflow-hidden border border-gray-100">
+    <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-soft dark:shadow-hard hover:shadow-medium dark:hover:shadow-glow-red transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
       {/* Project Image */}
-      <div className="relative h-48 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+      <div className="relative h-48 bg-gradient-to-br from-gray-50 dark:from-gray-700 to-gray-100 dark:to-gray-900 overflow-hidden">
         <Image
           src={project.image}
           alt={project.title}
@@ -40,7 +40,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         />
         {project.featured && (
           <div className="absolute top-4 right-4">
-            <span className="bg-gradient-primary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-soft">
+            <span className="bg-gradient-primary dark:bg-gradient-primary-dark text-white px-3 py-1 rounded-full text-sm font-semibold shadow-soft dark:shadow-glow-red">
               Featured
             </span>
           </div>
@@ -52,7 +52,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-red-500 transition-colors duration-300">
               {project.title}
             </h3>
           </div>
@@ -67,7 +67,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 mb-4 line-clamp-3">
+        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
           {project.description}
         </p>
 
@@ -77,13 +77,13 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             {project.technologies.slice(0, 4).map((tech, index) => (
               <span
                 key={index}
-                className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md font-medium"
+                className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md font-medium"
               >
                 {tech}
               </span>
             ))}
             {project.technologies.length > 4 && (
-              <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md font-medium">
+              <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md font-medium">
                 +{project.technologies.length - 4} more
               </span>
             )}
@@ -97,7 +97,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               href={project.links.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-3 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors duration-300"
+              className="inline-flex items-center px-3 py-2 bg-primary-600 dark:bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 dark:hover:bg-red-700 transition-colors duration-300"
             >
               <span className="mr-1">🌐</span>
               Live Demo
@@ -129,9 +129,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
         {/* Impact */}
         {project.impact && (
-          <div className="border-t border-gray-100 pt-4">
-            <p className="text-sm text-gray-600">
-              <span className="font-semibold text-gray-800">Impact:</span> {project.impact}
+          <div className="border-t border-gray-100 dark:border-gray-700 pt-4">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="font-semibold text-gray-800 dark:text-gray-200">Impact:</span> {project.impact}
             </p>
           </div>
         )}

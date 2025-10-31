@@ -11,6 +11,25 @@
   --accent-rgb: 236, 72, 153;
 }
 
+.dark {
+  --foreground-rgb: 229, 231, 235;
+  --background-start-rgb: 31, 41, 55;
+  --background-end-rgb: 17, 24, 39;
+  --primary-rgb: 220, 38, 38;
+  --secondary-rgb: 185, 28, 28;
+  --accent-rgb: 239, 68, 68;
+}
+
+html.dark,
+html.dark body {
+  --foreground-rgb: 229, 231, 235;
+  --background-start-rgb: 31, 41, 55;
+  --background-end-rgb: 17, 24, 39;
+  --primary-rgb: 220, 38, 38;
+  --secondary-rgb: 185, 28, 28;
+  --accent-rgb: 239, 68, 68;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -30,6 +49,7 @@ body {
     );
   font-feature-settings: "rlig" 1, "calt" 1;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Custom scrollbar */
@@ -41,13 +61,25 @@ body {
   background: rgb(241, 245, 249);
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: rgb(31, 41, 55);
+}
+
 ::-webkit-scrollbar-thumb {
   background: rgb(148, 163, 184);
   border-radius: 4px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(75, 85, 99);
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(99, 102, 241);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(220, 38, 38);
 }
 
 /* Smooth animations */
@@ -169,6 +201,11 @@ html {
 /* Custom selection color */
 ::selection {
   background-color: rgb(99, 102, 241);
+  color: white;
+}
+
+.dark ::selection {
+  background-color: rgb(220, 38, 38);
   color: white;
 }
 

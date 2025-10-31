@@ -7,7 +7,7 @@ export default function Hero(props : {url: string, img: string, alt: string, tar
     <Link 
       href={url} 
       target={target ? target : "_blank"}
-      className={`group relative p-4 bg-white rounded-full shadow-soft hover:shadow-medium transition-all duration-300 ${className}`}
+      className={`group relative p-4 bg-white dark:bg-gray-600 rounded-full shadow-soft dark:shadow-hard hover:shadow-medium dark:hover:shadow-glow-red transition-all duration-300 ${className}`}
       aria-label={alt}
     >
       <div className="relative w-12 h-12 flex items-center justify-center">
@@ -20,7 +20,7 @@ export default function Hero(props : {url: string, img: string, alt: string, tar
         />
       </div>
       {/* Hover effect overlay */}
-      <div className="absolute inset-0 bg-gradient-primary rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+      <div className="absolute inset-0 bg-gradient-primary dark:bg-gradient-primary-dark rounded-full opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity duration-300"></div>
     </Link>
   )
 }

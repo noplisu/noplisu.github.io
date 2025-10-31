@@ -7,24 +7,24 @@ export default function ContactForm() {
   const [state, handleSubmit] = useForm("xqkvozrr");
   
   return (
-    <section id="contact-form" className="py-20 bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <section id="contact-form" className="py-20 bg-gradient-to-br from-primary-50 dark:from-gray-900 via-white dark:via-gray-800 to-secondary-50 dark:to-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         { state.succeeded && (
           <div className="text-center animate-fade-in-up">
-            <div className="bg-white rounded-2xl shadow-soft p-8 md:p-12">
-              <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft dark:shadow-hard p-8 md:p-12">
+              <div className="w-20 h-20 bg-gradient-primary dark:bg-gradient-primary-dark rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-3xl">🎉</span>
               </div>
               <h2 className="text-4xl font-bold gradient-text mb-4">
                 Thank You for Reaching Out!
               </h2>
-              <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
                 Thank you for taking the time to share your project details with me! 🌟 I&apos;m excited about the opportunity to collaborate with you and turn your ideas into reality. I&apos;m already reviewing the information you provided and I&apos;ll get back to you shortly.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a 
                   href="/#skills" 
-                  className="px-6 py-3 bg-gradient-primary text-white rounded-full font-medium hover:shadow-glow transform hover:-translate-y-1 transition-all duration-300"
+                  className="px-6 py-3 bg-gradient-primary dark:bg-gradient-primary-dark text-white rounded-full font-medium hover:shadow-glow dark:hover:shadow-glow-red transform hover:-translate-y-1 transition-all duration-300"
                 >
                   Explore My Skills
                 </a>
@@ -32,7 +32,7 @@ export default function ContactForm() {
                   href="https://github.com/noplisu" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3 border-2 border-primary-600 text-primary-600 rounded-full font-medium hover:bg-primary-600 hover:text-white transition-all duration-300"
+                  className="px-6 py-3 border-2 border-primary-600 dark:border-red-500 text-primary-600 dark:text-red-500 rounded-full font-medium hover:bg-primary-600 dark:hover:bg-red-600 hover:text-white transition-all duration-300"
                 >
                   View My Work
                 </a>
@@ -48,36 +48,36 @@ export default function ContactForm() {
               <h2 className="text-4xl sm:text-5xl font-bold gradient-text mb-4">
                 Let&apos;s Build Something Amazing
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 Ready to bring your vision to life? I&apos;m excited to discuss your project and explore how we can create something extraordinary together.
               </p>
             </div>
 
             {/* Contact Form */}
-            <div className="bg-white rounded-2xl shadow-soft p-8 md:p-12">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft dark:shadow-hard p-8 md:p-12">
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Your Name
                     </label>
                     <input
                       id="name"
                       type="text"
                       name="name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 bg-gray-50 focus:bg-white"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 dark:focus:ring-red-500 focus:border-primary-500 dark:focus:border-red-500 transition-all duration-300 bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 text-gray-900 dark:text-gray-100"
                       placeholder="John Doe"
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Email Address
                     </label>
                     <input
                       id="email"
                       type="email"
                       name="email"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 bg-gray-50 focus:bg-white"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 dark:focus:ring-red-500 focus:border-primary-500 dark:focus:border-red-500 transition-all duration-300 bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 text-gray-900 dark:text-gray-100"
                       placeholder="john.doe@example.com"
                       required
                     />
@@ -92,13 +92,13 @@ export default function ContactForm() {
                 </div>
 
                 <div>
-                  <label htmlFor="project-type" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="project-type" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Project Type
                   </label>
                   <select
                     id="project-type"
                     name="project-type"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 bg-gray-50 focus:bg-white"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 dark:focus:ring-red-500 focus:border-primary-500 dark:focus:border-red-500 transition-all duration-300 bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 text-gray-900 dark:text-gray-100"
                   >
                     <option value="">Select a project type</option>
                     <option value="web-app">Web Application</option>
@@ -110,14 +110,14 @@ export default function ContactForm() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Project Details
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 bg-gray-50 focus:bg-white resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 dark:focus:ring-red-500 focus:border-primary-500 dark:focus:border-red-500 transition-all duration-300 bg-gray-50 dark:bg-gray-700 focus:bg-white dark:focus:bg-gray-600 text-gray-900 dark:text-gray-100 resize-none"
                     placeholder="Tell me about your project, goals, timeline, and any specific requirements..."
                     required
                   />
@@ -131,7 +131,7 @@ export default function ContactForm() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     <span className="inline-flex items-center">
                       <span className="mr-2">⚡</span>
                       Usually respond within 24 hours
@@ -140,7 +140,7 @@ export default function ContactForm() {
                   <button 
                     type="submit" 
                     disabled={state.submitting}
-                    className="px-8 py-4 bg-gradient-primary text-white font-semibold rounded-xl shadow-soft hover:shadow-glow transform hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center"
+                    className="px-8 py-4 bg-gradient-primary dark:bg-gradient-primary-dark text-white font-semibold rounded-xl shadow-soft dark:shadow-glow-red hover:shadow-glow dark:hover:shadow-glow-red-dark transform hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center"
                   >
                     {state.submitting ? (
                       <>
