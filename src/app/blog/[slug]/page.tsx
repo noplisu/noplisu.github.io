@@ -38,10 +38,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       // Simple markdown to HTML conversion without complex renderer
       return markdown
         // Headers
-        .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-900 mb-6 mt-8">$1</h1>')
-        .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-gray-900 mb-4 mt-8">$1</h2>')
-        .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-gray-900 mb-3 mt-6">$1</h3>')
-        .replace(/^#### (.*$)/gim, '<h4 class="text-lg font-bold text-gray-900 mb-2 mt-4">$1</h4>')
+        .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 mt-8">$1</h1>')
+        .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 mt-8">$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 mt-6">$1</h3>')
+        .replace(/^#### (.*$)/gim, '<h4 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 mt-4">$1</h4>')
         
         // Images - render actual images
         .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
@@ -92,25 +92,25 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         })
         
         // Inline code
-        .replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800">$1</code>')
+        .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm font-mono text-gray-800 dark:text-gray-200">$1</code>')
         
         // Bold and italic
-        .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900 dark:text-gray-100">$1</strong>')
         .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
         
         // Lists
-        .replace(/^\- (.*$)/gim, '<li class="ml-4 mb-2">$1</li>')
-        .replace(/^(\d+)\. (.*$)/gim, '<li class="ml-4 mb-2">$2</li>')
+        .replace(/^\- (.*$)/gim, '<li class="ml-4 mb-2 text-gray-700 dark:text-gray-300">$1</li>')
+        .replace(/^(\d+)\. (.*$)/gim, '<li class="ml-4 mb-2 text-gray-700 dark:text-gray-300">$2</li>')
         
         // Links
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-600 hover:text-primary-700 underline" target="_blank" rel="noopener noreferrer">$1</a>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-600 dark:text-red-500 hover:text-primary-700 dark:hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">$1</a>')
         
         // Horizontal rules
-        .replace(/^---$/gim, '<hr class="my-8 border-gray-300" />')
+        .replace(/^---$/gim, '<hr class="my-8 border-gray-300 dark:border-gray-700" />')
         
         // Paragraphs
-        .replace(/\n\n/g, '</p><p class="mb-4 text-gray-700 leading-relaxed">')
-        .replace(/^(?!<[h|p|li|pre|code|hr|div])(.*$)/gim, '<p class="mb-4 text-gray-700 leading-relaxed">$1</p>');
+        .replace(/\n\n/g, '</p><p class="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">')
+        .replace(/^(?!<[h|p|li|pre|code|hr|div])(.*$)/gim, '<p class="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">$1</p>');
     } catch (error) {
       console.error('Error parsing markdown:', error);
       return markdown;
@@ -118,13 +118,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 dark:from-gray-900 to-white dark:to-gray-800">
       {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-sm shadow-soft sticky top-0 z-10">
+      <nav className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-soft dark:shadow-hard sticky top-0 z-10 border-b border-gray-100 dark:border-gray-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link 
             href="/#blog" 
-            className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium transition-colors duration-300"
+            className="inline-flex items-center text-primary-600 dark:text-red-500 hover:text-primary-700 dark:hover:text-red-600 font-medium transition-colors duration-300"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
@@ -137,19 +137,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       {/* Article Header */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-800 rounded-full text-sm font-medium mb-6">
-            <span className="w-2 h-2 bg-primary-600 rounded-full mr-2"></span>
+          <div className="inline-flex items-center px-4 py-2 bg-primary-100 dark:bg-red-900/30 text-primary-800 dark:text-red-300 rounded-full text-sm font-medium mb-6">
+            <span className="w-2 h-2 bg-primary-600 dark:bg-red-600 rounded-full mr-2"></span>
             {article.category.replace('-', ' ').toUpperCase()}
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold gradient-text mb-6 leading-tight">
             {article.title}
           </h1>
-          <p className="text-xl lg:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
             {article.description}
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-500 mb-8">
+          <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-500 dark:text-gray-400 mb-8">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-primary dark:bg-gradient-primary-dark rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-sm">GL</span>
               </div>
               <span className="font-medium">By {article.author}</span>
@@ -174,7 +174,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           {article.tags.map((tag, index) => (
             <span
               key={index}
-              className="px-3 py-1 bg-primary-100 text-primary-800 text-sm rounded-full font-medium"
+              className="px-3 py-1 bg-primary-100 dark:bg-red-900/30 text-primary-800 dark:text-red-300 text-sm rounded-full font-medium"
             >
               #{tag}
             </span>
@@ -182,9 +182,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
 
         {/* Article Content */}
-        <article className="bg-white rounded-2xl shadow-soft p-8 lg:p-12">
+        <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft dark:shadow-hard p-8 lg:p-12 border border-gray-100 dark:border-gray-700">
           <div 
-            className="markdown-content prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-code:text-gray-800 prose-code:bg-gray-100 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100"
+            className="markdown-content prose prose-lg max-w-none dark:prose-invert prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-headings:font-bold prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-primary-600 dark:prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 dark:prose-strong:text-gray-100 prose-code:text-gray-800 dark:prose-code:text-gray-200 prose-code:bg-gray-100 dark:prose-code:bg-gray-700 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-gray-900 dark:prose-pre:bg-gray-950 prose-pre:text-gray-100 dark:prose-pre:text-gray-200 prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-hr:border-gray-300 dark:prose-hr:border-gray-700"
             dangerouslySetInnerHTML={{ 
               __html: markdownToHtml(article.content)
             }}
@@ -193,22 +193,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </article>
 
         {/* Author Bio */}
-        <div className="mt-16 bg-gradient-to-r from-primary-50 to-blue-50 rounded-2xl p-8">
+        <div className="mt-16 bg-gradient-to-r from-primary-50 dark:from-gray-800 to-blue-50 dark:to-gray-800 rounded-2xl p-8 border border-gray-100 dark:border-gray-700">
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center shadow-soft">
+            <div className="w-20 h-20 bg-gradient-primary dark:bg-gradient-primary-dark rounded-full flex items-center justify-center shadow-soft dark:shadow-glow-red">
               <span className="text-white font-bold text-2xl">GL</span>
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{article.author}</h3>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{article.author}</h3>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                 Full-Stack Developer & AR/VR Specialist with over a decade of experience building robust applications. 
                 Passionate about modernizing legacy systems and creating innovative solutions.
               </p>
               <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-primary-100 text-primary-800 text-sm rounded-full font-medium">Full-Stack</span>
-                <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium">AR/VR</span>
-                <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full font-medium">Rails</span>
-                <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full font-medium">React</span>
+                <span className="px-3 py-1 bg-primary-100 dark:bg-red-900/30 text-primary-800 dark:text-red-300 text-sm rounded-full font-medium">Full-Stack</span>
+                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full font-medium">AR/VR</span>
+                <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm rounded-full font-medium">Rails</span>
+                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm rounded-full font-medium">React</span>
               </div>
             </div>
           </div>
@@ -218,7 +218,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <div className="mt-12 text-center">
           <Link 
             href="/#blog"
-            className="inline-flex items-center px-8 py-4 bg-gradient-primary text-white font-semibold rounded-full shadow-soft hover:shadow-glow transform hover:-translate-y-1 transition-all duration-300"
+            className="inline-flex items-center px-8 py-4 bg-gradient-primary dark:bg-gradient-primary-dark text-white font-semibold rounded-full shadow-soft dark:shadow-glow-red hover:shadow-glow dark:hover:shadow-glow-red-dark transform hover:-translate-y-1 transition-all duration-300"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
