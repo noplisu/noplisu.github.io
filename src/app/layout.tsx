@@ -44,6 +44,7 @@ export default function RootLayout({
         <meta name="twitter:url" content="https://noplisu.github.io/glisowski.jpg" />
         <meta name="twitter:card" content="summary" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+        <link rel="canonical" href="https://portfolio.noplisu.com" />
       </head>
       <body className={inter.className}>
         <ThemeProvider>{children}</ThemeProvider>
@@ -51,3 +52,4 @@ export default function RootLayout({
     </html>
   )
 }
+
