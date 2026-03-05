@@ -40,24 +40,6 @@ const projects: Project[] = [
     status: 'completed'
   },
   {
-    id: 'julinek-ar',
-    title: 'Julinek AR',
-    description: 'Augmented Reality Circus Game',
-    longDescription: 'Developed an AR-based educational game for exploring the former circus base. Built with Unity and C#, featuring marker-based AR technology for interactive learning experiences.',
-    image: '/skill-images/unity.svg',
-    technologies: ['Unity', 'C#', 'ARKit', 'iOS Development', 'AR Foundation'],
-    category: 'ar-vr',
-    featured: true,
-    links: {},
-    impact: 'Developed AR educational game using Unity and ARKit, demonstrating expertise in mobile AR development and iOS App Store deployment',
-    challenges: [
-      'Marker-based AR implementation',
-      'iOS App Store submission process',
-      'Performance optimization for mobile devices'
-    ],
-    status: 'archived'
-  },
-  {
     id: 'amenitiz',
     title: 'Amenitiz',
     description: 'Hotel Management Platform',
@@ -138,6 +120,24 @@ const projects: Project[] = [
       'API documentation with Swagger'
     ],
     status: 'maintenance'
+  },
+  {
+    id: 'julinek-ar',
+    title: 'Julinek AR',
+    description: 'Augmented Reality Circus Game',
+    longDescription: 'Developed an AR-based educational game for exploring the former circus base. Built with Unity and C#, featuring marker-based AR technology for interactive learning experiences.',
+    image: '/skill-images/unity.svg',
+    technologies: ['Unity', 'C#', 'ARKit', 'iOS Development', 'AR Foundation'],
+    category: 'ar-vr',
+    featured: true,
+    links: {},
+    impact: 'Developed AR educational game using Unity and ARKit, demonstrating expertise in mobile AR development and iOS App Store deployment',
+    challenges: [
+      'Marker-based AR implementation',
+      'iOS App Store submission process',
+      'Performance optimization for mobile devices'
+    ],
+    status: 'archived'
   },
   {
     id: 'hitdea',
