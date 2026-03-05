@@ -78,6 +78,48 @@ const projects: Project[] = [
     status: 'completed'
   },
   {
+    id: 'compound-interest-calculator',
+    title: 'Compound Interest Calculator',
+    description: 'Interactive Finance Calculator for Compound Interest Calculations',
+    longDescription: 'Built a modern, interactive compound interest calculator using React and TypeScript. Features real-time calculations, visual charts, and a clean, user-friendly interface. Demonstrates financial calculation logic and modern frontend development practices.',
+    image: '/skill-images/react.svg',
+    technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS'],
+    category: 'full-stack',
+    featured: true,
+    links: {
+      live: 'https://compound.noplisu.com/',
+      github: 'https://github.com/noplisu/finance-calculator'
+    },
+    impact: 'Provides users with an intuitive tool for calculating compound interest, helping with financial planning and investment decisions',
+    challenges: [
+      'Financial calculation accuracy and edge cases',
+      'Real-time calculation performance',
+      'Responsive design for mobile devices'
+    ],
+    status: 'completed'
+  },
+  {
+    id: 'rubber-ducky',
+    title: 'Rubber Ducky',
+    description: '3D Web Application with Docker Deployment',
+    longDescription: 'Created a minimal website featuring a rotating 3D rubber ducky using WebGL and GLTF models. Containerized with Docker and deployed on VPS, demonstrating modern web deployment practices and 3D graphics rendering in the browser.',
+    image: '/skill-images/docker.svg',
+    technologies: ['HTML5', 'WebGL', 'GLTF', 'Docker', 'VPS Deployment', 'Nginx'],
+    category: 'full-stack',
+    featured: true,
+    links: {
+      live: 'http://ducky.noplisu.com/',
+      github: 'https://github.com/noplisu/rubberducky'
+    },
+    impact: 'Demonstrates containerized web application deployment and 3D graphics rendering capabilities in modern browsers',
+    challenges: [
+      '3D model optimization and loading',
+      'Docker containerization and image optimization',
+      'VPS deployment and server configuration'
+    ],
+    status: 'completed'
+  },
+  {
     id: 'nopaperwork',
     title: 'nopaperwork',
     description: 'Business Management Platform',
