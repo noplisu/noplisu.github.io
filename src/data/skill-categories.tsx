@@ -23,6 +23,24 @@ const skillCategories: SkillCategory[] = [
         title: "Professional Certifications",
         technologies: [
           {
+            name: "HubSpot Academy - Inbound Marketing Certified",
+            image: "https://hubspot-credentials-na1.s3.amazonaws.com/prod/badges/user/74e6e2baa47040168c2ccb201d94cb77.png",
+            description: "HubSpot certification covering applying inbound marketing techniques to creating content using social promotion, converting and nurturing leads and marketing to customers",
+            externalLink: "https://app-eu1.hubspot.com/academy/achievements/2t1bnm40/en/1/grzegorz-lisowski/inbound-marketing-certified",
+          },
+          {
+            name: "IBM Full Stack Software Developer Professional Certificate (V5)",
+            image: "https://images.credly.com/size/80x80/images/17add978-0cea-40e8-8832-9492fc7c260b/Coursera_20Full_20Stack_20Software_20Developer_20Prof_20Cert_20V5.png",
+            description: "Comprehensive full-stack development certification covering frontend, backend, databases, and deployment technologies.",
+            externalLink: "https://www.credly.com/badges/877b9833-261e-4e47-aa49-1e044e2a9e28"
+          },
+          {
+            name: "Containers & Kubernetes Essentials",
+            image: "https://images.credly.com/size/80x80/images/fadae326-142d-4855-a42f-f0b07e65eac1/image.png",
+            description: "Containerization and orchestration certification covering Docker, Kubernetes, and modern deployment strategies.",
+            externalLink: "https://www.credly.com/badges/ef5cbddd-273e-431d-b40b-a017225cad81"
+          },
+          {
             name: "Introduction to HTML, CSS, & JavaScript",
             image: "https://images.credly.com/size/80x80/images/09490195-093b-4c9f-9f31-bdc434e66a23/Coursera_20Introduction_20to_20HTML_20CSS_20and_20JavaScript.png",
             description: "Coursera certification covering fundamental web development technologies including HTML structure, CSS styling, and JavaScript programming concepts.",
@@ -53,12 +71,6 @@ const skillCategories: SkillCategory[] = [
             externalLink: "https://www.credly.com/badges/064de5f9-0a47-4b64-9bfe-46183dc12e96"
           },
           {
-            name: "IBM Full Stack Software Developer Professional Certificate (V5)",
-            image: "https://images.credly.com/size/80x80/images/17add978-0cea-40e8-8832-9492fc7c260b/Coursera_20Full_20Stack_20Software_20Developer_20Prof_20Cert_20V5.png",
-            description: "Comprehensive full-stack development certification covering frontend, backend, databases, and deployment technologies.",
-            externalLink: "https://www.credly.com/badges/877b9833-261e-4e47-aa49-1e044e2a9e28"
-          },
-          {
             name: "Software Developer Career Guide and Interview Preparation",
             image: "https://images.credly.com/size/80x80/images/8647d8b6-2e29-4a88-bfb8-d5ba41ab5716/image.png",
             description: "Professional development certification covering career strategies, interview techniques, and industry best practices.",
@@ -87,12 +99,6 @@ const skillCategories: SkillCategory[] = [
             image: "https://images.credly.com/size/80x80/images/eaaf4a45-b93e-41d1-91d3-d331c6210314/image.png",
             description: "Advanced architecture certification covering microservices design, serverless computing, and scalable application development.",
             externalLink: "https://www.credly.com/badges/2a864863-ece6-476b-a419-c09e8b7bf5c3"
-          },
-          {
-            name: "Containers & Kubernetes Essentials",
-            image: "https://images.credly.com/size/80x80/images/fadae326-142d-4855-a42f-f0b07e65eac1/image.png",
-            description: "Containerization and orchestration certification covering Docker, Kubernetes, and modern deployment strategies.",
-            externalLink: "https://www.credly.com/badges/ef5cbddd-273e-431d-b40b-a017225cad81"
           },
           {
             name: "Developing Applications with SQL, Databases, and Django",
