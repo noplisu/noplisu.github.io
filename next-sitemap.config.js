@@ -1,5 +1,7 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'noplisu.github.io',
+  siteUrl: 'https://noplisu.com',
+  output: 'export',
+  outDir: 'out',
   generateRobotsTxt: true,
-}
+};

@@ -15,3 +15,17 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ## Deploy
 
 The page is deployed using github-actions automatically with changes to the main branch.
+
+## Sitemap
+
+Sitemaps and `robots.txt` are generated after each production build by [next-sitemap](https://github.com/iamvishnusankar/next-sitemap). Configuration lives in `next-sitemap.config.js` (`siteUrl` is `https://noplisu.com`).
+
+```bash
+npm run build
+```
+
+That runs `next build` (static export to `out/`) and then `next-sitemap`, which writes `out/sitemap.xml`, `out/sitemap-0.xml`, and `out/robots.txt`. To regenerate sitemaps without a full rebuild (after `out/` already exists):
+
+```bash
+npm run sitemap
+```
