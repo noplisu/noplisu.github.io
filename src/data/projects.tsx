@@ -20,6 +20,47 @@ export interface Project {
 
 const projects: Project[] = [
   {
+    id: 'fractal-engine',
+    title: 'Fractal Engine',
+    description: 'Minimal CLI coding assistant with LLM tool calling for exploring and editing codebases',
+    longDescription: 'Built a lightweight agentic coding assistant in Python that runs an LLM tool-calling loop—grep, glob, read, write, patch files, and run shell commands—via OpenRouter. Supports single-shot prompts and an interactive REPL, with a pluggable tool registry and modular architecture for easy extension.',
+    image: '/fractalsoft.svg',
+    technologies: ['Python', 'LLM', 'OpenRouter', 'Tool Calling', 'CLI', 'uv'],
+    category: 'open-source',
+    featured: true,
+    links: {
+      github: 'https://github.com/noplisu/fractal-engine'
+    },
+    impact: 'Demonstrates a from-scratch agent loop and tool-calling architecture in a small Python codebase, runnable locally against any project without an IDE plugin',
+    challenges: [
+      'Multi-turn agent loop with tool execution, conversation history, and iteration limits',
+      'Reliable file-editing tools for large writes, exact replacements, and JSON argument escaping',
+      'OpenRouter API constraints—token budgets, rate limits, and free-tier model availability'
+    ],
+    status: 'in-progress'
+  },
+  {
+    id: 'bookmantic',
+    title: 'Bookmantic',
+    description: 'Find books by describing what you want to read, not by title or keyword',
+    longDescription: 'Built an end-to-end semantic book discovery platform: a Rails 8 API with PostgreSQL pgvector and OpenAI embeddings, a Next.js + HeroUI frontend, a Python ETL pipeline that blends curated classics with Open Library data into a ~45k-book catalog, and production deployment on a VPS with Docker Compose, Caddy, and GitHub Actions.',
+    image: '/project-images/bookmantic.svg',
+    technologies: ['RAG', 'AI', 'Typescript', 'DevOps', 'Python', 'Ruby on Rails'],
+    category: 'full-stack',
+    featured: true,
+    links: {
+      github: 'https://github.com/noplisu/bookmantic',
+      live: 'https://bookmantic.com'
+    },
+    impact: 'Lets readers discover books by intent and mood—queries like "hopeful sci-fi" or "startup biography" surface semantically relevant titles from ~45,000 indexed books, with similar-book recommendations for deeper exploration',
+    challenges: [
+      'Building a quality catalog from Open Library dumps with curated classics, genre quotas, and validation filters',
+      'Generating and serving vector embeddings at scale with Sidekiq, pgvector HNSW indexes, and OpenAI rate limits',
+      'Production architecture with an internal Rails API, Next.js same-origin proxy, prepared DB restores, and CI/CD to GHCR'
+    ],
+    status: 'in-progress'
+  },
+  {
     id: 'gobl-ksef',
     title: 'GOBL KSeF',
     description: 'Polish Electronic Invoicing Integration for Global JSON Invoicing Standard',
