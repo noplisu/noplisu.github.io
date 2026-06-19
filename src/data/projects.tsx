@@ -44,7 +44,7 @@ const projects: Project[] = [
     title: 'Bookmantic',
     description: 'Find books by describing what you want to read, not by title or keyword',
     longDescription: 'Built an end-to-end semantic book discovery platform: a Rails 8 API with PostgreSQL pgvector and OpenAI embeddings, a Next.js + HeroUI frontend, a Python ETL pipeline that blends curated classics with Open Library data into a ~45k-book catalog, and production deployment on a VPS with Docker Compose, Caddy, and GitHub Actions.',
-    image: '/project-images/bookmantic.svg',
+    image: '/project-images/bookmantic.png',
     technologies: ['RAG', 'AI', 'Typescript', 'DevOps', 'Python', 'Ruby on Rails'],
     category: 'full-stack',
     featured: true,
