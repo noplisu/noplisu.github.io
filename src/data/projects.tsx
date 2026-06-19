@@ -129,7 +129,7 @@ const projects: Project[] = [
     image: '/skill-images/docker.svg',
     technologies: ['HTML5', 'WebGL', 'GLTF', 'Docker', 'VPS Deployment', 'Nginx'],
     category: 'full-stack',
-    featured: true,
+    featured: false,
     links: {
       live: 'http://ducky.noplisu.com/',
       github: 'https://github.com/noplisu/rubberducky'
@@ -170,7 +170,7 @@ const projects: Project[] = [
     image: '/skill-images/unity.svg',
     technologies: ['Unity', 'C#', 'ARKit', 'iOS Development', 'AR Foundation'],
     category: 'ar-vr',
-    featured: true,
+    featured: false,
     links: {},
     impact: 'Developed AR educational game using Unity and ARKit, demonstrating expertise in mobile AR development and iOS App Store deployment',
     challenges: [
