@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 import { getArticleBySlug, getAllArticles } from '@/lib/markdown';
 import Link from 'next/link';
-import Image from 'next/image';
 import hljs from 'highlight.js';
 import SyntaxHighlighter from '@/components/blog/syntax-highlighter';
+import Navbar from '@/components/navbar';
 
 interface ArticlePageProps {
   params: {
@@ -35,51 +35,31 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const markdownToHtml = (markdown: string) => {
     try {
-      // Simple markdown to HTML conversion without complex renderer
-      return markdown
-        // Headers
+      const p = 'mb-4 text-gray-700 dark:text-gray-300 leading-relaxed';
+      const li = 'mb-2 text-gray-700 dark:text-gray-300';
+      let html = markdown.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+      html = html
         .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 mt-8">$1</h1>')
         .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 mt-8">$1</h2>')
         .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 mt-6">$1</h3>')
         .replace(/^#### (.*$)/gim, '<h4 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 mt-4">$1</h4>')
-        
-        // Images - render actual images
-        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
-          // Check if it's a relative path and convert to absolute
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, src) => {
           const imageSrc = src.startsWith('/') ? src : `/${src}`;
           return `<div class="my-8 text-center">
             <img src="${imageSrc}" alt="${alt || 'Article Image'}" class="max-w-full h-auto rounded-lg shadow-soft mx-auto" />
           </div>`;
         })
-        
-        // Code blocks with syntax highlighting - handle all formats
-        .replace(/```(\w+)?\n?([\s\S]*?)```/g, (match, lang, code) => {
+        .replace(/```(\w+)?\n?([\s\S]*?)```/g, (_match, lang, code) => {
           try {
-            // Remove leading and trailing newlines, but preserve internal structure
-            let cleanCode = code;
-            
-            // Remove leading newlines
-            cleanCode = cleanCode.replace(/^\n+/, '');
-            // Remove trailing newlines  
-            cleanCode = cleanCode.replace(/\n+$/, '');
-            
-            // Remove any empty lines at the beginning and end
+            let cleanCode = code.replace(/^\n+/, '').replace(/\n+$/, '');
             cleanCode = cleanCode.replace(/^\s*\n/, '').replace(/\n\s*$/, '');
-            
-            // Remove multiple consecutive empty lines and replace with single newline
             cleanCode = cleanCode.replace(/\n\s*\n\s*\n+/g, '\n\n');
-            
-            // Remove leading and trailing whitespace from each line
             cleanCode = cleanCode.split('\n').map((line: string) => line.trimEnd()).join('\n');
-            
-            let highlighted;
-            
-            if (lang && hljs.getLanguage(lang)) {
-              highlighted = hljs.highlight(cleanCode, { language: lang }).value;
-            } else {
-              highlighted = hljs.highlightAuto(cleanCode).value;
-            }
-            
+            const highlighted =
+              lang && hljs.getLanguage(lang)
+                ? hljs.highlight(cleanCode, { language: lang }).value
+                : hljs.highlightAuto(cleanCode).value;
             return `<pre class="bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6"><code class="text-sm hljs">${highlighted}</code></pre>`;
           } catch (error) {
             console.error('Highlighting error:', error);
@@ -90,27 +70,25 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             return `<pre class="bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6"><code class="text-sm">${fallbackCode}</code></pre>`;
           }
         })
-        
-        // Inline code
         .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm font-mono text-gray-800 dark:text-gray-200">$1</code>')
-        
-        // Bold and italic
         .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900 dark:text-gray-100">$1</strong>')
         .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
-        
-        // Lists
-        .replace(/^\- (.*$)/gim, '<li class="ml-4 mb-2 text-gray-700 dark:text-gray-300">$1</li>')
-        .replace(/^(\d+)\. (.*$)/gim, '<li class="ml-4 mb-2 text-gray-700 dark:text-gray-300">$2</li>')
-        
-        // Links
+        .replace(/^\- (.*$)/gim, `<li data-list="ul" class="${li}">$1</li>`)
+        .replace(/^(\d+)\. (.*$)/gim, `<li data-list="ol" class="${li}">$2</li>`)
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-600 dark:text-red-500 hover:text-primary-700 dark:hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">$1</a>')
-        
-        // Horizontal rules
         .replace(/^---$/gim, '<hr class="my-8 border-gray-300 dark:border-gray-700" />')
-        
-        // Paragraphs
-        .replace(/\n\n/g, '</p><p class="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">')
-        .replace(/^(?!<[h|p|li|pre|code|hr|div])(.*$)/gim, '<p class="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">$1</p>');
+        .replace(/(?:<li data-list="ol"[^>]*>[\s\S]*?<\/li>\n*)+/g, (block) =>
+          `<ol class="list-decimal pl-6 my-4 space-y-1">${block.replace(/\sdata-list="ol"/g, '')}</ol>`
+        )
+        .replace(/(?:<li data-list="ul"[^>]*>[\s\S]*?<\/li>\n*)+/g, (block) =>
+          `<ul class="list-disc pl-6 my-4 space-y-1">${block.replace(/\sdata-list="ul"/g, '')}</ul>`
+        )
+        .replace(/\n\n/g, `</p><p class="${p}">`)
+        .replace(/^(?!<(?:h[1-6]|p|li|pre|code|hr|div|ol|ul)\b)(.*)$/gim, (_m, line) =>
+          line.trim() === '' ? '' : `<p class="${p}">${line}</p>`
+        );
+
+      return html;
     } catch (error) {
       console.error('Error parsing markdown:', error);
       return markdown;
@@ -119,23 +97,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 dark:from-gray-900 to-white dark:to-gray-800">
-      {/* Navigation */}
-      <nav className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-soft dark:shadow-hard sticky top-0 z-10 border-b border-gray-100 dark:border-gray-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link 
-            href="/#blog" 
-            className="inline-flex items-center text-primary-600 dark:text-red-500 hover:text-primary-700 dark:hover:text-red-600 font-medium transition-colors duration-300"
-          >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            Back to Blog
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Article Header */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <Link
+          href="/#blog"
+          className="inline-flex items-center text-primary-600 dark:text-red-500 hover:text-primary-700 dark:hover:text-red-600 font-medium transition-colors duration-300 mb-8"
+        >
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Back to Blog
+        </Link>
         <div className="text-center mb-12">
           <div className="inline-flex items-center px-4 py-2 bg-primary-100 dark:bg-red-900/30 text-primary-800 dark:text-red-300 rounded-full text-sm font-medium mb-6">
             <span className="w-2 h-2 bg-primary-600 dark:bg-red-600 rounded-full mr-2"></span>

@@ -49,7 +49,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
               src={article.image}
               alt={article.title}
               fill
-              className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
             {article.featured && (
               <div className="absolute top-4 right-4">

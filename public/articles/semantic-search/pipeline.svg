@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="480" viewBox="0 0 1120 480" role="img" aria-labelledby="pipeTitle pipeDesc">
+  <title id="pipeTitle">Bookmantic catalog pipeline</title>
+  <desc id="pipeDesc">Open Library dumps are filtered, merged with curated classics, quota-filled, validated, seeded, and shipped as a prepared Postgres dump.</desc>
+  <defs>
+    <linearGradient id="pipeAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e8b86d"/>
+      <stop offset="1" stop-color="#c45c6e"/>
+    </linearGradient>
+    <marker id="pipeArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#e8b86d"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="480" rx="24" fill="#1a1224"/>
+  <rect x="1" y="1" width="1118" height="478" rx="23" fill="none" stroke="#e8b86d" stroke-opacity="0.28"/>
+
+  <text x="48" y="52" fill="#e8b86d" font-family="Georgia, 'Times New Roman', serif" font-size="13" letter-spacing="2.4">CATALOG</text>
+  <text x="48" y="84" fill="#f5efe6" font-family="Georgia, 'Times New Roman', serif" font-size="22">Build a shelf worth embedding</text>
+  <text x="48" y="112" fill="#b9a99a" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14">Open Library dumps are huge and noisy. The export is a blend, not a dump.</text>
+
+  <g font-family="ui-sans-serif, system-ui, sans-serif" fill="#f5efe6">
+    <rect x="48" y="148" width="196" height="88" rx="14" fill="#2a1c36" stroke="#e8b86d" stroke-opacity="0.35"/>
+    <text x="146" y="182" text-anchor="middle" font-size="12" fill="#b9a99a">data/raw</text>
+    <text x="146" y="204" text-anchor="middle" font-size="14" font-weight="600">OL editions + works</text>
+    <text x="146" y="222" text-anchor="middle" font-size="12" fill="#b9a99a">monthly dumps</text>
+
+    <line x1="244" y1="192" x2="284" y2="192" stroke="#e8b86d" stroke-width="2" marker-end="url(#pipeArrow)"/>
+
+    <rect x="294" y="148" width="196" height="88" rx="14" fill="#2a1c36" stroke="#e8b86d" stroke-opacity="0.35"/>
+    <text x="392" y="182" text-anchor="middle" font-size="12" fill="#b9a99a">filters</text>
+    <text x="392" y="204" text-anchor="middle" font-size="14" font-weight="600">drop junk + stubs</text>
+    <text x="392" y="222" text-anchor="middle" font-size="12" fill="#b9a99a">min 120-char blurb</text>
+
+    <line x1="490" y1="192" x2="530" y2="192" stroke="#e8b86d" stroke-width="2" marker-end="url(#pipeArrow)"/>
+
+    <rect x="540" y="148" width="196" height="88" rx="14" fill="#2a1c36" stroke="#e8b86d" stroke-opacity="0.35"/>
+    <text x="638" y="182" text-anchor="middle" font-size="12" fill="#b9a99a">curated layer</text>
+    <text x="638" y="204" text-anchor="middle" font-size="14" font-weight="600">classics always in</text>
+    <text x="638" y="222" text-anchor="middle" font-size="12" fill="#b9a99a">committed manifest</text>
+
+    <line x1="736" y1="192" x2="776" y2="192" stroke="#e8b86d" stroke-width="2" marker-end="url(#pipeArrow)"/>
+
+    <rect x="786" y="148" width="286" height="88" rx="14" fill="#2a1c36" stroke="url(#pipeAccent)" stroke-width="1.5"/>
+    <text x="929" y="182" text-anchor="middle" font-size="12" fill="#b9a99a">quotas</text>
+    <text x="929" y="204" text-anchor="middle" font-size="14" font-weight="600">~45k blended CSV</text>
+    <text x="929" y="222" text-anchor="middle" font-size="12" fill="#b9a99a">10k / 15k / 12k / 5k</text>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui, sans-serif" fill="#f5efe6">
+    <rect x="48" y="280" width="246" height="88" rx="14" fill="#2a1c36" stroke="#e8b86d" stroke-opacity="0.35"/>
+    <text x="171" y="314" text-anchor="middle" font-size="12" fill="#b9a99a">validate_book_export.py</text>
+    <text x="171" y="336" text-anchor="middle" font-size="14" font-weight="600">quality gate</text>
+    <text x="171" y="354" text-anchor="middle" font-size="12" fill="#b9a99a">before seed or embed</text>
+
+    <line x1="294" y1="324" x2="334" y2="324" stroke="#e8b86d" stroke-width="2" marker-end="url(#pipeArrow)"/>
+
+    <rect x="344" y="280" width="246" height="88" rx="14" fill="#2a1c36" stroke="#e8b86d" stroke-opacity="0.35"/>
+    <text x="467" y="314" text-anchor="middle" font-size="12" fill="#b9a99a">Rails seed</text>
+    <text x="467" y="336" text-anchor="middle" font-size="14" font-weight="600">insert_all + Sidekiq</text>
+    <text x="467" y="354" text-anchor="middle" font-size="12" fill="#b9a99a">BOOK_SEED_FULL=1</text>
+
+    <line x1="590" y1="324" x2="630" y2="324" stroke="#e8b86d" stroke-width="2" marker-end="url(#pipeArrow)"/>
+
+    <rect x="640" y="280" width="432" height="88" rx="14" fill="#2a1c36" stroke="url(#pipeAccent)" stroke-width="1.5"/>
+    <text x="856" y="314" text-anchor="middle" font-size="12" fill="#b9a99a">staging / production</text>
+    <text x="856" y="336" text-anchor="middle" font-size="14" font-weight="600">prepared Postgres dump</text>
+    <text x="856" y="354" text-anchor="middle" font-size="12" fill="#b9a99a">embed once, restore with HNSW intact</text>
+  </g>
+
+  <text x="48" y="416" fill="#b9a99a" font-family="Georgia, 'Times New Roman', serif" font-size="15">learning 10k | fiction 15k | nonfiction 12k | popular fill 5k</text>
+  <text x="48" y="442" fill="#8a7a6e" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13">Ranked by Open Library edition count. Dictionaries, juvenile, and large-type reprints are dropped.</text>
+</svg>
