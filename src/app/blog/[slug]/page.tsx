@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import { getArticleBySlug, getAllArticles } from '@/lib/markdown';
 import Link from 'next/link';
 import hljs from 'highlight.js';
-import SyntaxHighlighter from '@/components/blog/syntax-highlighter';
 import Navbar from '@/components/navbar';
 
 interface ArticlePageProps {
@@ -60,33 +59,98 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               lang && hljs.getLanguage(lang)
                 ? hljs.highlight(cleanCode, { language: lang }).value
                 : hljs.highlightAuto(cleanCode).value;
-            return `<pre class="bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6"><code class="text-sm hljs">${highlighted}</code></pre>`;
+            const langClass = lang ? ` language-${lang}` : '';
+            return `<pre class="not-prose bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6"><code class="text-sm hljs${langClass}" data-highlighted="yes">${highlighted}</code></pre>`;
           } catch (error) {
             console.error('Highlighting error:', error);
             let fallbackCode = code.replace(/^\n+/, '').replace(/\n+$/, '');
             fallbackCode = fallbackCode.replace(/^\s*\n/, '').replace(/\n\s*$/, '');
             fallbackCode = fallbackCode.replace(/\n\s*\n\s*\n+/g, '\n\n');
             fallbackCode = fallbackCode.split('\n').map((line: string) => line.replace(/\s+$/, '')).join('\n');
-            return `<pre class="bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6"><code class="text-sm">${fallbackCode}</code></pre>`;
+            const escaped = fallbackCode
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;');
+            return `<pre class="not-prose bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6"><code class="text-sm">${escaped}</code></pre>`;
           }
         })
         .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm font-mono text-gray-800 dark:text-gray-200">$1</code>')
         .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900 dark:text-gray-100">$1</strong>')
         .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-600 dark:text-red-500 hover:text-primary-700 dark:hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">$1</a>')
+        .replace(/^---$/gim, '<hr class="my-8 border-gray-300 dark:border-gray-700" />');
+
+      // GFM tables (after inline formatting so cells keep code/bold/links)
+      html = html.replace(
+        /(?:^|\n)(\|[^\n]+\|\r?\n\|[\s:|,-]+\|\r?\n(?:\|[^\n]+\|\r?\n?)*)/g,
+        (block) => {
+          const rows = block.trim().split('\n').filter((row) => row.trim());
+          if (rows.length < 2) return block;
+
+          const parseRow = (row: string) =>
+            row
+              .replace(/^\|/, '')
+              .replace(/\|$/, '')
+              .split('|')
+              .map((cell) => cell.trim());
+
+          const isSeparator = (row: string) =>
+            /^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)+\|?\s*$/.test(row.trim());
+
+          if (!isSeparator(rows[1])) return block;
+
+          const headers = parseRow(rows[0]);
+          const body = rows.slice(2).filter((row) => !isSeparator(row)).map(parseRow);
+          const th = headers
+            .map(
+              (h) =>
+                `<th class="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-600">${h}</th>`
+            )
+            .join('');
+          const tr = body
+            .map(
+              (cells) =>
+                `<tr class="border-b border-gray-100 dark:border-gray-700 last:border-0">${cells
+                  .map(
+                    (c) =>
+                      `<td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 align-top">${c}</td>`
+                  )
+                  .join('')}</tr>`
+            )
+            .join('');
+
+          return `\n<div class="my-6 overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700"><table class="w-full min-w-[28rem] border-collapse bg-white dark:bg-gray-900/40"><thead class="bg-gray-50 dark:bg-gray-800/80"><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>\n`;
+        }
+      );
+
+      html = html
         .replace(/^\- (.*$)/gim, `<li data-list="ul" class="${li}">$1</li>`)
         .replace(/^(\d+)\. (.*$)/gim, `<li data-list="ol" class="${li}">$2</li>`)
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-600 dark:text-red-500 hover:text-primary-700 dark:hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">$1</a>')
-        .replace(/^---$/gim, '<hr class="my-8 border-gray-300 dark:border-gray-700" />')
         .replace(/(?:<li data-list="ol"[^>]*>[\s\S]*?<\/li>\n*)+/g, (block) =>
           `<ol class="list-decimal pl-6 my-4 space-y-1">${block.replace(/\sdata-list="ol"/g, '')}</ol>`
         )
         .replace(/(?:<li data-list="ul"[^>]*>[\s\S]*?<\/li>\n*)+/g, (block) =>
           `<ul class="list-disc pl-6 my-4 space-y-1">${block.replace(/\sdata-list="ul"/g, '')}</ul>`
-        )
+        );
+
+      // Protect <pre> / table blocks: paragraph wrapping collapses blank lines and breaks layout.
+      const protectedBlocks: string[] = [];
+      html = html.replace(/<(pre|div)[\s\S]*?<\/\1>/g, (block) => {
+        // Only park code fences and table wrappers, not every div (images etc. are fine as HTML).
+        if (!block.startsWith('<pre') && !block.includes('<table')) return block;
+        protectedBlocks.push(block);
+        return `<!--PROTECTED_BLOCK_${protectedBlocks.length - 1}-->`;
+      });
+
+      html = html
         .replace(/\n\n/g, `</p><p class="${p}">`)
-        .replace(/^(?!<(?:h[1-6]|p|li|pre|code|hr|div|ol|ul)\b)(.*)$/gim, (_m, line) =>
+        .replace(/^(?!<(?:h[1-6]|p|li|pre|code|hr|div|ol|ul|table)\b|<!--PROTECTED_BLOCK_)(.*)$/gim, (_m, line) =>
           line.trim() === '' ? '' : `<p class="${p}">${line}</p>`
         );
+
+      html = html.replace(/<!--PROTECTED_BLOCK_(\d+)-->/g, (_m, index) => protectedBlocks[Number(index)]);
+      // Paragraph wrapping can leave block elements nested in <p>; unwrap them.
+      html = html.replace(/<p[^>]*>\s*(<(?:pre|div)[\s\S]*?<\/(?:pre|div)>)\s*<\/p>/g, '$1');
 
       return html;
     } catch (error) {
@@ -163,7 +227,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               __html: markdownToHtml(article.content)
             }}
           />
-          <SyntaxHighlighter />
         </article>
 
         {/* Author Bio */}

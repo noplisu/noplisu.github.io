@@ -256,9 +256,8 @@ html {
 .markdown-content pre {
   margin: 1.5rem 0;
   line-height: 1.5;
-  white-space: pre-wrap;
+  white-space: pre;
   overflow-x: auto;
-  word-wrap: break-word;
   font-size: 0.875rem;
   border-radius: 0.5rem;
   padding: 1.5rem;
@@ -268,13 +267,15 @@ html {
 
 .markdown-content pre code {
   display: block;
-  white-space: pre-wrap;
+  white-space: inherit;
   overflow-x: auto;
   padding: 0;
   margin: 0;
   line-height: 1.5;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   font-size: 0.875rem;
+  background: transparent;
+  color: inherit;
 }
 
 .markdown-content pre code.hljs {
@@ -282,16 +283,6 @@ html {
   background: transparent;
   margin: 0;
   line-height: 1.5;
-}
-
-/* Remove extra spacing and blank lines in code blocks */
-.markdown-content pre code br {
-  display: none;
-}
-
-/* Remove empty lines in code blocks */
-.markdown-content pre code:empty {
-  display: none;
 }
 
 /* Mobile-specific code block improvements */
