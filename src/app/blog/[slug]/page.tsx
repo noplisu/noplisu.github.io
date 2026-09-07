@@ -238,14 +238,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <div className="flex-1">
               <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{article.author}</h3>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                Full-Stack Developer & AR/VR Specialist with over a decade of experience building robust applications. 
-                Passionate about modernizing legacy systems and creating innovative solutions.
+                Full-stack engineer with over a decade of experience shipping products end to end. From
+                immersive AR/VR experiences to search, RAG, and agent tooling, plus the DevOps to keep
+                them running in production.
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-primary-100 dark:bg-red-900/30 text-primary-800 dark:text-red-300 text-sm rounded-full font-medium">Full-Stack</span>
                 <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm rounded-full font-medium">AR/VR</span>
-                <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm rounded-full font-medium">Rails</span>
-                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm rounded-full font-medium">React</span>
+                <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm rounded-full font-medium">AI Engineering</span>
+                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm rounded-full font-medium">DevOps</span>
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@ publishedAt: "2024-01-15T00:00:00.000Z"
 updatedAt: "2024-01-15T00:00:00.000Z"
 tags: ["Rails", "Modernization", "Frontend", "Backend", "React", "Ember", "CoffeeScript"]
 category: "case-study"
-featured: true
+featured: false
 readingTime: 12
 slug: "modernizing-rails-applications"
 image: "/articles/modernizing-rails/developer_400x400.webp"
