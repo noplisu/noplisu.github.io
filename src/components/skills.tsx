@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import SkillCategories from '@/data/skill-categories';
+import coreSkills from '@/data/core-skills';
 import Image from 'next/image';
 
 export default function Skills() {
@@ -10,18 +11,40 @@ export default function Skills() {
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 dark:from-gray-900 to-white dark:to-gray-800" id="skills">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-16 animate-fade-in-up">
           <h2 className="text-4xl sm:text-5xl font-bold gradient-text mb-4">
             Technical Expertise
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            A decade of experience building robust applications across the full technology stack
+            Core stack first—what I use to ship production systems day to day
           </p>
         </div>
 
-        {/* Category Navigation */}
+        <div className="mb-16 animate-fade-in-up">
+          <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6 text-center">
+            Core stack
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {coreSkills.map((skill) => (
+              <div
+                key={skill.name}
+                className="bg-white dark:bg-gray-800 rounded-xl p-5 border border-primary-100 dark:border-red-900/40 shadow-soft"
+              >
+                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                  {skill.name}
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {skill.detail}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="mb-12">
+          <p className="text-center text-sm font-medium text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-wide">
+            Broader toolkit
+          </p>
           <div className="flex flex-wrap justify-center gap-3">
             {SkillCategories.map((category, index) => (
               <button
@@ -39,28 +62,27 @@ export default function Skills() {
           </div>
         </div>
 
-        {/* Skills Content */}
         <div className="animate-fade-in-up">
           {SkillCategories.map((category, categoryIndex) => (
-            <div 
+            <div
               key={category.title}
               className={`transition-all duration-500 ${
-                activeCategory === categoryIndex 
-                  ? 'opacity-100 translate-y-0' 
+                activeCategory === categoryIndex
+                  ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-8 absolute pointer-events-none'
               }`}
             >
               <div className="space-y-8">
-                {category.subcategories.map((subcategory, subIndex) => (
+                {category.subcategories.map((subcategory) => (
                   <div key={subcategory.title} className="space-y-6">
                     <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 border-b-2 border-primary-200 dark:border-red-800 pb-2">
                       {subcategory.title}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                      {subcategory.technologies.map((technology, techIndex) => {
+                      {subcategory.technologies.map((technology) => {
                         const isExternalImage = technology.image?.startsWith('http');
                         const imageSrc = isExternalImage ? technology.image : `skill-images/${technology.image}`;
-                        
+
                         const content = (
                           <div className="flex flex-col h-full">
                             <div className="flex items-center space-x-4 mb-4">
@@ -106,7 +128,7 @@ export default function Skills() {
                             {content}
                           </a>
                         ) : (
-                          <div 
+                          <div
                             key={technology.name}
                             className="group bg-white dark:bg-gray-800 rounded-xl p-6 shadow-soft dark:shadow-hard hover:shadow-medium dark:hover:shadow-glow-red card-hover transition-all duration-300 border border-gray-100 dark:border-gray-700"
                           >
@@ -122,19 +144,17 @@ export default function Skills() {
           ))}
         </div>
 
-        {/* Call to Action */}
         <div className="text-center mt-16 animate-fade-in-up">
           <div className="bg-gradient-primary dark:bg-gradient-primary-dark rounded-2xl p-8 text-white shadow-soft dark:shadow-glow-red">
-            <h3 className="text-2xl font-bold mb-4">Ready to Build Something Amazing?</h3>
+            <h3 className="text-2xl font-bold mb-4">Hiring for this stack?</h3>
             <p className="text-lg mb-6 opacity-90">
-              Let&apos;s discuss how my technical expertise can bring your vision to life
+              I&apos;m open to full-time remote roles where TypeScript, NestJS, Rails, or AI product work matters
             </p>
-            <a 
+            <a
               href="#contact-form"
               className="inline-flex items-center px-8 py-3 bg-white dark:bg-white text-primary-600 dark:text-gray-800 font-semibold rounded-full shadow-soft dark:shadow-hard hover:shadow-glow dark:hover:shadow-glow-red transform hover:-translate-y-1 transition-all duration-300"
             >
-              <span className="mr-2">🚀</span>
-              Start Your Project
+              Get in touch
             </a>
           </div>
         </div>

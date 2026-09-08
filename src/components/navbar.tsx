@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useTheme } from './theme-provider'
 
+import { CV_PDF_PATH } from '@/data/profile'
+
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -17,10 +19,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navItems = [
-    { href: '/#projects', label: 'Projects' },
+  const navItems: { href: string; label: string; download?: boolean }[] = [
+    { href: '/#experience', label: 'Experience' },
+    { href: '/#projects', label: 'Work' },
     { href: '/#skills', label: 'Skills' },
     { href: '/#blog', label: 'Blog' },
+    { href: CV_PDF_PATH, label: 'CV', download: true },
   ]
 
   return (
@@ -53,15 +57,26 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={'font-medium transition-all duration-300 hover:scale-105 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-red-500'}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) =>
+              item.download ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  download
+                  className="font-medium transition-all duration-300 hover:scale-105 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-red-500"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="font-medium transition-all duration-300 hover:scale-105 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-red-500"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
@@ -81,7 +96,7 @@ export default function Navbar() {
               href="/#contact-form"
               className="bg-gradient-primary dark:bg-gradient-primary-dark text-white px-6 py-2 rounded-full font-medium shadow-soft dark:shadow-glow-red hover:shadow-glow dark:hover:shadow-glow-red-dark transform hover:-translate-y-0.5 transition-all duration-300"
             >
-              Get In Touch
+              Hire Me
             </Link>
           </div>
 
@@ -124,25 +139,37 @@ export default function Navbar() {
 
         {/* Mobile Navigation */}
         <div className={`md:hidden transition-all duration-300 overflow-hidden ${
-          isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+          isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}>
           <div className="py-4 space-y-2 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-lg mt-2 shadow-soft dark:shadow-hard border border-gray-100 dark:border-gray-800">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors duration-300 font-medium"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) =>
+              item.download ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  download
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors duration-300 font-medium"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors duration-300 font-medium"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
             <Link
               href="/#contact-form"
               onClick={() => setIsMobileMenuOpen(false)}
               className="block mx-4 mt-4 bg-gradient-primary dark:bg-gradient-primary-dark text-white px-6 py-3 rounded-full font-medium text-center shadow-soft dark:shadow-glow-red hover:shadow-glow dark:hover:shadow-glow-red-dark transition-all duration-300"
             >
-              Get In Touch
+              Hire Me
             </Link>
           </div>
         </div>

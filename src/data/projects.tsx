@@ -92,11 +92,11 @@ const projects: Project[] = [
     links: {
         live: 'https://amenitiz.com'
     },
-    impact: 'Contributed to full-stack development using Ruby on Rails, Go, and React, implementing microservices architecture and protobuf communication',
+    impact: 'Delivered full-stack features on a property-management SaaS: Rails/Go backends, React + Storybook UI, protobuf service communication, and Invopop/Mexico invoicing integrations',
     challenges: [
-      'Microservices architecture implementation',
-      'Protobuf communication between services',
-      'Complex reservation management logic'
+      'Microservices architecture and protobuf contracts between services',
+      'Invoicing integrations (Invopop) and Mexico billing configuration',
+      'Complex reservation and channel-management logic'
     ],
     status: 'completed'
   },
@@ -108,7 +108,7 @@ const projects: Project[] = [
     image: '/skill-images/react.svg',
     technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS'],
     category: 'full-stack',
-    featured: true,
+    featured: false,
     links: {
       live: 'https://compound.noplisu.com/',
       github: 'https://github.com/noplisu/finance-calculator'
@@ -131,7 +131,6 @@ const projects: Project[] = [
     category: 'full-stack',
     featured: false,
     links: {
-      live: 'http://ducky.noplisu.com/',
       github: 'https://github.com/noplisu/rubberducky'
     },
     impact: 'Demonstrates containerized web application deployment and 3D graphics rendering capabilities in modern browsers',
@@ -154,7 +153,7 @@ const projects: Project[] = [
     links: {
       live: 'https://nopaperwork.org'
     },
-    impact: 'Led full-stack modernization from Bootstrap 3 to Bootstrap 5 and Rails 7.x, implementing Polish e-Invoicing (KSeF) integration and API documentation',
+    impact: 'Product modernization lead: Rails 7 + Bootstrap 5 upgrade, Polish KSeF e-invoicing integration, Ember frontend work, and Swagger API docs for a live business platform',
     challenges: [
       'Legacy system modernization',
       'Polish e-Invoicing compliance',

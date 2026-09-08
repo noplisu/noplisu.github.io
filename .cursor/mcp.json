@@ -1,0 +1,8 @@
+﻿{
+  "mcpServers": {
+    "free-stock-images": {
+      "command": "python",
+      "args": ["E:/Workspace/free-stock-images-mcp/src/server.py"]
+    }
+  }
+}
