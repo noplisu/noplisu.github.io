@@ -38,6 +38,44 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       const li = 'mb-2 text-gray-700 dark:text-gray-300';
       let html = markdown.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
+      // Park fenced code before heading/list regexes so `#` comments stay comments.
+      const fenceBlocks: { lang: string; code: string }[] = [];
+      html = html.replace(/```(\w+)?\n?([\s\S]*?)```/g, (_match, lang, code) => {
+        fenceBlocks.push({ lang: lang || '', code });
+        return `<!--FENCE_BLOCK_${fenceBlocks.length - 1}-->`;
+      });
+
+      const renderFence = (lang: string, code: string) => {
+        const preClass =
+          'not-prose bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6';
+        try {
+          let cleanCode = code.replace(/^\n+/, '').replace(/\n+$/, '');
+          cleanCode = cleanCode.replace(/^\s*\n/, '').replace(/\n\s*$/, '');
+          cleanCode = cleanCode.replace(/\n\s*\n\s*\n+/g, '\n\n');
+          cleanCode = cleanCode.split('\n').map((line: string) => line.trimEnd()).join('\n');
+          const highlighted =
+            lang && hljs.getLanguage(lang)
+              ? hljs.highlight(cleanCode, { language: lang }).value
+              : hljs.highlightAuto(cleanCode).value;
+          const langClass = lang ? ` language-${lang}` : '';
+          return `<pre class="${preClass}"><code class="text-sm hljs${langClass}" data-highlighted="yes">${highlighted}</code></pre>`;
+        } catch (error) {
+          console.error('Highlighting error:', error);
+          let fallbackCode = code.replace(/^\n+/, '').replace(/\n+$/, '');
+          fallbackCode = fallbackCode.replace(/^\s*\n/, '').replace(/\n\s*$/, '');
+          fallbackCode = fallbackCode.replace(/\n\s*\n\s*\n+/g, '\n\n');
+          fallbackCode = fallbackCode
+            .split('\n')
+            .map((line: string) => line.replace(/\s+$/, ''))
+            .join('\n');
+          const escaped = fallbackCode
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+          return `<pre class="${preClass}"><code class="text-sm">${escaped}</code></pre>`;
+        }
+      };
+
       html = html
         .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 mt-8">$1</h1>')
         .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 mt-8">$1</h2>')
@@ -48,31 +86,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           return `<div class="my-8 text-center">
             <img src="${imageSrc}" alt="${alt || 'Article Image'}" class="max-w-full h-auto rounded-lg shadow-soft mx-auto" />
           </div>`;
-        })
-        .replace(/```(\w+)?\n?([\s\S]*?)```/g, (_match, lang, code) => {
-          try {
-            let cleanCode = code.replace(/^\n+/, '').replace(/\n+$/, '');
-            cleanCode = cleanCode.replace(/^\s*\n/, '').replace(/\n\s*$/, '');
-            cleanCode = cleanCode.replace(/\n\s*\n\s*\n+/g, '\n\n');
-            cleanCode = cleanCode.split('\n').map((line: string) => line.trimEnd()).join('\n');
-            const highlighted =
-              lang && hljs.getLanguage(lang)
-                ? hljs.highlight(cleanCode, { language: lang }).value
-                : hljs.highlightAuto(cleanCode).value;
-            const langClass = lang ? ` language-${lang}` : '';
-            return `<pre class="not-prose bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6"><code class="text-sm hljs${langClass}" data-highlighted="yes">${highlighted}</code></pre>`;
-          } catch (error) {
-            console.error('Highlighting error:', error);
-            let fallbackCode = code.replace(/^\n+/, '').replace(/\n+$/, '');
-            fallbackCode = fallbackCode.replace(/^\s*\n/, '').replace(/\n\s*$/, '');
-            fallbackCode = fallbackCode.replace(/\n\s*\n\s*\n+/g, '\n\n');
-            fallbackCode = fallbackCode.split('\n').map((line: string) => line.replace(/\s+$/, '')).join('\n');
-            const escaped = fallbackCode
-              .replace(/&/g, '&amp;')
-              .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;');
-            return `<pre class="not-prose bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto my-6"><code class="text-sm">${escaped}</code></pre>`;
-          }
         })
         .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm font-mono text-gray-800 dark:text-gray-200">$1</code>')
         .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900 dark:text-gray-100">$1</strong>')
@@ -132,6 +145,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         .replace(/(?:<li data-list="ul"[^>]*>[\s\S]*?<\/li>\n*)+/g, (block) =>
           `<ul class="list-disc pl-6 my-4 space-y-1">${block.replace(/\sdata-list="ul"/g, '')}</ul>`
         );
+
+      html = html.replace(/<!--FENCE_BLOCK_(\d+)-->/g, (_m, index) => {
+        const fence = fenceBlocks[Number(index)];
+        return renderFence(fence.lang, fence.code);
+      });
 
       // Protect <pre> / table blocks: paragraph wrapping collapses blank lines and breaks layout.
       const protectedBlocks: string[] = [];
