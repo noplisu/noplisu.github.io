@@ -73,13 +73,23 @@ export default function Skills() {
               }`}
             >
               <div className="space-y-8">
-                {category.subcategories.map((subcategory) => (
+                {category.subcategories.map((subcategory) => {
+                  const technologies =
+                    category.title === 'Certificates'
+                      ? subcategory.technologies.filter((tech) => tech.featured === true)
+                      : subcategory.technologies;
+
+                  if (technologies.length === 0) {
+                    return null;
+                  }
+
+                  return (
                   <div key={subcategory.title} className="space-y-6">
                     <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 border-b-2 border-primary-200 dark:border-red-800 pb-2">
                       {subcategory.title}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                      {subcategory.technologies.map((technology) => {
+                      {technologies.map((technology) => {
                         const isExternalImage = technology.image?.startsWith('http');
                         const imageSrc = isExternalImage ? technology.image : `skill-images/${technology.image}`;
 
@@ -138,7 +148,8 @@ export default function Skills() {
                       })}
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           ))}

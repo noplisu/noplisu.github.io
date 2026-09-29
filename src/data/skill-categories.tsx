@@ -3,6 +3,8 @@ interface Technology {
   image: string;
   description: string;
   externalLink?: string;
+  /** Certificates only: shown in UI when true; kept in source when false */
+  featured?: boolean;
 }
 
 interface Subcategory {
@@ -16,6 +18,108 @@ interface SkillCategory {
 }
 
 const skillCategories: SkillCategory[] = [
+  {
+    title: "Certificates",
+    subcategories: [
+      {
+        title: "Featured certifications",
+        technologies: [
+          {
+            name: "Qdrant Essentials",
+            image: "qdrant.svg",
+            description: "Official Qdrant Academy certification for vector search, embeddings, and production retrieval systems.",
+            externalLink: "https://train.qdrant.dev/certificate/QDRANT-DD9E9575",
+            featured: true,
+          },
+          {
+            name: "Claude Academy: Claude Code 101",
+            image: "anthropic.svg",
+            description: "Anthropic Claude Academy course on Claude Code workflows for builders working with LLMs in the terminal.",
+            externalLink: "https://academy.claude.com/verify/acdedfb7467b51df145eba35610632c9",
+            featured: false,
+          },
+          {
+            name: "Claude Academy: Claude 101",
+            image: "anthropic.svg",
+            description: "Anthropic Claude Academy introduction to Claude — core product capabilities and getting started as a builder.",
+            externalLink: "https://academy.claude.com/verify/756b1bd56499ff0f51da77fa07cf39a2",
+            featured: false,
+          },
+          {
+            name: "Claude Academy: AI capabilities and limitations",
+            image: "anthropic.svg",
+            description: "Anthropic Claude Academy course on what AI systems can and cannot do, including failure modes and practical boundaries.",
+            externalLink: "https://academy.claude.com/verify/fd8a6899769d909f6744ba30d05f0003",
+            featured: false,
+          },
+          {
+            name: "Claude Academy: AI Fluency for builders",
+            image: "anthropic.svg",
+            description: "Anthropic Claude Academy certification covering AI fluency, prompt engineering, and builder-focused LLM practices.",
+            externalLink: "https://academy.claude.com/verify/42bfa9b662286916c5693728b247a0c9",
+            featured: true,
+          },
+          {
+            name: "Claude Academy: AI Fluency — Framework and foundations",
+            image: "anthropic.svg",
+            description: "Anthropic Claude Academy foundations course on the AI Fluency framework for effective human–AI collaboration.",
+            externalLink: "https://academy.claude.com/verify/6a75a9fa44f6d3e58bd53b19204c2521",
+            featured: false,
+          },
+          {
+            name: "AWS Cloud Technical Essentials",
+            image: "aws.svg",
+            description: "Foundational AWS cloud skills: core services, architecture basics, security, and cloud operations.",
+            externalLink: "https://www.coursera.org/account/accomplishments/verify/UP8AVLZ6WD1G",
+            featured: true,
+          },
+          {
+            name: "IBM Full Stack Software Developer Professional Certificate (V5)",
+            image: "https://images.credly.com/size/80x80/images/17add978-0cea-40e8-8832-9492fc7c260b/Coursera_20Full_20Stack_20Software_20Developer_20Prof_20Cert_20V5.png",
+            description: "Comprehensive full-stack development certification covering frontend, backend, databases, and deployment technologies.",
+            externalLink: "https://www.credly.com/badges/877b9833-261e-4e47-aa49-1e044e2a9e28",
+            featured: true,
+          },
+          {
+            name: "Generative AI: Elevate your Software Development Career",
+            image: "https://images.credly.com/size/80x80/images/afaacd18-d4a9-48af-b54c-846615756ec7/image.png",
+            description: "IBM generative AI track covering RAG, LLM integration, and elevating software development with AI tools.",
+            externalLink: "https://www.coursera.org/account/accomplishments/verify/JR9NT3HD4PO1",
+            featured: true,
+          },
+          {
+            name: "HubSpot Academy - Inbound Marketing Certified",
+            image: "https://hubspot-credentials-na1.s3.amazonaws.com/prod/badges/user/74e6e2baa47040168c2ccb201d94cb77.png",
+            description: "Inbound marketing techniques for content, lead nurturing, and customer communication.",
+            externalLink: "https://app-eu1.hubspot.com/academy/achievements/2t1bnm40/en/1/grzegorz-lisowski/inbound-marketing-certified",
+            featured: true,
+          },
+          // Kept in source for Credly wall / future use — not shown in Broader toolkit
+          {
+            name: "Containers & Kubernetes Essentials",
+            image: "https://images.credly.com/size/80x80/images/fadae326-142d-4855-a42f-f0b07e65eac1/image.png",
+            description: "Containerization and orchestration certification covering Docker, Kubernetes, and modern deployment strategies.",
+            externalLink: "https://www.credly.com/badges/ef5cbddd-273e-431d-b40b-a017225cad81",
+            featured: false,
+          },
+          {
+            name: "Application Development using Microservices and Serverless",
+            image: "https://images.credly.com/size/80x80/images/eaaf4a45-b93e-41d1-91d3-d331c6210314/image.png",
+            description: "Architecture certification covering microservices design, serverless computing, and scalable application development.",
+            externalLink: "https://www.credly.com/badges/2a864863-ece6-476b-a419-c09e8b7bf5c3",
+            featured: false,
+          },
+          {
+            name: "Generative AI Essentials for Software Developers",
+            image: "https://images.credly.com/size/80x80/images/afaacd18-d4a9-48af-b54c-846615756ec7/image.png",
+            description: "Credly badge for IBM Generative AI Essentials — related Credly credential kept for archive.",
+            externalLink: "https://www.credly.com/badges/079b1116-d474-42c3-ba74-ee565c120e97",
+            featured: false,
+          },
+        ]
+      }
+    ]
+  },
   {
     title: "Backend development",
     subcategories: [
@@ -416,46 +520,6 @@ const skillCategories: SkillCategory[] = [
             name: "Taiga",
             image: "taiga.svg",
             description: "Taiga is an open-source project management platform. It combines agile and traditional project management approaches, providing features such as user stories, sprints, and Kanban boards for efficient and collaborative project development."
-          },
-        ]
-      }
-    ]
-  },
-  {
-    title: "Certificates",
-    subcategories: [
-      {
-        title: "Selected certifications",
-        technologies: [
-          {
-            name: "IBM Full Stack Software Developer Professional Certificate (V5)",
-            image: "https://images.credly.com/size/80x80/images/17add978-0cea-40e8-8832-9492fc7c260b/Coursera_20Full_20Stack_20Software_20Developer_20Prof_20Cert_20V5.png",
-            description: "Comprehensive full-stack development certification covering frontend, backend, databases, and deployment technologies.",
-            externalLink: "https://www.credly.com/badges/877b9833-261e-4e47-aa49-1e044e2a9e28"
-          },
-          {
-            name: "Containers & Kubernetes Essentials",
-            image: "https://images.credly.com/size/80x80/images/fadae326-142d-4855-a42f-f0b07e65eac1/image.png",
-            description: "Containerization and orchestration certification covering Docker, Kubernetes, and modern deployment strategies.",
-            externalLink: "https://www.credly.com/badges/ef5cbddd-273e-431d-b40b-a017225cad81"
-          },
-          {
-            name: "Generative AI Essentials for Software Developers",
-            image: "https://images.credly.com/size/80x80/images/afaacd18-d4a9-48af-b54c-846615756ec7/image.png",
-            description: "Certification covering AI integration, machine learning concepts, and generative AI tools for software development.",
-            externalLink: "https://www.credly.com/badges/079b1116-d474-42c3-ba74-ee565c120e97"
-          },
-          {
-            name: "Application Development using Microservices and Serverless",
-            image: "https://images.credly.com/size/80x80/images/eaaf4a45-b93e-41d1-91d3-d331c6210314/image.png",
-            description: "Architecture certification covering microservices design, serverless computing, and scalable application development.",
-            externalLink: "https://www.credly.com/badges/2a864863-ece6-476b-a419-c09e8b7bf5c3"
-          },
-          {
-            name: "HubSpot Academy - Inbound Marketing Certified",
-            image: "https://hubspot-credentials-na1.s3.amazonaws.com/prod/badges/user/74e6e2baa47040168c2ccb201d94cb77.png",
-            description: "Inbound marketing techniques for content, lead nurturing, and customer communication.",
-            externalLink: "https://app-eu1.hubspot.com/academy/achievements/2t1bnm40/en/1/grzegorz-lisowski/inbound-marketing-certified",
           },
         ]
       }
