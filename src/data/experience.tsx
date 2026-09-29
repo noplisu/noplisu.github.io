@@ -14,7 +14,7 @@ const experience: ExperienceRole[] = [
   {
     id: 'fractalsoft',
     company: 'Fractal Soft',
-    role: 'Technical Leader / Senior Full-Stack Developer',
+    role: 'Senior Full-Stack & AI Engineer',
     period: '2013 – Present',
     location: 'Gliwice, Poland · Remote',
     summary:

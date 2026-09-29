@@ -4,7 +4,7 @@ export const CV_PDF_FILENAME = 'CV_Grzegorz_Lisowski.pdf'
 
 export const profile = {
   name: 'Grzegorz Lisowski',
-  title: 'Senior Full-Stack Developer & Technical Leader',
+  title: 'Senior Full-Stack & AI Engineer',
   location: 'Zabrze, Poland',
   email: 'mail@noplisu.com',
   phone: '+48 570 102 120',
@@ -12,7 +12,7 @@ export const profile = {
   github: 'https://github.com/noplisu',
   linkedin: 'https://www.linkedin.com/in/glisowski91/',
   summary:
-    'Senior Full-Stack Developer and Technical Leader with extensive experience building scalable web applications, real-time AI pipelines, and international e-invoicing infrastructure. Expertise in TypeScript, Node.js, NestJS, React, Python, Go, and Ruby on Rails. Proven track record in legacy modernization, distributed system design, and open-source contributions across remote engineering teams.',
+    'Senior Full-Stack & AI Engineer with extensive experience building scalable web applications, real-time AI pipelines, and international e-invoicing infrastructure. Expertise in TypeScript, Node.js, NestJS, React, Python, Go, and Ruby on Rails. Proven track record in legacy modernization, distributed system design, and open-source contributions across remote engineering teams.',
   education:
     'MSc & B.Eng. in Computer Science — University of Silesia & Silesian University of Technology',
   certifications: [
