@@ -16,9 +16,10 @@ export const profile = {
   education:
     'MSc & B.Eng. in Computer Science — University of Silesia & Silesian University of Technology',
   certifications: [
+    'Qdrant Essentials',
+    'Claude Academy: AI Fluency for builders',
+    'AWS Cloud Technical Essentials',
     'IBM Full Stack Software Developer Certificate',
-    'Generative AI Essentials',
-    'Kubernetes & Containers Essentials',
   ],
   languages: ['Polish (Native)', 'English (C1)'],
 }
