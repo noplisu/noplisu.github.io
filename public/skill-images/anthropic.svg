@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
-  <rect width="48" height="48" rx="10" fill="#D4A27F"/>
-  <path fill="#1A1A1A" d="M24.8 12l8.7 24h-5.1l-1.7-4.9H17.5L15.8 36h-5.1L19.4 12h5.4zm-1.2 6.2l-3.7 10.6h7.4l-3.7-10.6z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Anthropic">
+  <title>Anthropic</title>
+  <!-- Official Anthropic mark (Simple Icons / Anthropic brand path) -->
+  <path fill="#141413" d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/>
 </svg>
